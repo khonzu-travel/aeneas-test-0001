@@ -1,0 +1,49 @@
+.row {
+  display: grid;
+  gap: var(--gap-md);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.card {
+  padding: 4px;
+}
+.inner {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(var(--radius-frame) - 4px);
+  padding: clamp(14px, 1.4vw, 24px) clamp(16px, 1.4vw, 26px);
+  min-height: 118px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: var(--shadow-inset-panel);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-stat);
+  line-height: 1;
+  color: var(--ink-strong);
+}
+.label {
+  margin-top: clamp(6px, 0.6vw, 12px);
+  font-family: var(--font-heading);
+  font-size: var(--fs-body);
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+
+/* tone variants recolor the big numeral */
+.default {
+  color: var(--ink-strong);
+}
+.danger {
+  color: var(--tone-danger);
+}
+.success {
+  color: var(--tone-success);
+}
+.gold {
+  color: var(--tone-gold);
+}

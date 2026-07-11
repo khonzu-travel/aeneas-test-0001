@@ -1,0 +1,38 @@
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rod {
+  flex: 1;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--brass-hi), var(--brass) 45%, var(--brass-lo));
+  box-shadow: inset 0 1px 0 rgba(255, 246, 214, 0.55),
+    inset 0 -2px 3px rgba(30, 20, 6, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.rod:first-child {
+  flex: 0 0 clamp(10px, 2vw, 28px);
+}
+
+.plate {
+  flex: none;
+  padding: 3px;
+  border-radius: 8px;
+}
+.plateText {
+  display: block;
+  padding: 6px 18px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, rgba(60, 40, 16, 0.34), rgba(90, 62, 24, 0.22));
+  box-shadow: inset 0 0 0 1.5px rgba(40, 27, 8, 0.7),
+    inset 0 0 0 3px rgba(231, 200, 119, 0.3);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: clamp(0.78rem, 0.72rem + 0.35vw, 0.98rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f2e2b4;
+  text-shadow: 0 1px 1px rgba(30, 18, 6, 0.7);
+}

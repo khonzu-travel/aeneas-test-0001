@@ -1,0 +1,60 @@
+.frame {
+  min-height: 100vh;
+  margin: clamp(8px, 1.4vw, 22px);
+  padding: clamp(6px, 0.8vw, 12px);
+}
+
+.shell {
+  position: relative;
+  height: 100%;
+  min-height: calc(100vh - clamp(28px, 4vw, 68px));
+  border-radius: calc(var(--radius-frame) - 4px);
+  background:
+    radial-gradient(130% 130% at 50% 0%, #2c1d10 0%, #1a1109 72%, #120b06 100%);
+  box-shadow: inset 0 0 0 2px rgba(40, 27, 8, 0.8),
+    inset 0 0 0 4px rgba(231, 200, 119, 0.28),
+    inset 0 2px 24px rgba(0, 0, 0, 0.6);
+  padding: var(--shell-pad);
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--gap-lg);
+}
+
+.main {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+}
+
+.scrim {
+  display: none;
+  border: none;
+}
+
+@media (max-width: 860px) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  /* header spans the single column */
+  .shell > header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(10, 6, 3, 0.55);
+    backdrop-filter: blur(1px);
+  }
+}

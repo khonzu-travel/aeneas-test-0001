@@ -1,0 +1,99 @@
+/* ============================================================
+   AENEAS Delivery Platform — Design Tokens
+   Steampunk brass / parchment palette + fluid type & spacing
+   ============================================================ */
+
+:root {
+  /* ---- Parchment / paper ---- */
+  --parchment: #d8c193;
+  --parchment-light: #e7d5aa;
+  --parchment-dark: #c3aa78;
+  --parchment-edge: #b39a68;
+
+  /* ---- Backdrop (dark stained wood / iron) ---- */
+  --backdrop-0: #1c120a;
+  --backdrop-1: #2a1c10;
+  --backdrop-2: #35251464;
+
+  /* ---- Brass / copper metal ---- */
+  --brass-hi: #e7c877;
+  --brass: #b8912f;
+  --brass-mid: #97701f;
+  --brass-lo: #5e4315;
+  --brass-shadow: #3a2a0e;
+  --copper: #9c6b34;
+
+  /* ---- Ink / engraved text ---- */
+  --ink: #3a2610;
+  --ink-strong: #2a1a08;
+  --ink-soft: #6b4f2c;
+  --ink-faint: #8a6c40;
+
+  /* ---- Engrave highlight (for text-shadow emboss) ---- */
+  --engrave-light: rgba(255, 244, 214, 0.55);
+  --engrave-dark: rgba(58, 38, 16, 0.65);
+
+  /* ---- Semantic tones ---- */
+  --tone-danger: #8f2c1c;
+  --tone-success: #2f6b2c;
+  --tone-gold: #a9791f;
+
+  /* ---- Status LEDs ---- */
+  --led-green: #6fce3a;
+  --led-green-glow: #8fff55;
+  --led-amber: #e0a029;
+  --led-amber-glow: #ffcf6a;
+  --led-red: #cf3b28;
+  --led-red-glow: #ff6a52;
+
+  /* ---- Progress pills ---- */
+  --pill-fill-hi: #6a5aa8;
+  --pill-fill: #4a3c82;
+  --pill-fill-lo: #2f2557;
+  --pill-empty: #7a6238;
+
+  /* ---- Stage badge variants (bg + border + text) ---- */
+  --stage-build-bg: linear-gradient(#3d6b38, #22461f);
+  --stage-build-bd: #6ba05f;
+  --stage-analysis-bg: linear-gradient(#3f5573, #263a54);
+  --stage-analysis-bd: #6d88ac;
+  --stage-intent-bg: linear-gradient(#3a3568, #241f47);
+  --stage-intent-bd: #6a63a0;
+  --stage-scheduling-bg: linear-gradient(#3f5573, #263a54);
+  --stage-scheduling-bd: #6d88ac;
+  --stage-release-bg: linear-gradient(#d8b463, #b1852f);
+  --stage-release-bd: #f0d38f;
+
+  /* ---- Blocked ribbon ---- */
+  --blocked-bg: linear-gradient(#8e2a1a, #6a1c10);
+  --blocked-edge: #c0392b;
+
+  /* ---- Frame radii ---- */
+  --radius-frame: 14px;
+  --radius-card: 10px;
+  --radius-pill: 999px;
+
+  /* ---- Spacing (fluid) ---- */
+  --gap-sm: clamp(6px, 0.6vw, 10px);
+  --gap-md: clamp(12px, 1vw, 20px);
+  --gap-lg: clamp(16px, 1.4vw, 26px);
+  --card-pad: clamp(14px, 1.3vw, 22px);
+  --shell-pad: clamp(12px, 1.4vw, 26px);
+
+  /* ---- Type scale (fluid) ---- */
+  --fs-stat: clamp(2.2rem, 1.5rem + 2.4vw, 3.4rem);
+  --fs-h1: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem);
+  --fs-card-title: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+  --fs-body: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem);
+  --fs-label: clamp(0.68rem, 0.64rem + 0.12vw, 0.78rem);
+
+  /* ---- Fonts ---- */
+  --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  /* ---- Elevation ---- */
+  --shadow-frame: 0 10px 30px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+  --shadow-inset-panel: inset 0 2px 10px rgba(58, 38, 16, 0.35),
+    inset 0 0 0 1px rgba(255, 240, 205, 0.18);
+}

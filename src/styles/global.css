@@ -1,0 +1,130 @@
+/* ============================================================
+   Global reset + shared texture / frame primitives
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  overflow-x: hidden;
+  background: radial-gradient(
+      120% 120% at 50% 0%,
+      #2c1d10 0%,
+      #1a1109 70%,
+      #120b06 100%
+    ),
+    #160e07;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---- Parchment surface: layered warm gradients + procedural grain ----
+   The grain is an inline SVG feTurbulence noise (Tier-2 fallback for the
+   paper texture, per proposal §3). No external asset required.            */
+.parchment {
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(
+      140% 120% at 15% 10%,
+      rgba(255, 246, 214, 0.55) 0%,
+      rgba(255, 246, 214, 0) 45%
+    ),
+    radial-gradient(
+      120% 120% at 90% 95%,
+      rgba(120, 88, 40, 0.28) 0%,
+      rgba(120, 88, 40, 0) 50%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-blend-mode: normal, multiply, overlay;
+}
+
+/* ---- Brass frame: layered borders + edge gradients + emboss ---- */
+.brass-frame {
+  position: relative;
+  border-radius: var(--radius-frame);
+  background:
+    linear-gradient(145deg, var(--brass-hi) 0%, var(--brass) 22%, var(--brass-mid) 55%, var(--brass-lo) 100%);
+  padding: 4px;
+  box-shadow: var(--shadow-frame),
+    inset 0 1px 0 rgba(255, 246, 214, 0.6),
+    inset 0 -2px 4px rgba(30, 20, 6, 0.55);
+}
+.brass-frame::before {
+  /* thin dark bevel channel between outer brass and inner content */
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: calc(var(--radius-frame) - 3px);
+  box-shadow: inset 0 0 0 1.5px rgba(40, 27, 8, 0.8),
+    inset 0 0 0 3px rgba(231, 200, 119, 0.35);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ---- Rivets: place on a framed element's corners ---- */
+.rivets::after {
+  content: '';
+  position: absolute;
+  inset: 9px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  background-image:
+    radial-gradient(circle at center, #f4e3ac 0%, #b8912f 38%, #4e3712 78%, rgba(78, 55, 18, 0) 82%),
+    radial-gradient(circle at center, #f4e3ac 0%, #b8912f 38%, #4e3712 78%, rgba(78, 55, 18, 0) 82%),
+    radial-gradient(circle at center, #f4e3ac 0%, #b8912f 38%, #4e3712 78%, rgba(78, 55, 18, 0) 82%),
+    radial-gradient(circle at center, #f4e3ac 0%, #b8912f 38%, #4e3712 78%, rgba(78, 55, 18, 0) 82%);
+  background-repeat: no-repeat;
+  background-size: 11px 11px, 11px 11px, 11px 11px, 11px 11px;
+  background-position: left top, right top, left bottom, right bottom;
+}
+
+/* ---- Engraved text emboss ---- */
+.engrave {
+  text-shadow: 0 1px 0 var(--engrave-light), 0 -1px 0 var(--engrave-dark);
+}
+.engrave-deep {
+  text-shadow: 0 1px 0 rgba(255, 244, 214, 0.6), 0 -1px 1px rgba(42, 26, 8, 0.7),
+    0 2px 3px rgba(42, 26, 8, 0.35);
+}
+
+/* ---- Scrollbar styling to match theme ---- */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1109;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--brass), var(--brass-lo));
+  border-radius: 6px;
+  border: 2px solid #1a1109;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .led-pulse {
+    animation: ledPulse 2.6s ease-in-out infinite;
+  }
+}
+@keyframes ledPulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.25);
+  }
+}

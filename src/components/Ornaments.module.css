@@ -1,66 +1,163 @@
 /* ============================================================
-   Pipe hardware — cylindrical brass with specular highlight,
-   threaded couplings, end flanges, valve wheel.
+   Pipe system — one continuous loop around the page with corner
+   junction boxes, plus a T-connected vertical divider.
+   Tube shading comes from the shared --pipe-grad-* tokens.
    ============================================================ */
 
-.pipeCol {
+.loop {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  z-index: 1;
 }
 
-.pipeBody {
+/* ---- straight runs ---- */
+.run {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 100%;
-  transform: translateX(-50%);
-  border-radius: 12px;
   background-color: var(--brass);
-  background-image:
-    var(--tx-grain),
-    linear-gradient(
-      90deg,
-      #201503 0%,
-      #6e521c 14%,
-      #f0d489 34%,
-      #c19a3c 52%,
-      #8a6524 72%,
-      #33230a 92%,
-      #1a1103 100%
-    );
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+}
+.runTop,
+.runBottom {
+  left: 34px;
+  right: 34px;
+  height: 16px;
+  border-radius: 8px;
+  background-image: var(--tx-grain), var(--pipe-grad-h);
   background-blend-mode: soft-light, normal;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4), 0 6px 16px rgba(0, 0, 0, 0.55);
+}
+.runTop {
+  top: 12px;
+}
+.runBottom {
+  bottom: 12px;
+}
+.runLeft,
+.runRight {
+  top: 34px;
+  bottom: 34px;
+  width: 16px;
+  border-radius: 8px;
+  background-image: var(--tx-grain), var(--pipe-grad-v);
+  background-blend-mode: soft-light, normal;
+}
+.runLeft {
+  left: 12px;
+}
+.runRight {
+  right: 12px;
 }
 
-.coupling {
+/* ---- threaded couplings (collars) ----
+   collarH sits on a horizontal pipe, collarV on a vertical pipe;
+   ridges run perpendicular to the tube axis. */
+.collarH,
+.collarV {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 148%;
-  height: 24px;
   border-radius: 5px;
-  border: 1px solid #241a06;
-  background-color: var(--brass);
+  border: 1px solid #1a1002;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 240, 200, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+.collarH {
+  top: -4px;
+  height: 24px;
+  width: 22px;
+  transform: translateX(-50%);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.3) 0 2px,
+      rgba(255, 244, 208, 0.16) 2px 4px
+    ),
+    var(--pipe-grad-h);
+}
+.collarV {
+  left: -4px;
+  width: 24px;
+  height: 22px;
+  transform: translateY(-50%);
   background-image:
     repeating-linear-gradient(
       180deg,
       rgba(0, 0, 0, 0.3) 0 2px,
       rgba(255, 244, 208, 0.16) 2px 4px
     ),
-    linear-gradient(
-      90deg,
-      #241804 0%,
-      #7a591d 15%,
-      #f0d489 35%,
-      #c19a3c 52%,
-      #8a6524 74%,
-      #241804 100%
-    );
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 240, 200, 0.5),
+    var(--pipe-grad-v);
+}
+
+/* ---- corner junction boxes ---- */
+.box {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+.boxTL {
+  top: 1px;
+  left: 1px;
+}
+.boxTR {
+  top: 1px;
+  right: 1px;
+}
+.boxBL {
+  bottom: 1px;
+  left: 1px;
+}
+.boxBR {
+  bottom: 1px;
+  right: 1px;
+}
+
+/* ============================================================
+   Divider pipe (sidebar | main) — lives in its own grid column
+   and stretches into the shell padding so its T-fittings meet
+   the loop's top and bottom runs.
+   ============================================================ */
+.divider {
+  position: relative;
+  width: 32px;
+  pointer-events: none;
+  z-index: 1;
+}
+.dividerPipe {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 50%;
+  width: 16px;
+  transform: translateX(-50%);
+  border-radius: 8px;
+  background-color: var(--brass);
+  background-image: var(--tx-grain), var(--pipe-grad-v);
+  background-blend-mode: soft-light, normal;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.55);
+}
+
+/* T-fitting: wide collar where the divider meets a horizontal run */
+.tee {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid #1a1002;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.28) 0 2px,
+      rgba(255, 244, 208, 0.16) 2px 4px
+    ),
+    var(--pipe-grad-v);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 240, 200, 0.5),
     inset 0 -1px 2px rgba(0, 0, 0, 0.5);
 }
-.coupling::before,
-.coupling::after {
+.tee::before,
+.tee::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -68,49 +165,25 @@
   height: 6px;
   border-radius: 50%;
   transform: translateY(-50%);
-  background: radial-gradient(circle at 35% 30%, #fff1bc, #b8912f 55%, #302108);
-  box-shadow: 0 0 0 1px rgba(32, 21, 3, 0.8);
+  background: radial-gradient(circle at 35% 30%, #fff1bc, #b8912f 55%, #241804);
+  box-shadow: 0 0 0 1px rgba(26, 16, 2, 0.8);
 }
-.coupling::before {
-  left: 2px;
+.tee::before {
+  left: 3px;
 }
-.coupling::after {
-  right: 2px;
+.tee::after {
+  right: 3px;
 }
 
-.flange {
-  position: absolute;
+/* divider's mid coupling reuses .collarV but must centre on the
+   divider's own pipe */
+.divider .collarV {
   left: 50%;
-  transform: translateX(-50%);
-  width: 158%;
-  height: 12px;
-  border-radius: 4px;
-  border: 1px solid #241a06;
-  background-image: linear-gradient(
-    90deg,
-    #241804 0%,
-    #8a6524 18%,
-    #f0d489 38%,
-    #b8912f 55%,
-    #6e521c 78%,
-    #1f1504 100%
-  );
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 240, 200, 0.45);
+  transform: translate(-50%, -50%);
 }
 
-.valve {
-  position: absolute;
-  left: 50%;
-  bottom: 8%;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 4px 5px rgba(0, 0, 0, 0.65));
-}
-
-.slim .coupling {
-  width: 160%;
-  height: 18px;
-}
-.slim .flange {
-  width: 172%;
-  height: 10px;
+@media (max-width: 860px) {
+  .loop {
+    display: none;
+  }
 }

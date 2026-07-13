@@ -6,7 +6,7 @@ import HeaderBar from './components/HeaderBar';
 import { StatCardRow } from './components/StatCard';
 import { SectionRule } from './components/SectionRule';
 import { FeatureGrid } from './components/FeatureCard';
-import { PipeColumn, CornerPlate } from './components/Ornaments';
+import { PipeLoop, PipeDivider } from './components/Ornaments';
 import { stats, features } from './data/features';
 
 export default function App() {
@@ -18,16 +18,12 @@ export default function App() {
       <span className={clsx(styles.rivetStrip, styles.rsBottom)} aria-hidden />
       <span className={clsx(styles.rivetStrip, styles.rsLeft)} aria-hidden />
       <span className={clsx(styles.rivetStrip, styles.rsRight)} aria-hidden />
-      <CornerPlate className={clsx(styles.corner, styles.cTL)} />
-      <CornerPlate className={clsx(styles.corner, styles.cTR)} />
-      <CornerPlate className={clsx(styles.corner, styles.cBL)} />
-      <CornerPlate className={clsx(styles.corner, styles.cBR)} />
 
       <div className={styles.shell}>
-        <PipeColumn variant="left" className={styles.pipeLeft} />
-        <PipeColumn variant="right" className={styles.pipeRight} />
+        <PipeLoop />
 
         <Sidebar open={navOpen} />
+        <PipeDivider className={styles.divider} />
         {navOpen && (
           <button
             type="button"

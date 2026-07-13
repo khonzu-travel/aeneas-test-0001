@@ -1,39 +1,51 @@
 /* ============================================================
-   App shell — heavy machined-brass outer frame with rivet
-   strips and corner plates, dark textured interior, pipe runs.
+   App shell — dark bronze riveted band with gold beading around
+   a dark interior; a continuous pipe loop hugs the inside of the
+   band and a T-connected divider pipe splits sidebar from main.
    ============================================================ */
 
 .frame {
   position: relative;
   min-height: 100vh;
-  margin: clamp(8px, 1.2vw, 20px);
-  padding: clamp(30px, 2.6vw, 42px);
-  border-radius: 26px;
-  background-color: var(--brass);
+  margin: clamp(6px, 1vw, 16px);
+  padding: 40px;
+  border-radius: 24px;
+  background-color: #3d2c12;
   background-image:
     var(--tx-grain),
-    var(--tx-streak),
-    linear-gradient(155deg, rgba(255, 244, 208, 0.34) 0%, rgba(255, 244, 208, 0) 32%),
-    linear-gradient(145deg, #e7c877 0%, #b8912f 24%, #8a6524 55%, #4e3712 88%, #302108 100%);
-  background-blend-mode: soft-light, overlay, screen, normal;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7),
-    inset 0 2px 2px rgba(255, 246, 214, 0.55),
-    inset 0 -4px 8px rgba(28, 18, 5, 0.75);
+    var(--tx-dark),
+    linear-gradient(180deg, rgba(255, 235, 180, 0.14) 0%, rgba(255, 235, 180, 0) 18%),
+    linear-gradient(180deg, #4a3616 0%, #38270f 50%, #241806 100%);
+  background-blend-mode: soft-light, normal, screen, normal;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.75),
+    inset 0 2px 2px rgba(255, 235, 180, 0.3),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
 }
+/* bright gold beading on the band's outer edge */
 .frame::before {
-  /* pinstripe ring hugging the shell edge */
   content: '';
   position: absolute;
-  inset: clamp(22px, 2vw, 32px);
-  border-radius: 18px;
-  box-shadow: 0 0 0 2px rgba(32, 21, 3, 0.85),
-    0 0 0 4px rgba(240, 212, 137, 0.42),
-    0 0 0 5.5px rgba(32, 21, 3, 0.5);
+  inset: 3px;
+  border-radius: 21px;
+  box-shadow: inset 0 0 0 2.5px rgba(233, 201, 121, 0.8),
+    inset 0 0 0 4px rgba(26, 16, 2, 0.85),
+    inset 0 0 0 5px rgba(233, 201, 121, 0.3);
+  pointer-events: none;
+  z-index: 3;
+}
+/* ...and on its inner edge, hugging the interior */
+.frame::after {
+  content: '';
+  position: absolute;
+  inset: 36px;
+  border-radius: 12px;
+  box-shadow: 0 0 0 2.5px rgba(233, 201, 121, 0.7),
+    0 0 0 4px rgba(26, 16, 2, 0.85);
   pointer-events: none;
   z-index: 3;
 }
 
-/* ---- rivet strips along the frame band ---- */
+/* ---- rivet rows along the band ---- */
 .rivetStrip {
   position: absolute;
   z-index: 2;
@@ -41,105 +53,71 @@
 }
 .rsTop,
 .rsBottom {
-  left: 72px;
-  right: 72px;
-  height: 22px;
+  left: 52px;
+  right: 52px;
+  height: 24px;
   background-image: var(--rivet-h);
   background-repeat: repeat-x;
   background-position: center;
-  background-size: 56px 22px;
+  background-size: 46px 24px;
 }
 .rsTop {
-  top: 5px;
+  top: 8px;
 }
 .rsBottom {
-  bottom: 5px;
+  bottom: 8px;
 }
 .rsLeft,
 .rsRight {
-  top: 72px;
-  bottom: 72px;
-  width: 22px;
+  top: 52px;
+  bottom: 52px;
+  width: 24px;
   background-image: var(--rivet-v);
   background-repeat: repeat-y;
   background-position: center;
-  background-size: 22px 56px;
+  background-size: 24px 46px;
 }
 .rsLeft {
-  left: 5px;
+  left: 8px;
 }
 .rsRight {
-  right: 5px;
-}
-
-/* ---- corner plates ---- */
-.corner {
-  position: absolute;
-  z-index: 4;
-  width: clamp(42px, 3.6vw, 54px);
-  height: auto;
-  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
-}
-.cTL {
-  top: 3px;
-  left: 3px;
-}
-.cTR {
-  top: 3px;
-  right: 3px;
-}
-.cBL {
-  bottom: 3px;
-  left: 3px;
-}
-.cBR {
-  bottom: 3px;
-  right: 3px;
+  right: 8px;
 }
 
 /* ---- dark interior ---- */
 .shell {
   position: relative;
-  min-height: calc(100vh - clamp(76px, 8vw, 124px));
-  border-radius: 14px;
+  min-height: calc(100vh - 112px);
+  border-radius: 12px;
   background-color: #1d1207;
   background-image:
     var(--tx-grain),
     var(--tx-dark),
     radial-gradient(120% 90% at 50% 0%, rgba(92, 60, 24, 0.4) 0%, rgba(92, 60, 24, 0) 60%);
   background-blend-mode: soft-light, normal, normal;
-  box-shadow: inset 0 0 0 2px rgba(18, 11, 4, 0.9),
+  box-shadow: inset 0 0 0 2px rgba(14, 8, 2, 0.9),
     inset 0 0 70px rgba(0, 0, 0, 0.6),
-    inset 0 1px 0 rgba(240, 212, 137, 0.14);
-  padding: var(--shell-pad);
-  padding-left: calc(var(--shell-pad) + 46px);
-  padding-right: calc(var(--shell-pad) + 34px);
+    inset 0 1px 0 rgba(233, 201, 121, 0.12);
+  /* 46px gutter on every side gives the pipe loop room to run */
+  padding: 46px;
   display: grid;
-  grid-template-columns: minmax(230px, 300px) 1fr;
+  grid-template-columns: minmax(230px, 300px) 32px 1fr;
   grid-template-rows: auto 1fr;
-  gap: var(--gap-lg);
+  column-gap: 10px;
+  row-gap: var(--gap-lg);
 }
 
-/* ---- pipe runs (absolute inside the shell padding) ---- */
-.pipeLeft {
-  position: absolute;
-  top: 16px;
-  bottom: 16px;
-  left: 13px;
-  width: 24px;
-  z-index: 1;
-}
-.pipeRight {
-  position: absolute;
-  top: 16px;
-  bottom: 16px;
-  right: 11px;
-  width: 15px;
-  z-index: 1;
+/* divider pipe occupies the middle column, full height, and pokes
+   into the padding so its T-fittings land on the loop's runs */
+.divider {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  margin: -28px 0;
+  justify-self: center;
 }
 
 .main {
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 2;
   min-width: 0;
   display: flex;
@@ -152,33 +130,28 @@
   border: none;
 }
 
-@media (max-width: 1100px) {
-  .pipeLeft,
-  .pipeRight {
-    display: none;
-  }
-  .shell {
-    padding-left: var(--shell-pad);
-    padding-right: var(--shell-pad);
-  }
-}
-
 @media (max-width: 860px) {
   .frame {
-    padding: clamp(14px, 3vw, 24px);
+    padding: clamp(14px, 3vw, 22px);
   }
   .frame::before {
-    inset: 9px;
-    border-radius: 14px;
+    inset: 3px;
+    border-radius: 18px;
   }
-  .rivetStrip,
-  .corner {
+  .frame::after {
+    display: none;
+  }
+  .rivetStrip {
     display: none;
   }
   .shell {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 70px);
+    padding: var(--shell-pad);
+  }
+  .divider {
+    display: none;
   }
   .main {
     grid-column: 1;

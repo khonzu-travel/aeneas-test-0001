@@ -15,19 +15,19 @@
   --backdrop-0: #1c120a;
   --backdrop-1: #2a1c10;
 
-  /* ---- Brass / copper metal ---- */
-  --brass-hi: #f0d489;
-  --brass: #b8912f;
-  --brass-mid: #8a6524;
-  --brass-lo: #5e4315;
-  --brass-shadow: #302108;
+  /* ---- Brass / copper metal (warm bronze, not yellow-green) ---- */
+  --brass-hi: #f4dc9a;
+  --brass: #b08a34;
+  --brass-mid: #7d5c26;
+  --brass-lo: #46320f;
+  --brass-shadow: #241804;
   --copper: #9c6b34;
 
   /* ---- Gold (text / trim on dark panels) ---- */
   --gold-hi: #f8e7ae;
-  --gold: #e0bd68;
-  --gold-soft: #cda758;
-  --gold-dim: #96742e;
+  --gold: #dcb763;
+  --gold-soft: #c7a252;
+  --gold-dim: #8f6d2a;
 
   /* ---- Dark panel (sidebar interior, plaques) ---- */
   --dark-panel-0: #2b1b0c;
@@ -98,8 +98,28 @@
   --tx-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014' numOctaves='4' seed='23' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.02 0 0 0 0 0.01 0 0 0 0 0 0.8 0.8 0.8 0 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E");
 
   /* rivet tiles for repeating strips along the outer frame band */
-  --rivet-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='22'%3E%3CradialGradient id='r' cx='36%25' cy='30%25' r='80%25'%3E%3Cstop offset='0' stop-color='%23fff1bc'/%3E%3Cstop offset='.4' stop-color='%23caa040'/%3E%3Cstop offset='.75' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23302108'/%3E%3C/radialGradient%3E%3Ccircle cx='28' cy='11' r='6' fill='url(%23r)' stroke='%23201503' stroke-width='1'/%3E%3C/svg%3E");
-  --rivet-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='56'%3E%3CradialGradient id='r' cx='36%25' cy='30%25' r='80%25'%3E%3Cstop offset='0' stop-color='%23fff1bc'/%3E%3Cstop offset='.4' stop-color='%23caa040'/%3E%3Cstop offset='.75' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23302108'/%3E%3C/radialGradient%3E%3Ccircle cx='11' cy='28' r='6' fill='url(%23r)' stroke='%23201503' stroke-width='1'/%3E%3C/svg%3E");
+  --rivet-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='24'%3E%3CradialGradient id='r' cx='36%25' cy='28%25' r='78%25'%3E%3Cstop offset='0' stop-color='%23fff6cc'/%3E%3Cstop offset='.38' stop-color='%23d9b45e'/%3E%3Cstop offset='.72' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3Ccircle cx='23' cy='12.5' r='6.5' fill='url(%23r)' stroke='%231a1002' stroke-width='1.2'/%3E%3Ccircle cx='23' cy='12' r='6.5' fill='none' stroke='rgba(255,240,200,0.35)' stroke-width='0.8'/%3E%3C/svg%3E");
+  --rivet-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='46'%3E%3CradialGradient id='r' cx='36%25' cy='28%25' r='78%25'%3E%3Cstop offset='0' stop-color='%23fff6cc'/%3E%3Cstop offset='.38' stop-color='%23d9b45e'/%3E%3Cstop offset='.72' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3Ccircle cx='12.5' cy='23' r='6.5' fill='url(%23r)' stroke='%231a1002' stroke-width='1.2'/%3E%3Ccircle cx='12' cy='23' r='6.5' fill='none' stroke='rgba(255,240,200,0.35)' stroke-width='0.8'/%3E%3C/svg%3E");
+
+  /* shared pipe cylinder gradients (h = horizontal tube, v = vertical tube) */
+  --pipe-grad-h: linear-gradient(
+    180deg,
+    #2a1c08 0%,
+    #8a6524 16%,
+    #f4dc9a 36%,
+    #c19a3c 54%,
+    #6e521c 80%,
+    #241804 100%
+  );
+  --pipe-grad-v: linear-gradient(
+    90deg,
+    #2a1c08 0%,
+    #8a6524 16%,
+    #f4dc9a 36%,
+    #c19a3c 54%,
+    #6e521c 80%,
+    #241804 100%
+  );
 
   /* ---- Frame radii ---- */
   --radius-frame: 14px;

@@ -1,24 +1,141 @@
+/* ============================================================
+   App shell — heavy machined-brass outer frame with rivet
+   strips and corner plates, dark textured interior, pipe runs.
+   ============================================================ */
+
 .frame {
+  position: relative;
   min-height: 100vh;
-  margin: clamp(8px, 1.4vw, 22px);
-  padding: clamp(6px, 0.8vw, 12px);
+  margin: clamp(8px, 1.2vw, 20px);
+  padding: clamp(30px, 2.6vw, 42px);
+  border-radius: 26px;
+  background-color: var(--brass);
+  background-image:
+    var(--tx-grain),
+    var(--tx-streak),
+    linear-gradient(155deg, rgba(255, 244, 208, 0.34) 0%, rgba(255, 244, 208, 0) 32%),
+    linear-gradient(145deg, #e7c877 0%, #b8912f 24%, #8a6524 55%, #4e3712 88%, #302108 100%);
+  background-blend-mode: soft-light, overlay, screen, normal;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.7),
+    inset 0 2px 2px rgba(255, 246, 214, 0.55),
+    inset 0 -4px 8px rgba(28, 18, 5, 0.75);
+}
+.frame::before {
+  /* pinstripe ring hugging the shell edge */
+  content: '';
+  position: absolute;
+  inset: clamp(22px, 2vw, 32px);
+  border-radius: 18px;
+  box-shadow: 0 0 0 2px rgba(32, 21, 3, 0.85),
+    0 0 0 4px rgba(240, 212, 137, 0.42),
+    0 0 0 5.5px rgba(32, 21, 3, 0.5);
+  pointer-events: none;
+  z-index: 3;
 }
 
+/* ---- rivet strips along the frame band ---- */
+.rivetStrip {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+.rsTop,
+.rsBottom {
+  left: 72px;
+  right: 72px;
+  height: 22px;
+  background-image: var(--rivet-h);
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: 56px 22px;
+}
+.rsTop {
+  top: 5px;
+}
+.rsBottom {
+  bottom: 5px;
+}
+.rsLeft,
+.rsRight {
+  top: 72px;
+  bottom: 72px;
+  width: 22px;
+  background-image: var(--rivet-v);
+  background-repeat: repeat-y;
+  background-position: center;
+  background-size: 22px 56px;
+}
+.rsLeft {
+  left: 5px;
+}
+.rsRight {
+  right: 5px;
+}
+
+/* ---- corner plates ---- */
+.corner {
+  position: absolute;
+  z-index: 4;
+  width: clamp(42px, 3.6vw, 54px);
+  height: auto;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.5));
+}
+.cTL {
+  top: 3px;
+  left: 3px;
+}
+.cTR {
+  top: 3px;
+  right: 3px;
+}
+.cBL {
+  bottom: 3px;
+  left: 3px;
+}
+.cBR {
+  bottom: 3px;
+  right: 3px;
+}
+
+/* ---- dark interior ---- */
 .shell {
   position: relative;
-  height: 100%;
-  min-height: calc(100vh - clamp(28px, 4vw, 68px));
-  border-radius: calc(var(--radius-frame) - 4px);
-  background:
-    radial-gradient(130% 130% at 50% 0%, #2c1d10 0%, #1a1109 72%, #120b06 100%);
-  box-shadow: inset 0 0 0 2px rgba(40, 27, 8, 0.8),
-    inset 0 0 0 4px rgba(231, 200, 119, 0.28),
-    inset 0 2px 24px rgba(0, 0, 0, 0.6);
+  min-height: calc(100vh - clamp(76px, 8vw, 124px));
+  border-radius: 14px;
+  background-color: #1d1207;
+  background-image:
+    var(--tx-grain),
+    var(--tx-dark),
+    radial-gradient(120% 90% at 50% 0%, rgba(92, 60, 24, 0.4) 0%, rgba(92, 60, 24, 0) 60%);
+  background-blend-mode: soft-light, normal, normal;
+  box-shadow: inset 0 0 0 2px rgba(18, 11, 4, 0.9),
+    inset 0 0 70px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(240, 212, 137, 0.14);
   padding: var(--shell-pad);
+  padding-left: calc(var(--shell-pad) + 46px);
+  padding-right: calc(var(--shell-pad) + 34px);
   display: grid;
   grid-template-columns: minmax(230px, 300px) 1fr;
   grid-template-rows: auto 1fr;
   gap: var(--gap-lg);
+}
+
+/* ---- pipe runs (absolute inside the shell padding) ---- */
+.pipeLeft {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  left: 13px;
+  width: 24px;
+  z-index: 1;
+}
+.pipeRight {
+  position: absolute;
+  top: 16px;
+  bottom: 16px;
+  right: 11px;
+  width: 15px;
+  z-index: 1;
 }
 
 .main {
@@ -35,16 +152,38 @@
   border: none;
 }
 
+@media (max-width: 1100px) {
+  .pipeLeft,
+  .pipeRight {
+    display: none;
+  }
+  .shell {
+    padding-left: var(--shell-pad);
+    padding-right: var(--shell-pad);
+  }
+}
+
 @media (max-width: 860px) {
+  .frame {
+    padding: clamp(14px, 3vw, 24px);
+  }
+  .frame::before {
+    inset: 9px;
+    border-radius: 14px;
+  }
+  .rivetStrip,
+  .corner {
+    display: none;
+  }
   .shell {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
+    min-height: calc(100vh - 64px);
   }
   .main {
     grid-column: 1;
     grid-row: 2;
   }
-  /* header spans the single column */
   .shell > header {
     grid-column: 1;
     grid-row: 1;

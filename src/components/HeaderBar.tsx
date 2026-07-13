@@ -6,6 +6,25 @@ interface HeaderBarProps {
   onMenu: () => void;
 }
 
+function Medallion({
+  label,
+  badge,
+  children,
+}: {
+  label: string;
+  badge?: number;
+  children: React.ReactNode;
+}) {
+  return (
+    <button type="button" className={styles.medallion} aria-label={label}>
+      <span className={styles.knurl} aria-hidden />
+      <span className={styles.medFace} aria-hidden />
+      <span className={styles.medIcon}>{children}</span>
+      {badge !== undefined && <span className={styles.iconBadge}>{badge}</span>}
+    </button>
+  );
+}
+
 export default function HeaderBar({ onMenu }: HeaderBarProps) {
   return (
     <header className={styles.header}>
@@ -28,13 +47,12 @@ export default function HeaderBar({ onMenu }: HeaderBarProps) {
       </div>
 
       <div className={styles.actions}>
-        <button type="button" className={styles.iconBtn} aria-label="Settings">
-          <GearIcon size={24} />
-        </button>
-        <button type="button" className={styles.iconBtn} aria-label="Notifications">
-          <BellIcon size={24} />
-          <span className={styles.iconBadge}>8</span>
-        </button>
+        <Medallion label="Settings">
+          <GearIcon size={26} />
+        </Medallion>
+        <Medallion label="Notifications" badge={8}>
+          <BellIcon size={25} />
+        </Medallion>
       </div>
     </header>
   );

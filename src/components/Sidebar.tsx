@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import styles from './Sidebar.module.css';
-import { WheelEmblem, GaugeCluster } from './Emblems';
+import { WheelEmblem, ClockCluster } from './Emblems';
 import {
   HomeIcon,
   InboxIcon,
@@ -29,15 +29,15 @@ const nav: NavEntry[] = [
 export default function Sidebar({ open }: { open: boolean }) {
   return (
     <aside className={clsx(styles.sidebar, 'brass-frame', 'rivets', open && styles.open)}>
-      <div className={clsx(styles.inner, 'parchment')}>
-        <div className={styles.logoPlate}>
+      <div className={clsx(styles.inner, 'dark-panel')}>
+        <div className={clsx(styles.logoPlate, 'plaque')}>
           <div className={styles.logoWheel}>
-            <WheelEmblem size={44} />
+            <WheelEmblem size={46} />
           </div>
-          <div className={styles.logoText}>
-            <span className={clsx(styles.brand, 'engrave-deep')}>AENEAS</span>
-            <span className={clsx(styles.brandSub, 'engrave')}>Delivery Platform</span>
-          </div>
+          <span className={clsx(styles.brand, 'gold-metal')}>AENEAS</span>
+          <span className={clsx(styles.brandSub, 'engrave-gold')}>
+            Delivery Platform
+          </span>
         </div>
 
         <nav className={styles.nav}>
@@ -45,7 +45,12 @@ export default function Sidebar({ open }: { open: boolean }) {
             <button
               key={item.id}
               type="button"
-              className={clsx(styles.navItem, item.active && styles.navActive, 'engrave')}
+              className={clsx(
+                styles.navItem,
+                item.active && styles.navActive,
+                item.active && 'plaque',
+                'engrave-gold'
+              )}
             >
               <span className={styles.navIcon}>{item.icon}</span>
               <span className={styles.navLabel}>{item.label}</span>
@@ -57,12 +62,14 @@ export default function Sidebar({ open }: { open: boolean }) {
         </nav>
 
         <div className={styles.footer}>
-          <div className={styles.statusLamp}>
+          <div className={clsx(styles.statusLamp, 'plaque')}>
             <span className={clsx(styles.lamp, 'led-pulse')} />
-            <span className={clsx(styles.statusText, 'engrave')}>Platform Online</span>
+            <span className={clsx(styles.statusText, 'engrave-gold')}>
+              Platform Online
+            </span>
           </div>
           <div className={styles.gauges}>
-            <GaugeCluster />
+            <ClockCluster />
           </div>
         </div>
       </div>

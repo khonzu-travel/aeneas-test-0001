@@ -10,9 +10,9 @@
 .inner {
   position: relative;
   z-index: 1;
-  border-radius: calc(var(--radius-frame) - 4px);
+  border-radius: calc(var(--radius-frame) - 5px);
   padding: clamp(14px, 1.4vw, 24px) clamp(16px, 1.4vw, 26px);
-  min-height: 118px;
+  min-height: 122px;
   display: flex;
   flex-direction: column;
   justify-content: center;

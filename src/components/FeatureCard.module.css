@@ -8,13 +8,18 @@
   padding: 4px;
 }
 .blockedCard {
-  background: linear-gradient(145deg, #d98a4a 0%, #a5561f 30%, #7a3312 100%);
+  /* copper-tinted frame, keeping the metal texture layers */
+  background-image:
+    var(--tx-grain),
+    var(--tx-streak),
+    linear-gradient(160deg, rgba(255, 226, 190, 0.5) 0%, rgba(255, 226, 190, 0) 34%),
+    linear-gradient(145deg, #dfa063 0%, #b06a2c 30%, #8a4a1a 66%, #5a2c0e 100%);
 }
 
 .inner {
   position: relative;
   z-index: 1;
-  border-radius: calc(var(--radius-frame) - 4px);
+  border-radius: calc(var(--radius-frame) - 5px);
   padding: var(--card-pad);
   display: grid;
   grid-template-rows: auto auto auto auto auto;
@@ -23,7 +28,8 @@
   box-shadow: var(--shadow-inset-panel);
 }
 .innerBlocked {
-  box-shadow: var(--shadow-inset-panel), inset 4px 0 0 0 var(--blocked-edge);
+  box-shadow: var(--shadow-inset-panel), inset 5px 0 0 0 var(--blocked-edge),
+    inset 9px 0 10px -6px rgba(140, 30, 15, 0.5);
 }
 
 /* ---- header ---- */
@@ -51,9 +57,12 @@
   letter-spacing: 0.02em;
   white-space: nowrap;
   color: #f4ead0;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    inset 0 0 0 1px rgba(0, 0, 0, 0.25), 0 1px 2px rgba(0, 0, 0, 0.3);
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+  /* enamel: top gloss line, inner dark rim, drop shadow into paper */
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.3),
+    0 2px 3px rgba(58, 38, 16, 0.45);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.55);
 }
 .stageBuild {
   background: var(--stage-build-bg);
@@ -90,13 +99,15 @@
   border-radius: 999px;
 }
 .pillFilled {
-  background: linear-gradient(180deg, var(--pill-fill-hi), var(--pill-fill) 55%, var(--pill-fill-lo));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 1px 1px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, var(--pill-fill-hi), var(--pill-fill) 55%, var(--pill-fill-lo));
+  box-shadow: inset 0 0 0 1px rgba(30, 20, 50, 0.5), 0 1.5px 2px rgba(58, 38, 16, 0.45);
 }
 .pillCurrent {
-  background: linear-gradient(180deg, var(--pill-fill-hi), var(--pill-fill) 55%, var(--pill-fill-lo));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 6px 1px rgba(106, 90, 168, 0.55),
-    0 1px 1px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 46%),
+    linear-gradient(180deg, var(--pill-fill-hi), var(--pill-fill) 55%, var(--pill-fill-lo));
+  box-shadow: inset 0 0 0 1px rgba(30, 20, 50, 0.5), 0 0 7px 1px rgba(106, 90, 168, 0.6),
+    0 1.5px 2px rgba(58, 38, 16, 0.45);
 }
 .pillEmpty {
   height: 3px;
@@ -212,9 +223,12 @@
   gap: 10px;
   margin: 4px calc(var(--card-pad) * -1) calc(var(--card-pad) * -1);
   padding: 10px var(--card-pad);
-  background: var(--blocked-bg);
+  background-color: #7a2213;
+  background-image: var(--tx-grain), var(--blocked-bg);
+  background-blend-mode: soft-light, normal;
   border-top: 1.5px solid var(--blocked-edge);
-  border-radius: 0 0 calc(var(--radius-frame) - 4px) calc(var(--radius-frame) - 4px);
+  border-radius: 0 0 calc(var(--radius-frame) - 5px) calc(var(--radius-frame) - 5px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 150, 120, 0.25);
 }
 .blockedDot {
   flex: none;

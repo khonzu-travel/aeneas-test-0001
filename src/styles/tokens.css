@@ -1,29 +1,40 @@
 /* ============================================================
    AENEAS Delivery Platform — Design Tokens
-   Steampunk brass / parchment palette + fluid type & spacing
+   Steampunk brass / parchment palette, procedural texture tiles,
+   fluid type & spacing
    ============================================================ */
 
 :root {
   /* ---- Parchment / paper ---- */
-  --parchment: #d8c193;
+  --parchment: #d3b98a;
   --parchment-light: #e7d5aa;
-  --parchment-dark: #c3aa78;
-  --parchment-edge: #b39a68;
+  --parchment-dark: #bfa270;
+  --parchment-edge: #a98e5e;
 
   /* ---- Backdrop (dark stained wood / iron) ---- */
   --backdrop-0: #1c120a;
   --backdrop-1: #2a1c10;
-  --backdrop-2: #35251464;
 
   /* ---- Brass / copper metal ---- */
-  --brass-hi: #e7c877;
+  --brass-hi: #f0d489;
   --brass: #b8912f;
-  --brass-mid: #97701f;
+  --brass-mid: #8a6524;
   --brass-lo: #5e4315;
-  --brass-shadow: #3a2a0e;
+  --brass-shadow: #302108;
   --copper: #9c6b34;
 
-  /* ---- Ink / engraved text ---- */
+  /* ---- Gold (text / trim on dark panels) ---- */
+  --gold-hi: #f8e7ae;
+  --gold: #e0bd68;
+  --gold-soft: #cda758;
+  --gold-dim: #96742e;
+
+  /* ---- Dark panel (sidebar interior, plaques) ---- */
+  --dark-panel-0: #2b1b0c;
+  --dark-panel-1: #1f1307;
+  --dark-plaque: #241606;
+
+  /* ---- Ink / engraved text on parchment ---- */
   --ink: #3a2610;
   --ink-strong: #2a1a08;
   --ink-soft: #6b4f2c;
@@ -68,6 +79,28 @@
   --blocked-bg: linear-gradient(#8e2a1a, #6a1c10);
   --blocked-edge: #c0392b;
 
+  /* ============================================================
+     Procedural texture tiles (SVG feTurbulence data-URIs).
+     These are what give metal and paper their material grain —
+     no raster assets required (proposal §3, Tier 2/3 fallback).
+     ============================================================ */
+
+  /* fine isotropic grain — soft-light over any surface */
+  --tx-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+
+  /* anisotropic streaks — brushed-metal sheen, overlay on brass */
+  --tx-streak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.008 0.18' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.5'/%3E%3C/svg%3E");
+
+  /* soft brown mottling with alpha — aged-paper stains, multiply on parchment */
+  --tx-stain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.024' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.42 0 0 0 0 0.22 0.32 0.32 0.32 0 -0.38'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E");
+
+  /* dark mottle with alpha — leather/iron background variation */
+  --tx-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.014' numOctaves='4' seed='23' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.02 0 0 0 0 0.01 0 0 0 0 0 0.8 0.8 0.8 0 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E");
+
+  /* rivet tiles for repeating strips along the outer frame band */
+  --rivet-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='22'%3E%3CradialGradient id='r' cx='36%25' cy='30%25' r='80%25'%3E%3Cstop offset='0' stop-color='%23fff1bc'/%3E%3Cstop offset='.4' stop-color='%23caa040'/%3E%3Cstop offset='.75' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23302108'/%3E%3C/radialGradient%3E%3Ccircle cx='28' cy='11' r='6' fill='url(%23r)' stroke='%23201503' stroke-width='1'/%3E%3C/svg%3E");
+  --rivet-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='56'%3E%3CradialGradient id='r' cx='36%25' cy='30%25' r='80%25'%3E%3Cstop offset='0' stop-color='%23fff1bc'/%3E%3Cstop offset='.4' stop-color='%23caa040'/%3E%3Cstop offset='.75' stop-color='%236e521c'/%3E%3Cstop offset='1' stop-color='%23302108'/%3E%3C/radialGradient%3E%3Ccircle cx='11' cy='28' r='6' fill='url(%23r)' stroke='%23201503' stroke-width='1'/%3E%3C/svg%3E");
+
   /* ---- Frame radii ---- */
   --radius-frame: 14px;
   --radius-card: 10px;
@@ -93,7 +126,8 @@
   --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
 
   /* ---- Elevation ---- */
-  --shadow-frame: 0 10px 30px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
-  --shadow-inset-panel: inset 0 2px 10px rgba(58, 38, 16, 0.35),
-    inset 0 0 0 1px rgba(255, 240, 205, 0.18);
+  --shadow-frame: 0 14px 34px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.45);
+  --shadow-inset-panel: inset 0 2px 6px rgba(255, 246, 214, 0.5),
+    inset 0 -3px 9px rgba(58, 38, 16, 0.38), inset 0 0 34px rgba(84, 54, 18, 0.3),
+    inset 0 0 0 1px rgba(255, 240, 205, 0.2);
 }

@@ -1,4 +1,7 @@
-/* Decorative SVG instrument art: ship's-wheel emblem + gauge cluster. */
+/* Decorative SVG instrument art: ship's-wheel emblem, pocket-watch
+   clock, and pressure gauges for the sidebar footer. */
+
+import { ValveWheel } from './Ornaments';
 
 export function WheelEmblem({ size = 34 }: { size?: number }) {
   const spokes = Array.from({ length: 8 }, (_, i) => (i * 360) / 8);
@@ -9,7 +12,7 @@ export function WheelEmblem({ size = 34 }: { size?: number }) {
       viewBox="0 0 48 48"
       fill="none"
       aria-hidden
-      style={{ color: '#f0dca0' }}
+      style={{ color: '#e0bd68' }}
     >
       <defs>
         <radialGradient id="wheelHub" cx="50%" cy="40%" r="70%">
@@ -33,8 +36,76 @@ export function WheelEmblem({ size = 34 }: { size?: number }) {
   );
 }
 
-function Gauge({
-  size = 70,
+/** Pocket-watch style clock: knurled brass bezel, parchment face,
+    ornate hands frozen at 10:09. */
+export function ClockFace({ size = 92 }: { size?: number }) {
+  const knurl = Array.from({ length: 48 }, (_, i) => (i * 360) / 48);
+  const ticks = Array.from({ length: 12 }, (_, i) => (i * 360) / 12);
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
+      <defs>
+        <linearGradient id="ckBez" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#f0d489" />
+          <stop offset="0.55" stopColor="#a67e28" />
+          <stop offset="1" stopColor="#4e3712" />
+        </linearGradient>
+        <radialGradient id="ckFace" cx="50%" cy="40%" r="65%">
+          <stop offset="0" stopColor="#efdfb2" />
+          <stop offset="75%" stopColor="#d3b878" />
+          <stop offset="100%" stopColor="#a5854a" />
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="48" fill="url(#ckBez)" stroke="#241a06" strokeWidth="1.4" />
+      {knurl.map((deg) => (
+        <line
+          key={deg}
+          x1="50"
+          y1="2.5"
+          x2="50"
+          y2="7"
+          stroke="rgba(36,26,6,0.55)"
+          strokeWidth="1.3"
+          transform={`rotate(${deg} 50 50)`}
+        />
+      ))}
+      <circle cx="50" cy="50" r="41" fill="url(#ckFace)" stroke="#3c2b0e" strokeWidth="1.6" />
+      <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(60,43,14,0.5)" strokeWidth="0.7" />
+      {ticks.map((deg, i) => (
+        <line
+          key={deg}
+          x1="50"
+          y1="12"
+          x2="50"
+          y2={i % 3 === 0 ? 20 : 17}
+          stroke="#3c2b0e"
+          strokeWidth={i % 3 === 0 ? 2.2 : 1.2}
+          transform={`rotate(${deg} 50 50)`}
+        />
+      ))}
+      <text x="50" y="30" textAnchor="middle" fontSize="11" fill="#3c2b0e" fontFamily="Cinzel, Georgia, serif">XII</text>
+      <text x="74" y="54.5" textAnchor="middle" fontSize="11" fill="#3c2b0e" fontFamily="Cinzel, Georgia, serif">III</text>
+      <text x="50" y="80" textAnchor="middle" fontSize="11" fill="#3c2b0e" fontFamily="Cinzel, Georgia, serif">VI</text>
+      <text x="26" y="54.5" textAnchor="middle" fontSize="11" fill="#3c2b0e" fontFamily="Cinzel, Georgia, serif">IX</text>
+      {/* hour hand (~10 o'clock) */}
+      <g transform="rotate(-57 50 50)">
+        <path d="M50 52 L47.6 46 L50 27 L52.4 46 Z" fill="#3c2b0e" />
+      </g>
+      {/* minute hand (~9 min) */}
+      <g transform="rotate(54 50 50)">
+        <path d="M50 53 L48.4 46 L50 17 L51.6 46 Z" fill="#3c2b0e" />
+      </g>
+      {/* second hand */}
+      <g transform="rotate(160 50 50)">
+        <line x1="50" y1="58" x2="50" y2="16" stroke="#8f2c1c" strokeWidth="1.2" />
+        <circle cx="50" cy="58" r="2" fill="#8f2c1c" />
+      </g>
+      <circle cx="50" cy="50" r="3.4" fill="url(#ckBez)" stroke="#241a06" strokeWidth="0.8" />
+    </svg>
+  );
+}
+
+export function Gauge({
+  size = 58,
   value = 0.62,
   label,
 }: {
@@ -54,34 +125,34 @@ function Gauge({
           <stop offset="100%" stopColor="#a98a4c" />
         </radialGradient>
         <linearGradient id="gaugeBezel" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#e7c877" />
+          <stop offset="0%" stopColor="#f0d489" />
           <stop offset="100%" stopColor="#5e4315" />
         </linearGradient>
       </defs>
       <circle cx="50" cy="50" r="47" fill="url(#gaugeBezel)" />
-      <circle cx="50" cy="50" r="47" fill="none" stroke="#3a2a0e" strokeWidth="1.5" />
-      <circle cx="50" cy="50" r="40" fill="url(#gaugeFace)" stroke="#4c3712" strokeWidth="1.5" />
+      <circle cx="50" cy="50" r="47" fill="none" stroke="#241a06" strokeWidth="1.5" />
+      <circle cx="50" cy="50" r="39" fill="url(#gaugeFace)" stroke="#3c2b0e" strokeWidth="1.5" />
       {ticks.map((t, i) => (
         <g key={i} transform={`rotate(${t} 50 50)`}>
           <line
             x1="50"
-            y1="14"
+            y1="15"
             x2="50"
-            y2={i % 5 === 0 ? 21 : 18}
-            stroke="#4c3712"
+            y2={i % 5 === 0 ? 22 : 19}
+            stroke="#3c2b0e"
             strokeWidth={i % 5 === 0 ? 2 : 1}
           />
         </g>
       ))}
       <g transform={`rotate(${angle} 50 50)`}>
-        <line x1="50" y1="52" x2="50" y2="20" stroke="#7a1f10" strokeWidth="2.6" strokeLinecap="round" />
+        <line x1="50" y1="52" x2="50" y2="21" stroke="#7a1f10" strokeWidth="2.6" strokeLinecap="round" />
       </g>
-      <circle cx="50" cy="50" r="4.2" fill="#3a2a0e" />
-      <circle cx="48.6" cy="48.6" r="1.2" fill="#e7c877" />
+      <circle cx="50" cy="50" r="4.2" fill="#302108" />
+      <circle cx="48.6" cy="48.6" r="1.2" fill="#f0d489" />
       {label && (
         <text
           x="50"
-          y="72"
+          y="73"
           textAnchor="middle"
           fontSize="9"
           fill="#4c3712"
@@ -95,11 +166,20 @@ function Gauge({
   );
 }
 
-export function GaugeCluster() {
+/** Sidebar footer instrument cluster: valve wheel, clock, gauge. */
+export function ClockCluster() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
-      <Gauge size={78} value={0.58} label="PSI" />
-      <Gauge size={54} value={0.8} />
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'flex-end',
+        gap: 8,
+        justifyContent: 'center',
+      }}
+    >
+      <ValveWheel size={36} />
+      <ClockFace size={92} />
+      <Gauge size={56} value={0.72} label="PSI" />
     </div>
   );
 }

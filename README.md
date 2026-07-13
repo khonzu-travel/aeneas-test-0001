@@ -23,9 +23,24 @@ fixed canvas).
 
 | Tier | Technique | Used for |
 | --- | --- | --- |
-| Pure CSS | layered `border` + `box-shadow` + gradients | frames, rivets, progress pills, status LEDs, stage badges, text engraving |
-| SVG | hand-authored paths + gradients | all icons, wheel emblem, pressure gauges, divider flourish |
-| Procedural texture | inline SVG `feTurbulence` noise (data-URI) | parchment paper grain — no external raster asset required |
+| Pure CSS | layered `border` + `box-shadow` + gradients + blend modes | frames, rivets, pipes & couplings, progress pills, status LEDs, enamel badges, knurled medallions, text engraving |
+| SVG | hand-authored paths + gradients | all icons, wheel emblem, pocket-watch clock, pressure gauges, valve wheel, corner plates, divider flourish |
+| Procedural texture | inline SVG `feTurbulence` tiles (data-URIs in `tokens.css`) | metal grain, brushed-brass streaks, aged-paper stains, dark leather mottle, rivet strips — no raster assets required |
+
+### Material system
+
+Five seamless `feTurbulence` tiles (defined once as CSS custom properties)
+are composited under/over gradients with `background-blend-mode`:
+
+- `--tx-grain` — fine isotropic noise, soft-light, on every metal and paper surface
+- `--tx-streak` — anisotropic noise, overlay, gives brass its brushed sheen
+- `--tx-stain` — low-frequency brown mottling with alpha, multiply, ages the parchment
+- `--tx-dark` — dark mottle with alpha for the leather/iron backgrounds
+- `--rivet-h` / `--rivet-v` — repeating rivet tiles for the outer frame's riveted band
+
+Hardware ornaments (`Ornaments.tsx`): vertical pipe runs with cylindrical
+highlight gradients, threaded couplings, end flanges and a valve wheel; riveted
+corner plates with slotted screws on the outer frame.
 
 ## Responsiveness
 
@@ -51,13 +66,14 @@ src/
 │  └─ global.css                   — reset, .parchment / .brass-frame / .rivets / .engrave primitives
 ├─ data/features.ts                — typed Feature / Stat model + dashboard data
 └─ components/
-   ├─ Sidebar.tsx                  — LogoPlate, NavMenu, StatusLamp, GaugeCluster
-   ├─ HeaderBar.tsx                — PageTitle + gear / bell icon buttons
+   ├─ Sidebar.tsx                  — dark leather panel: logo plaque, gold nav, status lamp, clock cluster
+   ├─ HeaderBar.tsx                — parchment title plate + knurled gear / bell medallions
    ├─ StatCard.tsx                 — value + label, tone variants
-   ├─ SectionRule.tsx              — brass rod + engraved plate
+   ├─ SectionRule.tsx              — finial-capped brass rod + bronze label plate
    ├─ FeatureCard.tsx              — one data-driven card (badge, pills, status, blocked banner)
+   ├─ Ornaments.tsx                — pipe columns with couplings, valve wheel, riveted corner plates
    ├─ Icons.tsx                    — inline SVG icon set
-   └─ Emblems.tsx                  — ship's-wheel emblem + gauges
+   └─ Emblems.tsx                  — ship's-wheel emblem, pocket-watch clock, pressure gauges
 ```
 
 The six feature cards are **one typed, data-driven component** (`FeatureCard`),

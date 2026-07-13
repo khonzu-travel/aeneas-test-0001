@@ -1,38 +1,53 @@
 .rule {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 0;
+}
+
+.finial {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #fff1bc 0%, #caa040 42%, #6e521c 78%, #302108 100%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.55), inset 0 1px 1px rgba(255, 246, 214, 0.6);
+  z-index: 1;
 }
 
 .rod {
   flex: 1;
-  height: 10px;
+  height: 11px;
+  margin: 0 -3px;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--brass-hi), var(--brass) 45%, var(--brass-lo));
-  box-shadow: inset 0 1px 0 rgba(255, 246, 214, 0.55),
-    inset 0 -2px 3px rgba(30, 20, 6, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+  background-color: var(--brass);
+  background-image:
+    var(--tx-grain),
+    linear-gradient(180deg, var(--brass-hi) 0%, var(--brass) 42%, var(--brass-mid) 68%, var(--brass-lo) 100%);
+  background-blend-mode: soft-light, normal;
+  box-shadow: inset 0 1.5px 0 rgba(255, 246, 214, 0.6),
+    inset 0 -2.5px 3px rgba(28, 18, 5, 0.55), 0 3px 6px rgba(0, 0, 0, 0.45);
 }
-.rod:first-child {
-  flex: 0 0 clamp(10px, 2vw, 28px);
+.rodShort {
+  flex: 0 0 clamp(12px, 2vw, 30px);
 }
 
 .plate {
   flex: none;
-  padding: 3px;
-  border-radius: 8px;
+  padding: 4px;
+  border-radius: 9px;
+  margin: 0 2px;
 }
 .plateText {
   display: block;
-  padding: 6px 18px;
+  padding: 7px 20px;
   border-radius: 6px;
-  background: linear-gradient(180deg, rgba(60, 40, 16, 0.34), rgba(90, 62, 24, 0.22));
-  box-shadow: inset 0 0 0 1.5px rgba(40, 27, 8, 0.7),
-    inset 0 0 0 3px rgba(231, 200, 119, 0.3);
+  background-color: var(--dark-plaque);
+  background-image: var(--tx-dark), linear-gradient(180deg, rgba(0, 0, 0, 0.4), rgba(96, 62, 26, 0.18));
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.65),
+    inset 0 0 0 1px rgba(240, 212, 137, 0.22);
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: clamp(0.78rem, 0.72rem + 0.35vw, 0.98rem);
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #f2e2b4;
-  text-shadow: 0 1px 1px rgba(30, 18, 6, 0.7);
 }

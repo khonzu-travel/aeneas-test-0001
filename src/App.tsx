@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import clsx from 'clsx';
 import styles from './App.module.css';
 import Sidebar from './components/Sidebar';
 import HeaderBar from './components/HeaderBar';
@@ -14,11 +13,6 @@ export default function App() {
 
   return (
     <div className={styles.frame}>
-      <span className={clsx(styles.rivetStrip, styles.rsTop)} aria-hidden />
-      <span className={clsx(styles.rivetStrip, styles.rsBottom)} aria-hidden />
-      <span className={clsx(styles.rivetStrip, styles.rsLeft)} aria-hidden />
-      <span className={clsx(styles.rivetStrip, styles.rsRight)} aria-hidden />
-
       <div className={styles.shell}>
         <PipeLoop />
 

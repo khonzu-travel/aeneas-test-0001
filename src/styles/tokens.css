@@ -8,25 +8,25 @@
 
 :root {
   /* ---- Parchment (panel interiors: sidebar, header, cards) ---- */
-  --parchment: #d9c194;
-  --parchment-hi: #ece0bb;
-  --parchment-lo: #bda372;
-  --parchment-edge: #a68a58;
+  --parchment: #d6bd8b;
+  --parchment-hi: #e6d4a8;
+  --parchment-lo: #b39a67;
+  --parchment-edge: #967c4c;
 
   /* ---- Dark ground (page background, plaques) ---- */
-  --ground-0: #35240f;
-  --ground-1: #241708;
-  --ground-2: #170e05;
-  --plaque: #241606;
-  --plaque-hi: #3a2510;
+  --ground-0: #251808;
+  --ground-1: #150d04;
+  --ground-2: #0b0602;
+  --plaque: #1b1004;
+  --plaque-hi: #2c1c09;
 
   /* ---- Brass hardware ---- */
-  --brass-hi: #f6e0a2;
-  --brass-lit: #e3c069;
-  --brass: #b78f36;
-  --brass-mid: #8a6626;
-  --brass-lo: #543c12;
-  --brass-shadow: #241804;
+  --brass-hi: #f3da96;
+  --brass-lit: #d9b45c;
+  --brass: #a8832f;
+  --brass-mid: #77571f;
+  --brass-lo: #43300e;
+  --brass-shadow: #180f02;
 
   /* ---- Gold (lettering on dark plaques) ---- */
   --gold-hi: #f8e7ae;
@@ -93,24 +93,30 @@
   /* dark mottle with alpha — walnut/iron ground */
   --tx-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='4' seed='23' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.03 0 0 0 0 0.015 0 0 0 0 0 0.85 0.85 0.85 0 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E");
 
+  /* ---- Rivet: a domed brass stud seated in a countersunk socket.
+     Drawn as SVG so the dome gets a true specular highlight, a dark
+     lower rim and a contact shadow — reads as real hardware rather
+     than a flat dot. ---- */
+  --rivet: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Cdefs%3E%3CradialGradient id='sk' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0.62' stop-color='%23120b02' stop-opacity='0.62'/%3E%3Cstop offset='1' stop-color='%23120b02' stop-opacity='0'/%3E%3C/radialGradient%3E%3CradialGradient id='dm' cx='33%25' cy='27%25' r='74%25'%3E%3Cstop offset='0' stop-color='%23fffbe6'/%3E%3Cstop offset='0.18' stop-color='%23f4dc9e'/%3E%3Cstop offset='0.46' stop-color='%23c09a42'/%3E%3Cstop offset='0.74' stop-color='%237c5c1e'/%3E%3Cstop offset='0.93' stop-color='%233d2b09'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='9' cy='9.7' r='8' fill='url(%23sk)'/%3E%3Ccircle cx='9' cy='9' r='6.7' fill='url(%23dm)' stroke='%23160d02' stroke-width='0.9'/%3E%3Cellipse cx='6.9' cy='6.6' rx='1.9' ry='1.4' fill='%23fffdf0' opacity='0.72' transform='rotate(-38 6.9 6.6)'/%3E%3C/svg%3E");
+
   /* ---- Pipe cylinder shading (shared by every tube in the system) ---- */
   --pipe-h: linear-gradient(
     180deg,
-    #241804 0%,
-    #7d5c22 15%,
-    #f6e0a2 35%,
-    #c39a3d 53%,
-    #6b4f1b 79%,
-    #201502 100%
+    #150c02 0%,
+    #664a1a 14%,
+    #e9d091 33%,
+    #a98430 52%,
+    #5a4116 78%,
+    #130b02 100%
   );
   --pipe-v: linear-gradient(
     90deg,
-    #241804 0%,
-    #7d5c22 15%,
-    #f6e0a2 35%,
-    #c39a3d 53%,
-    #6b4f1b 79%,
-    #201502 100%
+    #150c02 0%,
+    #664a1a 14%,
+    #e9d091 33%,
+    #a98430 52%,
+    #5a4116 78%,
+    #130b02 100%
   );
 
   /* ---- Radii ---- */
@@ -137,9 +143,10 @@
   --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
 
   /* ---- Elevation ---- */
-  --shadow-frame: 0 12px 30px rgba(0, 0, 0, 0.6), 0 3px 8px rgba(0, 0, 0, 0.45);
-  /* parchment lit from top-left, sinking into its frame */
-  --shadow-panel: inset 0 2px 5px rgba(255, 246, 216, 0.5),
-    inset 0 -3px 8px rgba(58, 38, 16, 0.35),
-    inset 0 0 30px rgba(84, 54, 18, 0.22);
+  --shadow-frame: 0 16px 36px rgba(0, 0, 0, 0.72), 0 4px 10px rgba(0, 0, 0, 0.55);
+  /* parchment lit from top-left, sunk into its frame with a deep vignette */
+  --shadow-panel: inset 0 2px 4px rgba(255, 246, 216, 0.42),
+    inset 0 -3px 9px rgba(48, 30, 10, 0.5),
+    inset 0 0 26px rgba(60, 38, 12, 0.34),
+    inset 0 0 0 1px rgba(40, 25, 8, 0.45);
 }

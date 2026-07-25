@@ -22,7 +22,7 @@ body {
   background-color: var(--ground-2);
   background-image:
     var(--tx-dark),
-    radial-gradient(125% 115% at 50% 0%, var(--ground-0) 0%, var(--ground-1) 62%, var(--ground-2) 100%);
+    radial-gradient(115% 105% at 50% 0%, var(--ground-0) 0%, var(--ground-1) 55%, var(--ground-2) 100%);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -36,9 +36,11 @@ body {
   background-image:
     var(--tx-grain),
     var(--tx-stain),
+    /* soiled edges: paper darkens toward its border */
+    radial-gradient(118% 118% at 50% 50%, rgba(96, 66, 26, 0) 58%, rgba(96, 66, 26, 0.32) 100%),
     radial-gradient(130% 100% at 16% 6%, rgba(255, 250, 224, 0.5) 0%, rgba(255, 250, 224, 0) 55%),
-    radial-gradient(140% 120% at 90% 100%, rgba(108, 76, 32, 0.28) 0%, rgba(108, 76, 32, 0) 58%);
-  background-blend-mode: soft-light, multiply, soft-light, multiply;
+    radial-gradient(140% 120% at 90% 100%, rgba(104, 72, 30, 0.3) 0%, rgba(104, 72, 30, 0) 60%);
+  background-blend-mode: soft-light, multiply, multiply, soft-light, multiply;
 }
 
 /* ============================================================
@@ -84,21 +86,18 @@ body {
   z-index: 2;
 }
 
-/* ---- Corner rivets: brass domes seated in dark sockets ---- */
+/* ---- Corner rivets: domed brass studs at each corner of a frame.
+   NB: no border-radius here — rounding this box clips the corner
+   studs into wedges instead of leaving them round. ---- */
 .rivets::after {
   content: '';
   position: absolute;
-  inset: 10px;
-  border-radius: inherit;
+  inset: 9px;
   pointer-events: none;
   z-index: 3;
-  background-image:
-    radial-gradient(circle at 34% 28%, #fff6cc 0%, #e3c069 24%, #9d7727 56%, #513a11 78%, #241804 88%, rgba(36, 24, 4, 0) 96%),
-    radial-gradient(circle at 34% 28%, #fff6cc 0%, #e3c069 24%, #9d7727 56%, #513a11 78%, #241804 88%, rgba(36, 24, 4, 0) 96%),
-    radial-gradient(circle at 34% 28%, #fff6cc 0%, #e3c069 24%, #9d7727 56%, #513a11 78%, #241804 88%, rgba(36, 24, 4, 0) 96%),
-    radial-gradient(circle at 34% 28%, #fff6cc 0%, #e3c069 24%, #9d7727 56%, #513a11 78%, #241804 88%, rgba(36, 24, 4, 0) 96%);
+  background-image: var(--rivet), var(--rivet), var(--rivet), var(--rivet);
   background-repeat: no-repeat;
-  background-size: 13px 13px;
+  background-size: 18px 18px;
   background-position: left top, right top, left bottom, right bottom;
 }
 

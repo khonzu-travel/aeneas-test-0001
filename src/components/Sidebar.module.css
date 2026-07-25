@@ -1,0 +1,179 @@
+.sidebar {
+  grid-column: 1;
+  grid-row: 1 / 4;
+  align-self: stretch;
+  min-height: 0;
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  border-radius: calc(var(--radius-frame) - 5px);
+  padding: clamp(14px, 1.2vw, 20px) clamp(12px, 1vw, 16px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-panel);
+}
+
+/* ---- Engraved banner ---- */
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 12px 13px;
+}
+.banner svg {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.7));
+}
+.brand {
+  margin-top: 5px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.45rem, 1.15rem + 1vw, 1.95rem);
+  letter-spacing: 0.1em;
+  line-height: 1;
+}
+.brandSub {
+  font-family: var(--font-heading);
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+}
+
+/* ---- Navigation ---- */
+.nav {
+  margin-top: clamp(14px, 1.8vw, 26px);
+  display: flex;
+  flex-direction: column;
+}
+.navItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 13px 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 0.9rem + 0.4vw, 1.12rem);
+  color: var(--ink);
+  text-align: left;
+  transition: background 0.15s ease;
+}
+/* hairline rules between entries, as on the reference */
+.navItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(122, 92, 44, 0) 0%,
+    rgba(122, 92, 44, 0.42) 18%,
+    rgba(122, 92, 44, 0.42) 82%,
+    rgba(122, 92, 44, 0) 100%
+  );
+  box-shadow: 0 1px 0 rgba(255, 246, 216, 0.4);
+}
+.navItem:hover {
+  background: rgba(122, 92, 44, 0.12);
+}
+/* active entry: pressed brass plate seated in the parchment */
+.navActive {
+  background-image: linear-gradient(180deg, rgba(150, 112, 48, 0.34), rgba(112, 82, 34, 0.26));
+  border-color: rgba(90, 64, 24, 0.5);
+  box-shadow: inset 0 0 0 1.5px rgba(246, 224, 162, 0.35),
+    inset 0 2px 4px rgba(58, 38, 16, 0.3), 0 1px 0 rgba(255, 246, 216, 0.45);
+  color: var(--ink-strong);
+}
+.navIcon {
+  display: inline-flex;
+  color: var(--ink-strong);
+  filter: drop-shadow(0 1px 0 rgba(255, 246, 216, 0.45));
+}
+.navLabel {
+  flex: 1;
+}
+.navBadge {
+  flex: none;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, #e0604a, #8f2216 72%);
+  border: 1px solid rgba(255, 200, 170, 0.35);
+  color: #ffe9df;
+  font-family: var(--font-heading);
+  font-size: 0.76rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 1px 1px rgba(255, 220, 200, 0.5), 0 2px 4px rgba(58, 38, 16, 0.5);
+  text-shadow: none;
+}
+
+/* ---- Footer: status lamp + instrument cluster ---- */
+.footer {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.lampPlate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+}
+.lamp {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--led-green-glow), var(--led-green) 55%, #2b5f16);
+  box-shadow: 0 0 10px 3px rgba(120, 230, 70, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.65),
+    0 0 0 3px rgba(20, 12, 4, 0.85);
+}
+.lampText {
+  font-family: var(--font-heading);
+  font-size: 0.94rem;
+}
+.instruments {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 7px;
+  padding-bottom: 2px;
+  filter: drop-shadow(0 4px 6px rgba(58, 38, 16, 0.45));
+}
+
+/* Below the breakpoint the sidebar becomes a slide-in drawer. */
+@media (max-width: 900px) {
+  /* doubled class outranks the global .brass-frame position: relative */
+  .sidebar.sidebar {
+    position: fixed;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    grid-row: auto;
+    grid-column: auto;
+    width: min(320px, 84vw);
+    z-index: 50;
+    transform: translateX(-130%);
+    transition: transform 0.28s ease;
+    will-change: transform;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}

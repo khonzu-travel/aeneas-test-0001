@@ -1,0 +1,74 @@
+/* ============================================================
+   Page shell — dark walnut ground. The pipe circuit runs through
+   the gutter: a perimeter loop plus two branches that occupy their
+   own grid tracks, dividing the page into sidebar / header / content.
+
+   Geometry is shared with Pipes.module.css:
+     padding 40px · pipe column 34px · gaps 20px
+   ============================================================ */
+
+.page {
+  min-height: 100vh;
+  padding: clamp(10px, 1.4vw, 22px);
+}
+
+.shell {
+  position: relative;
+  min-height: calc(100vh - clamp(20px, 2.8vw, 44px));
+  padding: 40px;
+  display: grid;
+  /* sidebar | pipe | main */
+  grid-template-columns: minmax(232px, 292px) 34px 1fr;
+  /* header | pipe | content */
+  grid-template-rows: auto 34px 1fr;
+  column-gap: 20px;
+  row-gap: 20px;
+}
+
+.pipeColumn {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  justify-self: center;
+}
+
+.pipeRail {
+  grid-column: 3;
+  grid-row: 2;
+  align-self: center;
+}
+
+.main {
+  grid-column: 3;
+  grid-row: 3;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-lg);
+}
+
+.scrim {
+  display: none;
+  border: none;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    padding: var(--shell-pad);
+    column-gap: 0;
+    row-gap: var(--gap-lg);
+  }
+  .main {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(10, 6, 3, 0.55);
+    backdrop-filter: blur(1px);
+  }
+}

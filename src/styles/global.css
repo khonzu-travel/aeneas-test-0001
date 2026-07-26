@@ -86,19 +86,21 @@ body {
   z-index: 2;
 }
 
-/* ---- Corner rivets: domed brass studs at each corner of a frame.
-   NB: no border-radius here — rounding this box clips the corner
-   studs into wedges instead of leaving them round. ---- */
+/* ---- Corner gussets: a triangular brass plate bolted across each
+   corner of the panel, rivet through its centroid.
+   NB: no border-radius here — rounding this box would clip the
+   plates instead of leaving their corners square. ---- */
 .rivets::after {
   content: '';
   position: absolute;
-  inset: 9px;
+  inset: 7px;
   pointer-events: none;
   z-index: 3;
-  background-image: var(--rivet), var(--rivet), var(--rivet), var(--rivet);
+  background-image: var(--gusset-tl), var(--gusset-tr), var(--gusset-bl), var(--gusset-br);
   background-repeat: no-repeat;
-  background-size: 18px 18px;
+  background-size: 28px 28px;
   background-position: left top, right top, left bottom, right bottom;
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.5));
 }
 
 /* ---- Dark plaque (logo banner, section label, status lamp) ---- */

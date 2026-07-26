@@ -1,13 +1,14 @@
 /* ============================================================
-   Pipe circuit. Every tube shares the --pipe-h / --pipe-v cylinder
-   gradients so the whole system reads as one run of brass.
+   Pipe circuit.
 
    Geometry contract with App.module.css:
-     shell padding        = 40px
-     pipe column width    = 34px
-     column-gap / row-gap = 20px
-   The branch offsets below are derived from those numbers so the
-   fittings land exactly on the perimeter runs.
+     shell padding 40px · pipe track 34px · gaps 20px
+   Tube bore is 17px, so every run centreline sits 8.5px from the
+   shell edge, and the branches reach into the padding to meet it:
+     column ends  : 40 - 8.5 = 31.5px  → margin -31.5px
+     rail left    : 20 (gap) + 17 (half track) = 37px
+     rail right   : 40 - 8.5 = 31.5px
+   Elbows occupy 43×43 at each corner, so the runs start there.
    ============================================================ */
 
 .frame {
@@ -17,7 +18,7 @@
   z-index: 1;
 }
 
-/* ---- tube bodies ---- */
+/* ---- straight tube runs ---- */
 .run,
 .columnPipe,
 .railPipe {
@@ -28,7 +29,6 @@
 .runBottom,
 .railPipe {
   height: 17px;
-  border-radius: 9px;
   background-image: var(--tx-grain), var(--pipe-h);
   background-blend-mode: soft-light, normal;
 }
@@ -36,19 +36,17 @@
 .runRight,
 .columnPipe {
   width: 17px;
-  border-radius: 9px;
   background-image: var(--tx-grain), var(--pipe-v);
   background-blend-mode: soft-light, normal;
 }
 
-/* ---- perimeter: runs stop short of the corners for the elbows ---- */
 .run {
   position: absolute;
 }
 .runTop,
 .runBottom {
-  left: 30px;
-  right: 30px;
+  left: 43px;
+  right: 43px;
 }
 .runTop {
   top: 0;
@@ -58,8 +56,8 @@
 }
 .runLeft,
 .runRight {
-  top: 30px;
-  bottom: 30px;
+  top: 43px;
+  bottom: 43px;
 }
 .runLeft {
   left: 0;
@@ -68,70 +66,183 @@
   right: 0;
 }
 
-/* ---- threaded couplings ---- */
-.collarH,
-.collarV {
+/* ---- hub shoulders: every tube end swells where it sockets into a
+   fitting, so runs meet elbows and tees at a raised collar rather
+   than butting flat against them ---- */
+.run::before,
+.run::after,
+.columnPipe::before,
+.columnPipe::after,
+.railPipe::before,
+.railPipe::after {
+  content: '';
   position: absolute;
-  border-radius: 5px;
-  border: 1px solid #1a1002;
+  border-radius: 2.5px;
+  border: 1px solid #150c02;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 246, 216, 0.45);
+}
+/* horizontal tubes: hubs at left and right ends */
+.runTop::before,
+.runTop::after,
+.runBottom::before,
+.runBottom::after,
+.railPipe::before,
+.railPipe::after {
+  top: -3px;
+  width: 8px;
+  height: 23px;
+  background-image: var(--pipe-h);
+}
+.runTop::before,
+.runBottom::before,
+.railPipe::before {
+  left: -2px;
+}
+.runTop::after,
+.runBottom::after,
+.railPipe::after {
+  right: -2px;
+}
+/* vertical tubes: hubs at top and bottom ends */
+.runLeft::before,
+.runLeft::after,
+.runRight::before,
+.runRight::after,
+.columnPipe::before,
+.columnPipe::after {
+  left: -3px;
+  width: 23px;
+  height: 8px;
+  background-image: var(--pipe-v);
+}
+.runLeft::before,
+.runRight::before,
+.columnPipe::before {
+  top: -2px;
+}
+.runLeft::after,
+.runRight::after,
+.columnPipe::after {
+  bottom: -2px;
+}
+
+/* ---- sleeve couplings: a rimmed sleeve clamped over the tube ---- */
+.coupling {
+  position: absolute;
+  border-radius: 3px;
+  border: 1px solid #150c02;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 246, 216, 0.5),
     inset 0 -1px 2px rgba(0, 0, 0, 0.5);
 }
-/* on a horizontal tube: ridges run across the axis */
-.collarH {
-  top: -4px;
-  height: 25px;
-  width: 21px;
+.coupling::before,
+.coupling::after {
+  content: '';
+  position: absolute;
+  border-radius: 2px;
+  border: 1px solid #150c02;
+}
+/* sleeve on a horizontal tube */
+.runTop .coupling,
+.runBottom .coupling,
+.railPipe .coupling {
+  top: -3px;
+  height: 23px;
+  width: 20px;
   transform: translateX(-50%);
   background-image:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0 2px, rgba(255, 246, 216, 0.16) 2px 4px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.26) 0 2px, rgba(255, 246, 216, 0.14) 2px 4px),
     var(--pipe-h);
 }
-/* on a vertical tube */
-.collarV {
-  left: -4px;
-  width: 25px;
-  height: 21px;
+.runTop .coupling::before,
+.runBottom .coupling::before,
+.railPipe .coupling::before,
+.runTop .coupling::after,
+.runBottom .coupling::after,
+.railPipe .coupling::after {
+  top: -2.5px;
+  width: 5px;
+  height: 27px;
+  background-image: var(--pipe-h);
+}
+.runTop .coupling::before,
+.runBottom .coupling::before,
+.railPipe .coupling::before {
+  left: -2px;
+}
+.runTop .coupling::after,
+.runBottom .coupling::after,
+.railPipe .coupling::after {
+  right: -2px;
+}
+/* sleeve on a vertical tube */
+.runLeft .coupling,
+.runRight .coupling,
+.columnPipe .coupling {
+  left: -3px;
+  width: 23px;
+  height: 20px;
   transform: translateY(-50%);
   background-image:
-    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0 2px, rgba(255, 246, 216, 0.16) 2px 4px),
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.26) 0 2px, rgba(255, 246, 216, 0.14) 2px 4px),
     var(--pipe-v);
 }
+.runLeft .coupling::before,
+.runRight .coupling::before,
+.columnPipe .coupling::before,
+.runLeft .coupling::after,
+.runRight .coupling::after,
+.columnPipe .coupling::after {
+  left: -2.5px;
+  height: 5px;
+  width: 27px;
+  background-image: var(--pipe-v);
+}
+.runLeft .coupling::before,
+.runRight .coupling::before,
+.columnPipe .coupling::before {
+  top: -2px;
+}
+.runLeft .coupling::after,
+.runRight .coupling::after,
+.columnPipe .coupling::after {
+  bottom: -2px;
+}
 
-/* ---- corner elbows ---- */
+/* ---- swept elbows ---- */
 .elbow {
   position: absolute;
-  width: 46px;
-  height: 46px;
+  width: 43px;
+  height: 43px;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.55));
 }
 .elbowTL {
-  top: -14px;
-  left: -14px;
+  top: 0;
+  left: 0;
 }
 .elbowTR {
-  top: -14px;
-  right: -14px;
-}
-.elbowBL {
-  bottom: -14px;
-  left: -14px;
+  top: 0;
+  right: 0;
+  transform: rotate(90deg);
 }
 .elbowBR {
-  bottom: -14px;
-  right: -14px;
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+.elbowBL {
+  bottom: 0;
+  left: 0;
+  transform: rotate(270deg);
 }
 
 /* ============================================================
-   Vertical branch (grid item, own column)
-   Reaches 32px past the row box at each end: shell padding 40px
-   minus the 8.5px half-width of the perimeter run it meets.
+   Branch pipes (grid items)
    ============================================================ */
 .column {
   position: relative;
   width: 34px;
-  margin: -32px 0;
+  margin: -31.5px 0;
   pointer-events: none;
   z-index: 2;
 }
@@ -143,16 +254,11 @@
   transform: translateX(-50%);
 }
 
-/* ============================================================
-   Horizontal branch (grid item, own row)
-   Left edge reaches the pipe column's axis (-37px = 20px gap +
-   17px half column); right edge reaches the right run.
-   ============================================================ */
 .rail {
   position: relative;
   height: 34px;
   margin-left: -37px;
-  margin-right: -32px;
+  margin-right: -31.5px;
   pointer-events: none;
   z-index: 2;
 }
@@ -164,92 +270,50 @@
   transform: translateY(-50%);
 }
 
-/* collars must centre on their own branch's axis */
-.columnPipe .collarV {
+/* couplings ride their own branch's axis */
+.columnPipe .coupling {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.railPipe .collarH {
+.railPipe .coupling {
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* ---- T-junction fittings ---- */
+/* ---- tee fittings, centred on each junction ---- */
 .tee {
   position: absolute;
-  border-radius: 5px;
-  border: 1px solid #1a1002;
-  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 246, 216, 0.5),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+  width: 58px;
+  height: 58px;
   z-index: 3;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
 }
-/* fitting where a vertical branch meets a horizontal main */
-.teeV {
-  width: 34px;
-  height: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-image:
-    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.26) 0 2px, rgba(255, 246, 216, 0.16) 2px 4px),
-    var(--pipe-v);
-}
+/* branch leaves the top run heading down */
 .teeTop {
-  top: -4px;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+/* branch leaves the bottom run heading up */
 .teeBottom {
-  bottom: -4px;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%) rotate(180deg);
 }
-/* fitting where a horizontal branch meets a vertical main */
-.teeH {
-  width: 25px;
-  height: 34px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-image:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.26) 0 2px, rgba(255, 246, 216, 0.16) 2px 4px),
-    var(--pipe-h);
-}
+/* rail tees off the vertical column, outlet heading right */
 .teeLeft {
-  left: -4px;
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(270deg);
 }
+/* rail tees into the right-hand run, outlet heading left */
 .teeRight {
-  right: -4px;
+  right: 0;
+  top: 50%;
+  transform: translate(50%, -50%) rotate(90deg);
 }
 
-/* bolt heads on every fitting */
-.tee::before,
-.tee::after {
-  content: '';
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #fff6cc, #b78f36 55%, #241804);
-  box-shadow: 0 0 0 1px rgba(26, 16, 2, 0.8);
-}
-.teeV::before {
-  left: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.teeV::after {
-  right: 3px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.teeH::before {
-  top: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.teeH::after {
-  bottom: 3px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* The circuit is desktop chrome; it withdraws with the sidebar column. */
+/* Desktop chrome — withdraws with the sidebar column. */
 @media (max-width: 900px) {
   .frame,
   .column,

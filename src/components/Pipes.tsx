@@ -1,102 +1,173 @@
 /* The plumbing circuit.
 
-   Brass tubing frames the page and divides it into sections:
+   Built the way real pipework goes together:
 
-   - <PipeFrame>  perimeter loop — four runs joined by corner elbows,
-                  rendered as an overlay in the shell's gutter.
-   - <PipeColumn> vertical branch in its own grid column, splitting the
-                  sidebar from the main content.
-   - <PipeRail>   horizontal branch in its own grid row, splitting the
-                  header from the content below.
+   - straight tube runs, each ending in a raised hub shoulder where it
+     sockets into a fitting;
+   - swept 90° elbows at the corners (the tube actually bends — the bore
+     is shaded by a radial gradient centred on the bend, so the highlight
+     follows the curve);
+   - tee fittings where a branch leaves a main: a barrel that the run
+     passes through, a perpendicular outlet stub, and a bolted hub at
+     each of the three openings;
+   - sleeve couplings along the runs, rimmed at both ends.
 
-   The two branches are grid items rather than percentage-positioned
-   overlays, so they always land in the gutters no matter how the
-   content reflows. Their ends carry T-junction fittings and reach into
-   the shell padding to meet the perimeter runs. */
+   <PipeFrame>  perimeter loop (overlay in the shell gutter)
+   <PipeColumn> vertical branch: sidebar | content   (grid item)
+   <PipeRail>   horizontal branch: header | content  (grid item)
+
+   Geometry contract with App.module.css:
+     shell padding 40px · pipe track 34px · gaps 20px
+     tube bore 17px, so every run centreline sits 8.5px from the edge. */
 
 import clsx from 'clsx';
 import styles from './Pipes.module.css';
 
-/** Corner elbow: a bolted block that turns the run 90°. */
+/* Cylinder shading for a swept bend. The gradient is centred on the
+   bend's centre of curvature, so the bands run perpendicular to the
+   tube everywhere along the arc — the highlight rides the outside of
+   the curve, as it does on real bent tube. */
+function BendShading({ id }: { id: string }) {
+  return (
+    <radialGradient id={id} gradientUnits="userSpaceOnUse" cx="34.5" cy="34.5" r="34.5">
+      <stop offset="0.507" stopColor="#130b02" />
+      <stop offset="0.615" stopColor="#5a4116" />
+      <stop offset="0.744" stopColor="#a98430" />
+      <stop offset="0.838" stopColor="#e9d091" />
+      <stop offset="0.931" stopColor="#664a1a" />
+      <stop offset="1" stopColor="#150c02" />
+    </radialGradient>
+  );
+}
+
+/** Swept 90° elbow. Drawn for the top-left corner; rotated for the rest. */
 function Elbow({ className }: { className?: string }) {
   return (
-    <svg className={className} width="46" height="46" viewBox="0 0 46 46" aria-hidden>
+    <svg className={className} width="43" height="43" viewBox="0 0 43 43" aria-hidden>
       <defs>
-        <linearGradient id="elbBody" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#f6e0a2" />
-          <stop offset="0.42" stopColor="#b78f36" />
-          <stop offset="1" stopColor="#4a340f" />
-        </linearGradient>
-        <radialGradient id="elbBoss" cx="38%" cy="30%" r="74%">
-          <stop offset="0" stopColor="#fff6cc" />
-          <stop offset="0.4" stopColor="#e3c069" />
-          <stop offset="0.76" stopColor="#7d5c22" />
-          <stop offset="1" stopColor="#241804" />
-        </radialGradient>
+        <BendShading id="bend" />
       </defs>
-      <rect x="2" y="2" width="42" height="42" rx="12" fill="url(#elbBody)" stroke="#1d1202" strokeWidth="1.6" />
-      <rect x="6" y="6" width="34" height="34" rx="9" fill="none" stroke="rgba(255,248,220,0.42)" strokeWidth="1.1" />
-      <rect x="7.4" y="7.4" width="31.2" height="31.2" rx="8" fill="none" stroke="rgba(29,18,2,0.5)" strokeWidth="0.9" />
-      <circle cx="23" cy="23" r="7.6" fill="url(#elbBoss)" stroke="#1d1202" strokeWidth="1" />
-      <circle cx="23" cy="23" r="4" fill="none" stroke="rgba(29,18,2,0.42)" strokeWidth="0.8" />
+      {/* the bend itself: centreline arc stroked to the tube bore */}
+      <path
+        d="M8.5 34.5 A26 26 0 0 1 34.5 8.5"
+        fill="none"
+        stroke="url(#bend)"
+        strokeWidth="17"
+      />
+      {/* bore edges */}
+      <path d="M0 34.5 A34.5 34.5 0 0 1 34.5 0" fill="none" stroke="#120a01" strokeWidth="1" opacity="0.85" />
+      <path d="M17 34.5 A17.5 17.5 0 0 1 34.5 17" fill="none" stroke="#120a01" strokeWidth="1" opacity="0.7" />
     </svg>
   );
 }
 
-/** Perimeter loop, absolutely positioned in the shell gutter. */
+/**
+ * Tee fitting. Drawn with the main barrel horizontal through the centre
+ * and the branch outlet leaving downward; rotated to suit each junction.
+ * The viewBox is centred on the main axis so rotation about the centre
+ * keeps the barrel aligned with its run.
+ */
+function Tee({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="58" height="58" viewBox="0 0 58 58" aria-hidden>
+      <defs>
+        {/* across a horizontal tube */}
+        <linearGradient id="teeH" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#150c02" />
+          <stop offset="0.14" stopColor="#664a1a" />
+          <stop offset="0.33" stopColor="#e9d091" />
+          <stop offset="0.52" stopColor="#a98430" />
+          <stop offset="0.78" stopColor="#5a4116" />
+          <stop offset="1" stopColor="#130b02" />
+        </linearGradient>
+        {/* across a vertical tube */}
+        <linearGradient id="teeV" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#150c02" />
+          <stop offset="0.14" stopColor="#664a1a" />
+          <stop offset="0.33" stopColor="#e9d091" />
+          <stop offset="0.52" stopColor="#a98430" />
+          <stop offset="0.78" stopColor="#5a4116" />
+          <stop offset="1" stopColor="#130b02" />
+        </linearGradient>
+      </defs>
+
+      {/* branch outlet stub + its hub (drawn first so the barrel laps over it) */}
+      <rect x="18" y="29" width="22" height="17" rx="3" fill="url(#teeV)" stroke="#150c02" strokeWidth="0.9" />
+      <rect x="14.5" y="43" width="29" height="9" rx="2.5" fill="url(#teeV)" stroke="#150c02" strokeWidth="0.9" />
+
+      {/* main barrel: the run passes through this */}
+      <rect x="4" y="17.5" width="50" height="23" rx="5" fill="url(#teeH)" stroke="#150c02" strokeWidth="1" />
+      {/* hub shoulders at the two run openings */}
+      <rect x="0.5" y="14.5" width="8" height="29" rx="2.5" fill="url(#teeH)" stroke="#150c02" strokeWidth="0.9" />
+      <rect x="49.5" y="14.5" width="8" height="29" rx="2.5" fill="url(#teeH)" stroke="#150c02" strokeWidth="0.9" />
+
+      {/* flange bolts */}
+      <g fill="#f4dc9e" stroke="#150c02" strokeWidth="0.6">
+        <circle cx="4.5" cy="20" r="2" />
+        <circle cx="4.5" cy="38" r="2" />
+        <circle cx="53.5" cy="20" r="2" />
+        <circle cx="53.5" cy="38" r="2" />
+        <circle cx="19" cy="47.5" r="2" />
+        <circle cx="39" cy="47.5" r="2" />
+      </g>
+      {/* casting highlight along the top of the barrel */}
+      <rect x="7" y="19" width="44" height="2.4" rx="1.2" fill="#fff4c8" opacity="0.4" />
+    </svg>
+  );
+}
+
+/** Perimeter loop: four runs joined by swept elbows. */
 export function PipeFrame() {
   return (
     <div className={styles.frame} aria-hidden>
       <span className={clsx(styles.run, styles.runTop)}>
-        <span className={styles.collarH} style={{ left: '44%' }} />
-        <span className={styles.collarH} style={{ left: '78%' }} />
+        <span className={styles.coupling} style={{ left: '42%' }} />
+        <span className={styles.coupling} style={{ left: '76%' }} />
       </span>
       <span className={clsx(styles.run, styles.runBottom)}>
-        <span className={styles.collarH} style={{ left: '32%' }} />
-        <span className={styles.collarH} style={{ left: '68%' }} />
+        <span className={styles.coupling} style={{ left: '30%' }} />
+        <span className={styles.coupling} style={{ left: '66%' }} />
       </span>
       <span className={clsx(styles.run, styles.runLeft)}>
-        <span className={styles.collarV} style={{ top: '24%' }} />
-        <span className={styles.collarV} style={{ top: '64%' }} />
+        <span className={styles.coupling} style={{ top: '26%' }} />
+        <span className={styles.coupling} style={{ top: '66%' }} />
       </span>
       <span className={clsx(styles.run, styles.runRight)}>
-        <span className={styles.collarV} style={{ top: '34%' }} />
-        <span className={styles.collarV} style={{ top: '72%' }} />
+        <span className={styles.coupling} style={{ top: '36%' }} />
+        <span className={styles.coupling} style={{ top: '74%' }} />
       </span>
 
       <Elbow className={clsx(styles.elbow, styles.elbowTL)} />
       <Elbow className={clsx(styles.elbow, styles.elbowTR)} />
-      <Elbow className={clsx(styles.elbow, styles.elbowBL)} />
       <Elbow className={clsx(styles.elbow, styles.elbowBR)} />
+      <Elbow className={clsx(styles.elbow, styles.elbowBL)} />
     </div>
   );
 }
 
-/** Vertical branch: sidebar | main. Grid item, reaches the top and
-    bottom runs where it terminates in T-fittings. */
+/** Vertical branch dividing sidebar from content. */
 export function PipeColumn({ className }: { className?: string }) {
   return (
     <div className={clsx(styles.column, className)} aria-hidden>
       <span className={styles.columnPipe}>
-        <span className={styles.collarV} style={{ top: '28%' }} />
-        <span className={styles.collarV} style={{ top: '76%' }} />
+        <span className={styles.coupling} style={{ top: '30%' }} />
+        <span className={styles.coupling} style={{ top: '74%' }} />
       </span>
-      <span className={clsx(styles.tee, styles.teeV, styles.teeTop)} />
-      <span className={clsx(styles.tee, styles.teeV, styles.teeBottom)} />
+      <Tee className={clsx(styles.tee, styles.teeTop)} />
+      <Tee className={clsx(styles.tee, styles.teeBottom)} />
     </div>
   );
 }
 
-/** Horizontal branch: header | content. Grid item, tees into the
-    vertical branch on the left and the right-hand run on the right. */
+/** Horizontal branch dividing the header from the content. */
 export function PipeRail({ className }: { className?: string }) {
   return (
     <div className={clsx(styles.rail, className)} aria-hidden>
       <span className={styles.railPipe}>
-        <span className={styles.collarH} style={{ left: '46%' }} />
+        <span className={styles.coupling} style={{ left: '52%' }} />
       </span>
-      <span className={clsx(styles.tee, styles.teeH, styles.teeLeft)} />
-      <span className={clsx(styles.tee, styles.teeH, styles.teeRight)} />
+      <Tee className={clsx(styles.tee, styles.teeLeft)} />
+      <Tee className={clsx(styles.tee, styles.teeRight)} />
     </div>
   );
 }

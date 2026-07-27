@@ -136,7 +136,9 @@
   --gap-sm: clamp(6px, 0.6vw, 10px);
   --gap-md: clamp(12px, 1vw, 20px);
   --gap-lg: clamp(16px, 1.4vw, 26px);
-  --card-pad: clamp(14px, 1.3vw, 22px);
+  /* Panel padding has to clear the 38px corner gussets, so content
+     starts inboard of the plates rather than butting against them. */
+  --card-pad: clamp(18px, 1.7vw, 28px);
   --shell-pad: clamp(14px, 1.5vw, 26px);
 
   /* ---- Fluid type scale ---- */

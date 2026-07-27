@@ -10,7 +10,8 @@
   z-index: 1;
   height: 100%;
   border-radius: calc(var(--radius-frame) - 5px);
-  padding: clamp(14px, 1.2vw, 20px) clamp(12px, 1vw, 16px);
+  /* clears the corner gussets top and bottom */
+  padding: clamp(18px, 1.6vw, 26px) clamp(16px, 1.4vw, 22px);
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-panel);

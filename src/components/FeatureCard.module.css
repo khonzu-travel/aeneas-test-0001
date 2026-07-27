@@ -26,7 +26,7 @@
   display: grid;
   grid-template-rows: auto auto auto auto auto;
   gap: clamp(12px, 1vw, 18px);
-  min-height: 258px;
+  min-height: 274px;
   box-shadow: var(--shadow-panel);
 }
 .innerBlocked {
@@ -218,7 +218,8 @@
   align-items: center;
   gap: 10px;
   margin: 4px calc(var(--card-pad) * -1) calc(var(--card-pad) * -1);
-  padding: 10px var(--card-pad);
+  /* extra side padding keeps the ribbon text off the bottom gussets */
+  padding: 11px calc(var(--card-pad) + 6px);
   background-color: #7a2213;
   background-image: var(--tx-grain), var(--blocked-bg);
   background-blend-mode: soft-light, normal;

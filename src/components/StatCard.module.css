@@ -11,8 +11,9 @@
   position: relative;
   z-index: 1;
   border-radius: calc(var(--radius-frame) - 5px);
-  padding: clamp(14px, 1.4vw, 24px) clamp(16px, 1.4vw, 26px);
-  min-height: 122px;
+  /* clears the corner gussets on all four sides */
+  padding: clamp(18px, 1.8vw, 30px) clamp(20px, 1.9vw, 32px);
+  min-height: 140px;
   display: flex;
   flex-direction: column;
   justify-content: center;

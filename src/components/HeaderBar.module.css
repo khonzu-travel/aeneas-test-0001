@@ -16,7 +16,9 @@
   position: relative;
   z-index: 1;
   border-radius: calc(var(--radius-frame) - 5px);
-  padding: clamp(10px, 1vw, 16px) clamp(16px, 1.6vw, 28px);
+  /* horizontal padding clears the gusset legs so the title isn't
+     crowded against them */
+  padding: clamp(12px, 1.1vw, 18px) clamp(28px, 2.6vw, 44px);
   /* tall enough that the two corner gussets clear each other
      (2 × 38px plate + the 6px inset each side) */
   min-height: 78px;

@@ -23,40 +23,138 @@
 import clsx from 'clsx';
 import styles from './Pipes.module.css';
 
-/* Cylinder shading for a swept bend. The gradient is centred on the
-   bend's centre of curvature, so the bands run perpendicular to the
-   tube everywhere along the arc — the highlight rides the outside of
-   the curve, as it does on real bent tube. */
-function BendShading({ id }: { id: string }) {
-  return (
-    <radialGradient id={id} gradientUnits="userSpaceOnUse" cx="34.5" cy="34.5" r="34.5">
-      <stop offset="0.507" stopColor="#130b02" />
-      <stop offset="0.615" stopColor="#5a4116" />
-      <stop offset="0.744" stopColor="#a98430" />
-      <stop offset="0.838" stopColor="#e9d091" />
-      <stop offset="0.931" stopColor="#664a1a" />
-      <stop offset="1" stopColor="#150c02" />
-    </radialGradient>
-  );
+/* ------------------------------------------------------------------
+   Swept-bend shading.
+
+   A single rotated gradient cannot shade all four elbows: the light is
+   fixed at the top-left, so which side of the bend it strikes changes
+   corner to corner. At the top-left elbow the light falls on the
+   OUTSIDE of the curve; at the bottom-right it falls on the INSIDE;
+   at the other two it crosses from one to the other along the arc.
+
+   So each elbow is stroked as a series of sub-arcs, and each sub-arc
+   gets its own gradient whose highlight is placed from the dot product
+   of the local surface normal with the light direction. The result
+   matches the straight runs where they meet at every corner.
+   ------------------------------------------------------------------ */
+
+const BEND_R = 26.5; // bend radius to the tube centreline
+const TUBE = 8.5; // tube radius (17px bore)
+const BOX = 35; // BEND_R + TUBE — elbow box, arc ends land on its edges
+const SEGMENTS = 6;
+
+/** Unit vector pointing from the surface toward the light (y grows down). */
+const LIGHT_X = -Math.SQRT1_2;
+const LIGHT_Y = -Math.SQRT1_2;
+
+/** Cross-section brightness profile of a straight tube, as
+    [fraction across the bore from the lit face, colour]. */
+const PROFILE: ReadonlyArray<readonly [number, string]> = [
+  [0, '#150c02'],
+  [0.14, '#664a1a'],
+  [0.33, '#e9d091'],
+  [0.52, '#a98430'],
+  [0.78, '#5a4116'],
+  [1, '#130b02'],
+];
+
+/**
+ * Gradient stops for a sub-arc whose outward normal has dot product `s`
+ * with the light. s = +1 → the outside of the bend faces the light and
+ * the highlight sits 33% in from the outer edge (matching a straight
+ * tube); s = -1 → the inside faces the light; s = 0 → lit head-on, so
+ * the highlight centres.
+ */
+function bendStops(s: number) {
+  const hl = 0.5 - 0.17 * s; // highlight position, 0 = outer edge
+  const remap = (p: number) =>
+    p <= 0.33 ? (p * hl) / 0.33 : hl + ((p - 0.33) * (1 - hl)) / 0.67;
+
+  return PROFILE.map(([p, color]) => {
+    const across = remap(p); // 0 = outer edge of the bend, 1 = inner
+    const radius = BOX - across * 2 * TUBE;
+    return { offset: radius / BOX, color };
+  }).sort((a, b) => a.offset - b.offset);
 }
 
-/** Swept 90° elbow. Drawn for the top-left corner; rotated for the rest. */
-function Elbow({ className }: { className?: string }) {
+/** Corner geometry: centre of curvature and the arc's start angle. */
+const CORNERS = {
+  tl: { cx: BOX, cy: BOX, from: 180 },
+  tr: { cx: 0, cy: BOX, from: 270 },
+  br: { cx: 0, cy: 0, from: 0 },
+  bl: { cx: BOX, cy: 0, from: 90 },
+} as const;
+
+type CornerKey = keyof typeof CORNERS;
+
+function polar(cx: number, cy: number, deg: number, r: number) {
+  const a = (deg * Math.PI) / 180;
+  return [cx + r * Math.cos(a), cy + r * Math.sin(a)] as const;
+}
+
+/** Swept 90° elbow, shaded for the light at its actual corner. */
+function Elbow({ corner, className }: { corner: CornerKey; className?: string }) {
+  const { cx, cy, from } = CORNERS[corner];
+  const step = 90 / SEGMENTS;
+
+  const segments = Array.from({ length: SEGMENTS }, (_, i) => {
+    // overlap neighbours slightly so the seams between gradients hide
+    const a0 = from + i * step - (i === 0 ? 0 : 0.9);
+    const a1 = from + (i + 1) * step;
+    const mid = ((a0 + a1) / 2) * (Math.PI / 180);
+    const s = Math.cos(mid) * LIGHT_X + Math.sin(mid) * LIGHT_Y;
+    const [x0, y0] = polar(cx, cy, a0, BEND_R);
+    const [x1, y1] = polar(cx, cy, a1, BEND_R);
+    return {
+      id: `bend-${corner}-${i}`,
+      d: `M${x0.toFixed(2)} ${y0.toFixed(2)} A${BEND_R} ${BEND_R} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`,
+      stops: bendStops(s),
+    };
+  });
+
+  const [ox0, oy0] = polar(cx, cy, from, BOX);
+  const [ox1, oy1] = polar(cx, cy, from + 90, BOX);
+  const [ix0, iy0] = polar(cx, cy, from, BEND_R - TUBE);
+  const [ix1, iy1] = polar(cx, cy, from + 90, BEND_R - TUBE);
+
   return (
-    <svg className={className} width="43" height="43" viewBox="0 0 43 43" aria-hidden>
+    <svg className={className} width={BOX} height={BOX} viewBox={`0 0 ${BOX} ${BOX}`} aria-hidden>
       <defs>
-        <BendShading id="bend" />
+        {segments.map((seg) => (
+          <radialGradient
+            key={seg.id}
+            id={seg.id}
+            gradientUnits="userSpaceOnUse"
+            cx={cx}
+            cy={cy}
+            r={BOX}
+          >
+            {seg.stops.map((st, j) => (
+              <stop key={j} offset={st.offset} stopColor={st.color} />
+            ))}
+          </radialGradient>
+        ))}
       </defs>
-      {/* the bend itself: centreline arc stroked to the tube bore */}
-      <path
-        d="M8.5 34.5 A26 26 0 0 1 34.5 8.5"
-        fill="none"
-        stroke="url(#bend)"
-        strokeWidth="17"
-      />
+
+      {segments.map((seg) => (
+        <path key={seg.id} d={seg.d} fill="none" stroke={`url(#${seg.id})`} strokeWidth={2 * TUBE} />
+      ))}
+
       {/* bore edges */}
-      <path d="M0 34.5 A34.5 34.5 0 0 1 34.5 0" fill="none" stroke="#120a01" strokeWidth="1" opacity="0.85" />
-      <path d="M17 34.5 A17.5 17.5 0 0 1 34.5 17" fill="none" stroke="#120a01" strokeWidth="1" opacity="0.7" />
+      <path
+        d={`M${ox0.toFixed(2)} ${oy0.toFixed(2)} A${BOX} ${BOX} 0 0 1 ${ox1.toFixed(2)} ${oy1.toFixed(2)}`}
+        fill="none"
+        stroke="#120a01"
+        strokeWidth="1"
+        opacity="0.85"
+      />
+      <path
+        d={`M${ix0.toFixed(2)} ${iy0.toFixed(2)} A${BEND_R - TUBE} ${BEND_R - TUBE} 0 0 1 ${ix1.toFixed(2)} ${iy1.toFixed(2)}`}
+        fill="none"
+        stroke="#120a01"
+        strokeWidth="1"
+        opacity="0.7"
+      />
     </svg>
   );
 }
@@ -137,10 +235,10 @@ export function PipeFrame() {
         <span className={styles.coupling} style={{ top: '74%' }} />
       </span>
 
-      <Elbow className={clsx(styles.elbow, styles.elbowTL)} />
-      <Elbow className={clsx(styles.elbow, styles.elbowTR)} />
-      <Elbow className={clsx(styles.elbow, styles.elbowBR)} />
-      <Elbow className={clsx(styles.elbow, styles.elbowBL)} />
+      <Elbow corner="tl" className={clsx(styles.elbow, styles.elbowTL)} />
+      <Elbow corner="tr" className={clsx(styles.elbow, styles.elbowTR)} />
+      <Elbow corner="br" className={clsx(styles.elbow, styles.elbowBR)} />
+      <Elbow corner="bl" className={clsx(styles.elbow, styles.elbowBL)} />
     </div>
   );
 }

@@ -93,14 +93,14 @@ body {
 .rivets::after {
   content: '';
   position: absolute;
-  inset: 7px;
+  inset: 6px;
   pointer-events: none;
   z-index: 3;
   background-image: var(--gusset-tl), var(--gusset-tr), var(--gusset-bl), var(--gusset-br);
   background-repeat: no-repeat;
-  background-size: 28px 28px;
+  background-size: var(--gusset-size, 38px) var(--gusset-size, 38px);
   background-position: left top, right top, left bottom, right bottom;
-  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 1.5px 2px rgba(0, 0, 0, 0.55));
 }
 
 /* ---- Dark plaque (logo banner, section label, status lamp) ---- */

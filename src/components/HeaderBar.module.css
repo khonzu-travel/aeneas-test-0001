@@ -17,7 +17,9 @@
   z-index: 1;
   border-radius: calc(var(--radius-frame) - 5px);
   padding: clamp(10px, 1vw, 16px) clamp(16px, 1.6vw, 28px);
-  min-height: 60px;
+  /* tall enough that the two corner gussets clear each other
+     (2 × 38px plate + the 6px inset each side) */
+  min-height: 78px;
   display: flex;
   align-items: center;
   gap: 16px;

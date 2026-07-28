@@ -289,29 +289,27 @@
   z-index: 3;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
 }
-/* branch leaves the top run heading down */
+/* Not rotated — each fitting's geometry is drawn for its own
+   orientation so the lighting stays fixed at the top-left. */
 .teeTop {
   top: 0;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-/* branch leaves the bottom run heading up */
 .teeBottom {
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 50%) rotate(180deg);
+  transform: translate(-50%, 50%);
 }
-/* rail tees off the vertical column, outlet heading right */
 .teeLeft {
   left: 0;
   top: 50%;
-  transform: translate(-50%, -50%) rotate(270deg);
+  transform: translate(-50%, -50%);
 }
-/* rail tees into the right-hand run, outlet heading left */
 .teeRight {
   right: 0;
   top: 50%;
-  transform: translate(50%, -50%) rotate(90deg);
+  transform: translate(50%, -50%);
 }
 
 /* Desktop chrome — withdraws with the sidebar column. */

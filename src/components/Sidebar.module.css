@@ -1,11 +1,20 @@
+/* The sidebar column: framed parchment panel on top, then the status
+   lamp on its own plate, then the instruments on the bare ground. */
 .sidebar {
   grid-column: 1;
   grid-row: 1 / 4;
-  align-self: stretch;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.1vw, 18px);
 }
 
-.inner {
+/* ---- framed parchment panel: banner + nav ---- */
+.panel {
+  flex: 1;
+  min-height: 0;
+}
+.panelInner {
   position: relative;
   z-index: 1;
   height: 100%;
@@ -17,7 +26,7 @@
   box-shadow: var(--shadow-panel);
 }
 
-/* ---- Engraved banner ---- */
+/* ---- engraved banner ---- */
 .banner {
   display: flex;
   flex-direction: column;
@@ -44,7 +53,7 @@
   color: var(--gold-soft);
 }
 
-/* ---- Navigation ---- */
+/* ---- navigation ---- */
 .nav {
   margin-top: clamp(14px, 1.8vw, 26px);
   display: flex;
@@ -87,7 +96,6 @@
 .navItem:hover {
   background: rgba(122, 92, 44, 0.12);
 }
-/* active entry: pressed brass plate seated in the parchment */
 .navActive {
   background-image: linear-gradient(180deg, rgba(150, 112, 48, 0.34), rgba(112, 82, 34, 0.26));
   border-color: rgba(90, 64, 24, 0.5);
@@ -121,19 +129,19 @@
   text-shadow: none;
 }
 
-/* ---- Footer: status lamp + instrument cluster ---- */
-.footer {
-  margin-top: auto;
-  padding-top: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+/* ---- status lamp: its own plate below the panel ---- */
+.lampFrame {
+  flex: none;
+  padding: 5px;
 }
-.lampPlate {
+.lampInner {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 11px 14px;
+  padding: 12px 16px;
+  border-radius: 8px;
 }
 .lamp {
   flex: none;
@@ -149,18 +157,20 @@
   font-family: var(--font-heading);
   font-size: 0.94rem;
 }
+
+/* ---- instruments: sit on the bare ground below everything ---- */
 .instruments {
+  flex: none;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 7px;
+  gap: clamp(8px, 0.9vw, 16px);
   padding-bottom: 2px;
-  filter: drop-shadow(0 4px 6px rgba(58, 38, 16, 0.45));
+  filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.6));
 }
 
-/* Below the breakpoint the sidebar becomes a slide-in drawer. */
+/* Below the breakpoint the whole column becomes a slide-in drawer. */
 @media (max-width: 900px) {
-  /* doubled class outranks the global .brass-frame position: relative */
   .sidebar.sidebar {
     position: fixed;
     top: 10px;
@@ -170,6 +180,12 @@
     grid-column: auto;
     width: min(320px, 84vw);
     z-index: 50;
+    padding: 12px;
+    border-radius: 14px;
+    background-color: var(--ground-1);
+    background-image: var(--tx-dark);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.75), inset 0 0 0 1px rgba(246, 224, 162, 0.15);
+    overflow-y: auto;
     transform: translateX(-130%);
     transition: transform 0.28s ease;
     will-change: transform;

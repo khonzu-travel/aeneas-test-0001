@@ -159,17 +159,87 @@ function Elbow({ corner, className }: { corner: CornerKey; className?: string })
   );
 }
 
-/**
- * Tee fitting. Drawn with the main barrel horizontal through the centre
- * and the branch outlet leaving downward; rotated to suit each junction.
- * The viewBox is centred on the main axis so rotation about the centre
- * keeps the barrel aligned with its run.
- */
-function Tee({ className }: { className?: string }) {
+/* ------------------------------------------------------------------
+   Tee fitting.
+
+   As with the elbows, the fitting cannot simply be rotated: rotating
+   the SVG carries its gradients round with it, so the highlight would
+   leave the top-left. Instead the geometry is transposed/mirrored per
+   orientation while the two gradients stay fixed in world space — one
+   shading across a horizontal tube (highlight 33% down from the top),
+   one across a vertical tube (33% in from the left).
+   ------------------------------------------------------------------ */
+
+const TEE = 58; // viewBox, centred on the junction
+
+/** Which way the branch outlet points. */
+type Outlet = 'down' | 'up' | 'right' | 'left';
+
+interface TeeRect {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rx: number;
+  part: 'main' | 'stub';
+}
+
+/* Fitting drawn with the main barrel horizontal and the outlet down. */
+const TEE_RECTS: readonly TeeRect[] = [
+  { x: 18, y: 29, w: 22, h: 17, rx: 3, part: 'stub' }, // outlet stub
+  { x: 14.5, y: 43, w: 29, h: 9, rx: 2.5, part: 'stub' }, // stub hub
+  { x: 4, y: 17.5, w: 50, h: 23, rx: 5, part: 'main' }, // barrel
+  { x: 0.5, y: 14.5, w: 8, h: 29, rx: 2.5, part: 'main' }, // hub
+  { x: 49.5, y: 14.5, w: 8, h: 29, rx: 2.5, part: 'main' }, // hub
+];
+
+const TEE_BOLTS: ReadonlyArray<readonly [number, number]> = [
+  [4.5, 20],
+  [4.5, 38],
+  [53.5, 20],
+  [53.5, 38],
+  [19, 47.5],
+  [39, 47.5],
+];
+
+function teeRect(o: Outlet, r: { x: number; y: number; w: number; h: number }) {
+  switch (o) {
+    case 'down':
+      return { x: r.x, y: r.y, w: r.w, h: r.h };
+    case 'up':
+      return { x: r.x, y: TEE - r.y - r.h, w: r.w, h: r.h };
+    case 'right': // transpose
+      return { x: r.y, y: r.x, w: r.h, h: r.w };
+    case 'left': // transpose, then mirror
+      return { x: TEE - r.y - r.h, y: r.x, w: r.h, h: r.w };
+  }
+}
+
+function teePoint(o: Outlet, x: number, y: number): [number, number] {
+  switch (o) {
+    case 'down':
+      return [x, y];
+    case 'up':
+      return [x, TEE - y];
+    case 'right':
+      return [y, x];
+    case 'left':
+      return [TEE - y, x];
+  }
+}
+
+function Tee({ outlet, className }: { outlet: Outlet; className?: string }) {
+  // after transposing, the barrel runs vertically for the side outlets
+  const mainIsHorizontal = outlet === 'down' || outlet === 'up';
+  const gradFor = (part: 'main' | 'stub') =>
+    (part === 'main') === mainIsHorizontal ? 'teeH' : 'teeV';
+
+  const barrel = teeRect(outlet, TEE_RECTS[2]);
+
   return (
-    <svg className={className} width="58" height="58" viewBox="0 0 58 58" aria-hidden>
+    <svg className={className} width={TEE} height={TEE} viewBox={`0 0 ${TEE} ${TEE}`} aria-hidden>
       <defs>
-        {/* across a horizontal tube */}
+        {/* across a horizontal tube — lit from above */}
         <linearGradient id="teeH" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#150c02" />
           <stop offset="0.14" stopColor="#664a1a" />
@@ -178,7 +248,7 @@ function Tee({ className }: { className?: string }) {
           <stop offset="0.78" stopColor="#5a4116" />
           <stop offset="1" stopColor="#130b02" />
         </linearGradient>
-        {/* across a vertical tube */}
+        {/* across a vertical tube — lit from the left */}
         <linearGradient id="teeV" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#150c02" />
           <stop offset="0.14" stopColor="#664a1a" />
@@ -189,27 +259,36 @@ function Tee({ className }: { className?: string }) {
         </linearGradient>
       </defs>
 
-      {/* branch outlet stub + its hub (drawn first so the barrel laps over it) */}
-      <rect x="18" y="29" width="22" height="17" rx="3" fill="url(#teeV)" stroke="#150c02" strokeWidth="0.9" />
-      <rect x="14.5" y="43" width="29" height="9" rx="2.5" fill="url(#teeV)" stroke="#150c02" strokeWidth="0.9" />
+      {TEE_RECTS.map((r, i) => {
+        const t = teeRect(outlet, r);
+        return (
+          <rect
+            key={i}
+            x={t.x}
+            y={t.y}
+            width={t.w}
+            height={t.h}
+            rx={r.rx}
+            fill={`url(#${gradFor(r.part)})`}
+            stroke="#150c02"
+            strokeWidth={r.part === 'main' && i === 2 ? 1 : 0.9}
+          />
+        );
+      })}
 
-      {/* main barrel: the run passes through this */}
-      <rect x="4" y="17.5" width="50" height="23" rx="5" fill="url(#teeH)" stroke="#150c02" strokeWidth="1" />
-      {/* hub shoulders at the two run openings */}
-      <rect x="0.5" y="14.5" width="8" height="29" rx="2.5" fill="url(#teeH)" stroke="#150c02" strokeWidth="0.9" />
-      <rect x="49.5" y="14.5" width="8" height="29" rx="2.5" fill="url(#teeH)" stroke="#150c02" strokeWidth="0.9" />
-
-      {/* flange bolts */}
       <g fill="#f4dc9e" stroke="#150c02" strokeWidth="0.6">
-        <circle cx="4.5" cy="20" r="2" />
-        <circle cx="4.5" cy="38" r="2" />
-        <circle cx="53.5" cy="20" r="2" />
-        <circle cx="53.5" cy="38" r="2" />
-        <circle cx="19" cy="47.5" r="2" />
-        <circle cx="39" cy="47.5" r="2" />
+        {TEE_BOLTS.map(([bx, by], i) => {
+          const [x, y] = teePoint(outlet, bx, by);
+          return <circle key={i} cx={x} cy={y} r="2" />;
+        })}
       </g>
-      {/* casting highlight along the top of the barrel */}
-      <rect x="7" y="19" width="44" height="2.4" rx="1.2" fill="#fff4c8" opacity="0.4" />
+
+      {/* casting highlight, always on the barrel's lit face */}
+      {mainIsHorizontal ? (
+        <rect x={barrel.x + 3} y={barrel.y + 1.5} width={barrel.w - 6} height="2.4" rx="1.2" fill="#fff4c8" opacity="0.4" />
+      ) : (
+        <rect x={barrel.x + 1.5} y={barrel.y + 3} width="2.4" height={barrel.h - 6} rx="1.2" fill="#fff4c8" opacity="0.4" />
+      )}
     </svg>
   );
 }
@@ -251,8 +330,8 @@ export function PipeColumn({ className }: { className?: string }) {
         <span className={styles.coupling} style={{ top: '30%' }} />
         <span className={styles.coupling} style={{ top: '74%' }} />
       </span>
-      <Tee className={clsx(styles.tee, styles.teeTop)} />
-      <Tee className={clsx(styles.tee, styles.teeBottom)} />
+      <Tee outlet="down" className={clsx(styles.tee, styles.teeTop)} />
+      <Tee outlet="up" className={clsx(styles.tee, styles.teeBottom)} />
     </div>
   );
 }
@@ -264,8 +343,8 @@ export function PipeRail({ className }: { className?: string }) {
       <span className={styles.railPipe}>
         <span className={styles.coupling} style={{ left: '52%' }} />
       </span>
-      <Tee className={clsx(styles.tee, styles.teeLeft)} />
-      <Tee className={clsx(styles.tee, styles.teeRight)} />
+      <Tee outlet="right" className={clsx(styles.tee, styles.teeLeft)} />
+      <Tee outlet="left" className={clsx(styles.tee, styles.teeRight)} />
     </div>
   );
 }

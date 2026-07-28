@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { JSX } from 'react';
 import styles from './Sidebar.module.css';
-import { WheelEmblem, ClockFace, Gauge, ValveWheel } from './Instruments';
+import { WheelEmblem, ClockFace, Gauge } from './Instruments';
 import { HomeIcon, InboxIcon, GridIcon, PersonIcon, ClipboardIcon } from './Icons';
 
 interface NavEntry {
@@ -20,42 +20,49 @@ const nav: NavEntry[] = [
   { id: 'petitions', label: 'Petitions', icon: <ClipboardIcon /> },
 ];
 
+/**
+ * The sidebar is a column of three separate pieces, as in the
+ * reference: the framed parchment panel (banner + nav) stops above the
+ * status lamp, which is its own small plate, and the instruments sit
+ * below that directly on the dark ground.
+ */
 export default function Sidebar({ open }: { open: boolean }) {
   return (
-    <aside className={clsx(styles.sidebar, 'brass-frame', 'rivets', open && styles.open)}>
-      <div className={clsx(styles.inner, 'parchment')}>
-        {/* engraved banner: dark plaque, gold wordmark */}
-        <div className={clsx(styles.banner, 'plaque')}>
-          <WheelEmblem size={42} />
-          <span className={clsx(styles.brand, 'gold-metal')}>AENEAS</span>
-          <span className={clsx(styles.brandSub, 'engrave-gold')}>Delivery Platform</span>
-        </div>
-
-        <nav className={styles.nav}>
-          {nav.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={clsx(styles.navItem, item.active && styles.navActive, 'engrave')}
-            >
-              <span className={styles.navIcon}>{item.icon}</span>
-              <span className={styles.navLabel}>{item.label}</span>
-              {item.badge !== undefined && <span className={styles.navBadge}>{item.badge}</span>}
-            </button>
-          ))}
-        </nav>
-
-        <div className={styles.footer}>
-          <div className={clsx(styles.lampPlate, 'plaque')}>
-            <span className={clsx(styles.lamp, 'led-pulse')} />
-            <span className={clsx(styles.lampText, 'engrave-gold')}>Platform Online</span>
+    <aside className={clsx(styles.sidebar, open && styles.open)}>
+      <div className={clsx(styles.panel, 'brass-frame', 'rivets')}>
+        <div className={clsx(styles.panelInner, 'parchment')}>
+          <div className={clsx(styles.banner, 'plaque')}>
+            <WheelEmblem size={42} />
+            <span className={clsx(styles.brand, 'gold-metal')}>AENEAS</span>
+            <span className={clsx(styles.brandSub, 'engrave-gold')}>Delivery Platform</span>
           </div>
-          <div className={styles.instruments}>
-            <ValveWheel size={34} />
-            <ClockFace size={88} />
-            <Gauge size={54} value={0.72} label="PSI" />
-          </div>
+
+          <nav className={styles.nav}>
+            {nav.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={clsx(styles.navItem, item.active && styles.navActive, 'engrave')}
+              >
+                <span className={styles.navIcon}>{item.icon}</span>
+                <span className={styles.navLabel}>{item.label}</span>
+                {item.badge !== undefined && <span className={styles.navBadge}>{item.badge}</span>}
+              </button>
+            ))}
+          </nav>
         </div>
+      </div>
+
+      <div className={clsx(styles.lampFrame, 'brass-frame')}>
+        <div className={clsx(styles.lampInner, 'plaque')}>
+          <span className={clsx(styles.lamp, 'led-pulse')} />
+          <span className={clsx(styles.lampText, 'engrave-gold')}>Platform Online</span>
+        </div>
+      </div>
+
+      <div className={styles.instruments}>
+        <ClockFace size={104} />
+        <Gauge size={66} value={0.72} label="PSI" />
       </div>
     </aside>
   );

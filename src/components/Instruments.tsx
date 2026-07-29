@@ -67,135 +67,346 @@ export function ValveWheel({ size = 40 }: { size?: number }) {
   );
 }
 
-/** Pocket-watch: knurled bezel, parchment dial, roman numerals. */
-export function ClockFace({ size = 92 }: { size?: number }) {
-  const knurl = Array.from({ length: 48 }, (_, i) => (i * 360) / 48);
-  const ticks = Array.from({ length: 12 }, (_, i) => (i * 360) / 12);
+const ROMAN = ['XII', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI'];
+
+/** Point on a circle, measured clockwise from 12 o'clock. */
+function dialPoint(cx: number, cy: number, r: number, deg: number) {
+  const a = ((deg - 90) * Math.PI) / 180;
+  return [cx + r * Math.cos(a), cy + r * Math.sin(a)] as const;
+}
+
+/**
+ * Pocket-watch movement: toothed brass case, bolted bezel, chapter ring
+ * with a full 60-minute track and twelve roman numerals, a running
+ * seconds sub-dial, Breguet hands and a domed centre jewel under glass.
+ */
+export function ClockFace({ size = 112 }: { size?: number }) {
+  const C = 60; // centre of the 120 viewBox
+  const teeth = Array.from({ length: 44 }, (_, i) => (i * 360) / 44);
+  const minutes = Array.from({ length: 60 }, (_, i) => i * 6);
+  const bezelScrews = [45, 135, 225, 315];
+
   return (
-    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
+    <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden>
       <defs>
-        <linearGradient id="ckBez" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f6e0a2" />
-          <stop offset="0.55" stopColor="#a67e28" />
-          <stop offset="1" stopColor="#4a340f" />
+        <linearGradient id="ckCase" x1="0" y1="0" x2="0.4" y2="1">
+          <stop offset="0" stopColor="#fbeec0" />
+          <stop offset="0.3" stopColor="#dcb45f" />
+          <stop offset="0.62" stopColor="#9d7727" />
+          <stop offset="1" stopColor="#3e2c0d" />
         </linearGradient>
-        <radialGradient id="ckDial" cx="50%" cy="40%" r="66%">
-          <stop offset="0" stopColor="#f2e4ba" />
-          <stop offset="76%" stopColor="#d5ba7c" />
-          <stop offset="100%" stopColor="#a5854a" />
+        <radialGradient id="ckDial" cx="42%" cy="34%" r="76%">
+          <stop offset="0" stopColor="#f7ecca" />
+          <stop offset="55%" stopColor="#e2cd9b" />
+          <stop offset="86%" stopColor="#c7ab72" />
+          <stop offset="100%" stopColor="#9d8149" />
         </radialGradient>
+        <radialGradient id="ckJewel" cx="35%" cy="30%" r="70%">
+          <stop offset="0" stopColor="#ffd9c8" />
+          <stop offset="45%" stopColor="#b4432c" />
+          <stop offset="100%" stopColor="#4a1208" />
+        </radialGradient>
+        <clipPath id="ckGlass">
+          <circle cx={C} cy={C} r="46" />
+        </clipPath>
       </defs>
-      <circle cx="50" cy="50" r="48" fill="url(#ckBez)" stroke="#241804" strokeWidth="1.4" />
-      {knurl.map((deg) => (
+
+      {/* toothed outer case */}
+      {teeth.map((deg) => {
+        const [x, y] = dialPoint(C, C, 57.5, deg);
+        return (
+          <rect
+            key={deg}
+            x={x - 1.7}
+            y={y - 2.6}
+            width="3.4"
+            height="5.2"
+            rx="1"
+            fill="url(#ckCase)"
+            stroke="#221603"
+            strokeWidth="0.4"
+            transform={`rotate(${deg} ${x} ${y})`}
+          />
+        );
+      })}
+
+      {/* case body and bolted bezel */}
+      <circle cx={C} cy={C} r="56" fill="url(#ckCase)" stroke="#221603" strokeWidth="1.3" />
+      <circle cx={C} cy={C} r="50" fill="none" stroke="rgba(255,248,220,0.4)" strokeWidth="1.2" />
+      <circle cx={C} cy={C} r="47.5" fill="url(#ckCase)" stroke="#221603" strokeWidth="1" />
+      {bezelScrews.map((deg) => {
+        const [x, y] = dialPoint(C, C, 52, deg);
+        return (
+          <g key={deg}>
+            <circle cx={x} cy={y} r="3" fill="url(#ckCase)" stroke="#221603" strokeWidth="0.7" />
+            <line
+              x1={x - 1.8}
+              y1={y}
+              x2={x + 1.8}
+              y2={y}
+              stroke="#221603"
+              strokeWidth="0.9"
+              transform={`rotate(${deg + 20} ${x} ${y})`}
+            />
+          </g>
+        );
+      })}
+
+      {/* dial */}
+      <circle cx={C} cy={C} r="46" fill="url(#ckDial)" stroke="#3c2b0e" strokeWidth="1.2" />
+      <circle cx={C} cy={C} r="42.5" fill="none" stroke="rgba(60,43,14,0.5)" strokeWidth="0.7" />
+      <circle cx={C} cy={C} r="30" fill="none" stroke="rgba(60,43,14,0.28)" strokeWidth="0.6" />
+
+      {/* 60-minute track */}
+      {minutes.map((deg) => {
+        const major = deg % 30 === 0;
+        const [x1, y1] = dialPoint(C, C, 42.5, deg);
+        const [x2, y2] = dialPoint(C, C, major ? 37 : 39.6, deg);
+        return (
+          <line
+            key={deg}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="#3c2b0e"
+            strokeWidth={major ? 1.9 : 0.7}
+            opacity={major ? 1 : 0.75}
+          />
+        );
+      })}
+
+      {/* roman chapter ring */}
+      <g fill="#33240b" fontFamily="Cinzel, Georgia, serif" fontSize="7.6" textAnchor="middle">
+        {ROMAN.map((r, i) => {
+          const [x, y] = dialPoint(C, C, 33, i * 30);
+          return (
+            <text key={r} x={x} y={y + 2.7}>
+              {r}
+            </text>
+          );
+        })}
+      </g>
+
+      {/* maker's mark */}
+      <text
+        x={C}
+        y={C - 14}
+        textAnchor="middle"
+        fontFamily="Cinzel, Georgia, serif"
+        fontSize="4.2"
+        letterSpacing="0.8"
+        fill="rgba(51,36,11,0.72)"
+      >
+        AENEAS
+      </text>
+
+      {/* running-seconds sub-dial */}
+      <g>
+        <circle cx={C} cy={C + 19} r="11" fill="rgba(140,112,60,0.16)" stroke="#3c2b0e" strokeWidth="0.8" />
+        {Array.from({ length: 12 }, (_, i) => i * 30).map((deg) => {
+          const [x1, y1] = dialPoint(C, C + 19, 10, deg);
+          const [x2, y2] = dialPoint(C, C + 19, deg % 90 === 0 ? 6.8 : 8.2, deg);
+          return (
+            <line key={deg} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#3c2b0e" strokeWidth={deg % 90 === 0 ? 1 : 0.5} />
+          );
+        })}
         <line
-          key={deg}
-          x1="50"
-          y1="2.5"
-          x2="50"
-          y2="7"
-          stroke="rgba(36,24,4,0.5)"
-          strokeWidth="1.3"
-          transform={`rotate(${deg} 50 50)`}
-        />
-      ))}
-      <circle cx="50" cy="50" r="41" fill="url(#ckDial)" stroke="#3c2b0e" strokeWidth="1.6" />
-      <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(60,43,14,0.45)" strokeWidth="0.7" />
-      {ticks.map((deg, i) => (
-        <line
-          key={deg}
-          x1="50"
-          y1="12"
-          x2="50"
-          y2={i % 3 === 0 ? 20 : 17}
+          x1={C}
+          y1={C + 19}
+          x2={dialPoint(C, C + 19, 8, 230)[0]}
+          y2={dialPoint(C, C + 19, 8, 230)[1]}
           stroke="#3c2b0e"
-          strokeWidth={i % 3 === 0 ? 2.2 : 1.2}
-          transform={`rotate(${deg} 50 50)`}
+          strokeWidth="1"
         />
-      ))}
-      <g fill="#3c2b0e" fontFamily="Cinzel, Georgia, serif" fontSize="11" textAnchor="middle">
-        <text x="50" y="30">XII</text>
-        <text x="74" y="54.5">III</text>
-        <text x="50" y="80">VI</text>
-        <text x="26" y="54.5">IX</text>
+        <circle cx={C} cy={C + 19} r="1.4" fill="#3c2b0e" />
       </g>
-      <g transform="rotate(-57 50 50)">
-        <path d="M50 52 L47.6 46 L50 27 L52.4 46 Z" fill="#3c2b0e" />
+
+      {/* Breguet hands, frozen at 10:09. The pierced rings sit inside
+          the chapter ring so they do not foul the numerals. */}
+      <g transform={`rotate(-55 ${C} ${C})`}>
+        <g fill="#2c1f08" transform="translate(0.7 0.9)" opacity="0.28">
+          <path d="M60 65 L57.6 56 L59 41 L61 41 L62.4 56 Z" />
+        </g>
+        <path d="M60 65 L57.6 56 L59 41 L61 41 L62.4 56 Z" fill="#2c1f08" />
+        <circle cx="60" cy="36.5" r="4.4" fill="none" stroke="#2c1f08" strokeWidth="2" />
+        <path d="M59.1 32 L60.9 32 L60 27.6 Z" fill="#2c1f08" />
       </g>
-      <g transform="rotate(54 50 50)">
-        <path d="M50 53 L48.4 46 L50 17 L51.6 46 Z" fill="#3c2b0e" />
+      <g transform={`rotate(54 ${C} ${C})`}>
+        <g fill="#2c1f08" transform="translate(0.7 0.9)" opacity="0.28">
+          <path d="M60 67 L58.2 56 L59.3 30 L60.7 30 L61.8 56 Z" />
+        </g>
+        <path d="M60 67 L58.2 56 L59.3 30 L60.7 30 L61.8 56 Z" fill="#2c1f08" />
+        <circle cx="60" cy="26" r="3.7" fill="none" stroke="#2c1f08" strokeWidth="1.7" />
+        <path d="M59.3 22 L60.7 22 L60 16.8 Z" fill="#2c1f08" />
       </g>
-      <g transform="rotate(160 50 50)">
-        <line x1="50" y1="58" x2="50" y2="16" stroke="#93301d" strokeWidth="1.2" />
-        <circle cx="50" cy="58" r="2" fill="#93301d" />
+      <g transform={`rotate(196 ${C} ${C})`}>
+        <line x1={C} y1={C + 12} x2={C} y2="21" stroke="#8f2c1c" strokeWidth="1.1" />
+        <circle cx={C} cy={C + 12} r="2.6" fill="none" stroke="#8f2c1c" strokeWidth="1.1" />
       </g>
-      <circle cx="50" cy="50" r="3.4" fill="url(#ckBez)" stroke="#241804" strokeWidth="0.8" />
+
+      {/* centre cap and jewel */}
+      <circle cx={C} cy={C} r="4.4" fill="url(#ckCase)" stroke="#221603" strokeWidth="0.8" />
+      <circle cx={C} cy={C} r="2.1" fill="url(#ckJewel)" />
+
+      {/* glass */}
+      <g clipPath="url(#ckGlass)">
+        <ellipse cx="40" cy="30" rx="34" ry="24" fill="#fffdf2" opacity="0.13" transform="rotate(-28 40 30)" />
+        <path d="M14 78 A46 46 0 0 1 46 14 L30 14 A46 46 0 0 0 14 50 Z" fill="#fffdf2" opacity="0.07" />
+      </g>
     </svg>
   );
 }
 
+/**
+ * Pressure gauge: knurled case with bezel screws, a graduated scale
+ * with numerals and a red danger arc, a counterweighted needle and a
+ * domed centre boss under glass. The needle sweeps -125°..+125°.
+ */
 export function Gauge({
-  size = 56,
+  size = 72,
   value = 0.68,
-  label,
+  label = 'PSI',
 }: {
   size?: number;
   value?: number;
   label?: string;
 }) {
-  const angle = -120 + value * 240;
-  const ticks = Array.from({ length: 11 }, (_, i) => -120 + i * 24);
+  const C = 50;
+  const SWEEP = 125;
+  const toDeg = (t: number) => -SWEEP + t * 2 * SWEEP;
+  const angle = toDeg(value);
+
+  const minor = Array.from({ length: 41 }, (_, i) => i / 40);
+  const major = Array.from({ length: 6 }, (_, i) => i / 5);
+  const knurl = Array.from({ length: 36 }, (_, i) => (i * 360) / 36);
+
+  const arcPath = (r: number, t0: number, t1: number) => {
+    const [x0, y0] = dialPoint(C, C, r, toDeg(t0));
+    const [x1, y1] = dialPoint(C, C, r, toDeg(t1));
+    const large = (t1 - t0) * 2 * SWEEP > 180 ? 1 : 0;
+    return `M${x0} ${y0} A${r} ${r} 0 ${large} 1 ${x1} ${y1}`;
+  };
+
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
       <defs>
-        <radialGradient id="ggDial" cx="50%" cy="42%" r="62%">
-          <stop offset="0" stopColor="#f2e4ba" />
-          <stop offset="78%" stopColor="#d5ba7c" />
-          <stop offset="100%" stopColor="#a98a4c" />
-        </radialGradient>
-        <linearGradient id="ggBez" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f6e0a2" />
-          <stop offset="1" stopColor="#4a340f" />
+        <linearGradient id="ggCase" x1="0" y1="0" x2="0.4" y2="1">
+          <stop offset="0" stopColor="#fbeec0" />
+          <stop offset="0.32" stopColor="#dcb45f" />
+          <stop offset="0.64" stopColor="#9d7727" />
+          <stop offset="1" stopColor="#3e2c0d" />
         </linearGradient>
+        <radialGradient id="ggDial" cx="42%" cy="34%" r="76%">
+          <stop offset="0" stopColor="#f7ecca" />
+          <stop offset="58%" stopColor="#e2cd9b" />
+          <stop offset="88%" stopColor="#c7ab72" />
+          <stop offset="100%" stopColor="#9d8149" />
+        </radialGradient>
+        <clipPath id="ggGlass">
+          <circle cx={C} cy={C} r="38" />
+        </clipPath>
       </defs>
-      <circle cx="50" cy="50" r="47" fill="url(#ggBez)" stroke="#241804" strokeWidth="1.5" />
-      <circle cx="50" cy="50" r="39" fill="url(#ggDial)" stroke="#3c2b0e" strokeWidth="1.5" />
-      {ticks.map((t, i) => (
-        <line
-          key={i}
-          x1="50"
-          y1="15"
-          x2="50"
-          y2={i % 5 === 0 ? 22 : 19}
-          stroke="#3c2b0e"
-          strokeWidth={i % 5 === 0 ? 2 : 1}
-          transform={`rotate(${t} 50 50)`}
-        />
-      ))}
-      <line
-        x1="50"
-        y1="52"
-        x2="50"
-        y2="21"
-        stroke="#93301d"
-        strokeWidth="2.6"
-        strokeLinecap="round"
-        transform={`rotate(${angle} 50 50)`}
-      />
-      <circle cx="50" cy="50" r="4.2" fill="#241804" />
-      <circle cx="48.6" cy="48.6" r="1.2" fill="#f6e0a2" />
-      {label && (
-        <text
-          x="50"
-          y="73"
-          textAnchor="middle"
-          fontSize="9"
-          fill="#4c3712"
-          fontFamily="Cinzel, serif"
-          letterSpacing="0.5"
-        >
-          {label}
-        </text>
-      )}
+
+      {/* knurled case */}
+      {knurl.map((deg) => {
+        const [x, y] = dialPoint(C, C, 47, deg);
+        return (
+          <rect
+            key={deg}
+            x={x - 1.2}
+            y={y - 2}
+            width="2.4"
+            height="4"
+            rx="0.8"
+            fill="url(#ggCase)"
+            stroke="#221603"
+            strokeWidth="0.3"
+            transform={`rotate(${deg} ${x} ${y})`}
+          />
+        );
+      })}
+      <circle cx={C} cy={C} r="46" fill="url(#ggCase)" stroke="#221603" strokeWidth="1.2" />
+      <circle cx={C} cy={C} r="41" fill="none" stroke="rgba(255,248,220,0.4)" strokeWidth="1" />
+      {[40, 180, 320].map((deg) => {
+        const [x, y] = dialPoint(C, C, 43, deg);
+        return (
+          <g key={deg}>
+            <circle cx={x} cy={y} r="2.4" fill="url(#ggCase)" stroke="#221603" strokeWidth="0.6" />
+            <line
+              x1={x - 1.4}
+              y1={y}
+              x2={x + 1.4}
+              y2={y}
+              stroke="#221603"
+              strokeWidth="0.8"
+              transform={`rotate(${deg + 30} ${x} ${y})`}
+            />
+          </g>
+        );
+      })}
+
+      {/* dial */}
+      <circle cx={C} cy={C} r="38" fill="url(#ggDial)" stroke="#3c2b0e" strokeWidth="1.1" />
+
+      {/* normal band and red danger arc */}
+      <path d={arcPath(31, 0, 0.75)} fill="none" stroke="#4d6b3a" strokeWidth="2.6" opacity="0.55" />
+      <path d={arcPath(31, 0.75, 1)} fill="none" stroke="#a3331d" strokeWidth="2.6" />
+
+      {/* graduations */}
+      {minor.map((t, i) => {
+        const [x1, y1] = dialPoint(C, C, 34, toDeg(t));
+        const [x2, y2] = dialPoint(C, C, i % 8 === 0 ? 27 : 30.5, toDeg(t));
+        return (
+          <line
+            key={i}
+            x1={x1}
+            y1={y1}
+            x2={x2}
+            y2={y2}
+            stroke="#3c2b0e"
+            strokeWidth={i % 8 === 0 ? 1.8 : 0.65}
+            opacity={i % 8 === 0 ? 1 : 0.75}
+          />
+        );
+      })}
+      <g fill="#33240b" fontFamily="Cinzel, Georgia, serif" fontSize="6" textAnchor="middle">
+        {major.map((t, i) => {
+          const [x, y] = dialPoint(C, C, 21, toDeg(t));
+          return (
+            <text key={i} x={x} y={y + 2.2}>
+              {i * 20}
+            </text>
+          );
+        })}
+      </g>
+
+      <text
+        x={C}
+        y={C + 22}
+        textAnchor="middle"
+        fontSize="6"
+        fill="rgba(51,36,11,0.8)"
+        fontFamily="Cinzel, Georgia, serif"
+        letterSpacing="0.8"
+      >
+        {label}
+      </text>
+
+      {/* counterweighted needle */}
+      <g transform={`rotate(${angle} ${C} ${C})`}>
+        <path d={`M${C} 18 L${C + 2.1} ${C} L${C - 2.1} ${C} Z`} fill="#8f2c1c" />
+        <circle cx={C} cy={C + 7.5} r="3.4" fill="#8f2c1c" />
+      </g>
+
+      {/* centre boss */}
+      <circle cx={C} cy={C} r="4.6" fill="url(#ggCase)" stroke="#221603" strokeWidth="0.8" />
+      <circle cx={C - 1.3} cy={C - 1.4} r="1.3" fill="#fff6cc" opacity="0.85" />
+
+      {/* glass */}
+      <g clipPath="url(#ggGlass)">
+        <ellipse cx="34" cy="26" rx="28" ry="19" fill="#fffdf2" opacity="0.14" transform="rotate(-28 34 26)" />
+      </g>
     </svg>
   );
 }

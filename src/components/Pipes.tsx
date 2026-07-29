@@ -336,6 +336,34 @@ export function PipeColumn({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Drop stub with a union nut — hangs an instrument off the feed line
+ * beneath it, the way a bottom-entry gauge is plumbed in.
+ */
+export function PipeStub({ className }: { className?: string }) {
+  return (
+    <span className={clsx(styles.stub, className)} aria-hidden>
+      <span className={styles.stubPipe} />
+      <span className={styles.union} />
+    </span>
+  );
+}
+
+/**
+ * Feed line running beneath the instrument cluster: its left end tees
+ * off the left-hand main run, its right end is capped off.
+ */
+export function PipeFeed({ className }: { className?: string }) {
+  return (
+    <div className={clsx(styles.feed, className)} aria-hidden>
+      <span className={styles.feedPipe}>
+        <span className={styles.coupling} style={{ left: '68%' }} />
+      </span>
+      <Tee outlet="right" className={clsx(styles.tee, styles.feedTee)} />
+    </div>
+  );
+}
+
 /** Horizontal branch dividing the header from the content. */
 export function PipeRail({ className }: { className?: string }) {
   return (

@@ -158,15 +158,25 @@
   font-size: 0.94rem;
 }
 
-/* ---- instruments: sit on the bare ground below everything ---- */
+/* ---- instruments: sit on the bare ground, plumbed into a feed line
+   that taps off the left-hand main run ---- */
 .instruments {
+  position: relative;
   flex: none;
+  /* room beneath the drop stubs for the feed pipe */
+  padding-bottom: 15px;
+}
+.dials {
   display: flex;
   align-items: flex-end;
   justify-content: center;
   gap: clamp(8px, 0.9vw, 16px);
-  padding-bottom: 2px;
   filter: drop-shadow(0 5px 7px rgba(0, 0, 0, 0.6));
+}
+.mount {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Below the breakpoint the whole column becomes a slide-in drawer. */

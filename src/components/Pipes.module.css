@@ -146,7 +146,8 @@
 /* sleeve on a horizontal tube */
 .runTop .coupling,
 .runBottom .coupling,
-.railPipe .coupling {
+.railPipe .coupling,
+.feedPipe .coupling {
   top: -3px;
   height: 23px;
   width: 20px;
@@ -158,9 +159,11 @@
 .runTop .coupling::before,
 .runBottom .coupling::before,
 .railPipe .coupling::before,
+.feedPipe .coupling::before,
 .runTop .coupling::after,
 .runBottom .coupling::after,
-.railPipe .coupling::after {
+.railPipe .coupling::after,
+.feedPipe .coupling::after {
   top: -2.5px;
   width: 5px;
   height: 27px;
@@ -168,12 +171,14 @@
 }
 .runTop .coupling::before,
 .runBottom .coupling::before,
-.railPipe .coupling::before {
+.railPipe .coupling::before,
+.feedPipe .coupling::before {
   left: -2px;
 }
 .runTop .coupling::after,
 .runBottom .coupling::after,
-.railPipe .coupling::after {
+.railPipe .coupling::after,
+.feedPipe .coupling::after {
   right: -2px;
 }
 /* sleeve on a vertical tube */
@@ -312,11 +317,95 @@
   transform: translate(50%, -50%);
 }
 
+/* ============================================================
+   Instrument feed line.
+
+   Sits beneath the dial cluster in the sidebar column and reaches
+   31.5px to the left (shell padding 40 less the 8.5 half-bore of the
+   main run) so its tee lands on the left-hand run's axis.
+   ============================================================ */
+.feed {
+  position: absolute;
+  left: -31.5px;
+  right: 12px;
+  bottom: 0;
+  height: 15px;
+  pointer-events: none;
+}
+.feedPipe {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background-color: var(--brass);
+  background-image: var(--tx-grain), var(--pipe-h);
+  background-blend-mode: soft-light, normal;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.55);
+}
+/* capped right-hand end */
+.feedPipe::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 8px;
+  height: 21px;
+  border-radius: 2.5px;
+  border: 1px solid #150c02;
+  background-image: var(--pipe-h);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 246, 216, 0.45);
+}
+.feedTee {
+  left: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* ---- drop stub from an instrument down into the feed ---- */
+.stub {
+  position: relative;
+  display: block;
+  width: 26px;
+  height: 22px;
+  margin-top: -3px;
+}
+.stubPipe {
+  position: absolute;
+  top: 0;
+  bottom: 7px;
+  left: 50%;
+  width: 11px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  background-color: var(--brass);
+  background-image: var(--tx-grain), var(--pipe-v);
+  background-blend-mode: soft-light, normal;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.5);
+}
+/* union nut where the stub meets the feed */
+.union {
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  width: 21px;
+  height: 10px;
+  transform: translateX(-50%);
+  border-radius: 3px;
+  border: 1px solid #150c02;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0 2px, rgba(255, 246, 216, 0.15) 2px 4px),
+    var(--pipe-v);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 246, 216, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* Desktop chrome — withdraws with the sidebar column. */
 @media (max-width: 900px) {
   .frame,
   .column,
-  .rail {
+  .rail,
+  .feed,
+  .stub {
     display: none;
   }
 }

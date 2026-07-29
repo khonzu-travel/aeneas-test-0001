@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import type { JSX } from 'react';
 import styles from './Sidebar.module.css';
 import { WheelEmblem, ClockFace, Gauge } from './Instruments';
+import { PipeStub, PipeFeed } from './Pipes';
 import { HomeIcon, InboxIcon, GridIcon, PersonIcon, ClipboardIcon } from './Icons';
 
 interface NavEntry {
@@ -60,9 +61,19 @@ export default function Sidebar({ open }: { open: boolean }) {
         </div>
       </div>
 
+      {/* instruments hang off a feed line tapped from the left-hand main */}
       <div className={styles.instruments}>
-        <ClockFace size={104} />
-        <Gauge size={66} value={0.72} label="PSI" />
+        <div className={styles.dials}>
+          <div className={styles.mount}>
+            <ClockFace size={104} />
+            <PipeStub />
+          </div>
+          <div className={styles.mount}>
+            <Gauge size={66} value={0.72} label="PSI" />
+            <PipeStub />
+          </div>
+        </div>
+        <PipeFeed />
       </div>
     </aside>
   );

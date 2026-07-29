@@ -30,8 +30,12 @@ export default function App() {
         <HeaderBar onMenu={() => setNavOpen((v) => !v)} />
         <PipeRail className={styles.pipeRail} />
 
-        <main className={styles.main}>
+        <div className={styles.stats}>
           <StatCardRow stats={stats} />
+        </div>
+        <PipeRail className={styles.pipeRail2} />
+
+        <main className={styles.main}>
           <SectionRule label="Active Features" />
           <FeatureGrid features={features} />
         </main>

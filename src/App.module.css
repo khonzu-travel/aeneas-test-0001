@@ -19,15 +19,15 @@
   display: grid;
   /* sidebar | pipe | main */
   grid-template-columns: minmax(232px, 292px) 34px 1fr;
-  /* header | pipe | content */
-  grid-template-rows: auto 34px 1fr;
+  /* header | pipe | stats | pipe | features */
+  grid-template-rows: auto 34px auto 34px 1fr;
   column-gap: 20px;
   row-gap: 20px;
 }
 
 .pipeColumn {
   grid-column: 2;
-  grid-row: 1 / 4;
+  grid-row: 1 / 6;
   justify-self: center;
 }
 
@@ -36,10 +36,21 @@
   grid-row: 2;
   align-self: center;
 }
+.pipeRail2 {
+  grid-column: 3;
+  grid-row: 4;
+  align-self: center;
+}
+
+.stats {
+  grid-column: 3;
+  grid-row: 3;
+  min-width: 0;
+}
 
 .main {
   grid-column: 3;
-  grid-row: 3;
+  grid-row: 5;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -54,14 +65,19 @@
 @media (max-width: 900px) {
   .shell {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    /* header | stats | features — the pipe tracks collapse away */
+    grid-template-rows: auto auto 1fr;
     padding: var(--shell-pad);
     column-gap: 0;
     row-gap: var(--gap-lg);
   }
-  .main {
+  .stats {
     grid-column: 1;
     grid-row: 2;
+  }
+  .main {
+    grid-column: 1;
+    grid-row: 3;
   }
   .scrim {
     display: block;

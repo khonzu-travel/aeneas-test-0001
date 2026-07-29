@@ -318,6 +318,261 @@
 }
 
 /* ============================================================
+   Inline gate valve: bulged body between flange rims, with a bonnet
+   carrying a handwheel out to one side.
+   ============================================================ */
+.valve {
+  position: absolute;
+  z-index: 3;
+}
+.valveV {
+  left: 50%;
+  width: 25px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+}
+.valveH {
+  top: 50%;
+  width: 50px;
+  height: 25px;
+  transform: translate(-50%, -50%);
+}
+.valveBody {
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 1px solid #150c02;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 246, 216, 0.45),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.45);
+}
+.valveV .valveBody {
+  background-image: var(--tx-grain), var(--pipe-v);
+  background-blend-mode: soft-light, normal;
+}
+.valveH .valveBody {
+  background-image: var(--tx-grain), var(--pipe-h);
+  background-blend-mode: soft-light, normal;
+}
+/* flange rims where the body meets the run */
+.valveRim {
+  position: absolute;
+  border-radius: 3px;
+  border: 1px solid #150c02;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 246, 216, 0.5);
+}
+.valveV .valveRim {
+  left: 50%;
+  width: 33px;
+  height: 8px;
+  transform: translateX(-50%);
+  background-image: var(--pipe-v);
+}
+.valveV .valveRimA {
+  top: -5px;
+}
+.valveV .valveRimB {
+  bottom: -5px;
+}
+.valveH .valveRim {
+  top: 50%;
+  width: 8px;
+  height: 33px;
+  transform: translateY(-50%);
+  background-image: var(--pipe-h);
+}
+.valveH .valveRimA {
+  left: -5px;
+}
+.valveH .valveRimB {
+  right: -5px;
+}
+/* handwheel, seen end-on and centred on the body */
+.valveWheel {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.7));
+}
+
+/* ============================================================
+   Bolted flange joint — two faces drawn together
+   ============================================================ */
+.flange {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  gap: 1.5px;
+}
+.flangeV {
+  left: 50%;
+  width: 31px;
+  height: 17px;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
+}
+.flangeH {
+  top: 50%;
+  width: 17px;
+  height: 31px;
+  flex-direction: row;
+  transform: translate(-50%, -50%);
+}
+.flangeFace {
+  flex: 1;
+  border-radius: 2.5px;
+  border: 1px solid #150c02;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 246, 216, 0.5);
+  position: relative;
+}
+.flangeV .flangeFace {
+  background-image: var(--pipe-v);
+}
+.flangeH .flangeFace {
+  background-image: var(--pipe-h);
+}
+/* bolt heads through each face */
+.flangeFace::before,
+.flangeFace::after {
+  content: '';
+  position: absolute;
+  width: 4.5px;
+  height: 4.5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, #fff6cc, #b78f36 55%, #241804);
+  box-shadow: 0 0 0 1px rgba(21, 12, 2, 0.85);
+}
+.flangeV .flangeFace::before {
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.flangeV .flangeFace::after {
+  right: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.flangeH .flangeFace::before {
+  top: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.flangeH .flangeFace::after {
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ============================================================
+   Capped spur — a blanked-off port off a run
+   ============================================================ */
+.spur {
+  position: absolute;
+  z-index: 2;
+}
+.spurPipe,
+.spurCap {
+  position: absolute;
+  border: 1px solid #150c02;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+.spurPipe {
+  border-radius: 2.5px;
+}
+.spurCap {
+  border-radius: 3px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 246, 216, 0.5);
+}
+
+/* vertical spurs */
+.spurDown,
+.spurUp {
+  left: 0;
+  width: 24px;
+  height: 20px;
+  transform: translateX(-50%);
+}
+.spurDown {
+  top: 50%;
+}
+.spurUp {
+  bottom: 50%;
+}
+.spurDown .spurPipe,
+.spurUp .spurPipe {
+  left: 50%;
+  width: 11px;
+  height: 14px;
+  transform: translateX(-50%);
+  background-image: var(--pipe-v);
+}
+.spurDown .spurPipe {
+  top: 0;
+}
+.spurUp .spurPipe {
+  bottom: 0;
+}
+.spurDown .spurCap,
+.spurUp .spurCap {
+  left: 50%;
+  width: 21px;
+  height: 8px;
+  transform: translateX(-50%);
+  background-image: var(--pipe-v);
+}
+.spurDown .spurCap {
+  bottom: 0;
+}
+.spurUp .spurCap {
+  top: 0;
+}
+
+/* horizontal spurs */
+.spurRight,
+.spurLeft {
+  top: 0;
+  width: 20px;
+  height: 24px;
+  transform: translateY(-50%);
+}
+.spurRight {
+  left: 50%;
+}
+.spurLeft {
+  right: 50%;
+}
+.spurRight .spurPipe,
+.spurLeft .spurPipe {
+  top: 50%;
+  width: 14px;
+  height: 11px;
+  transform: translateY(-50%);
+  background-image: var(--pipe-h);
+}
+.spurRight .spurPipe {
+  left: 0;
+}
+.spurLeft .spurPipe {
+  right: 0;
+}
+.spurRight .spurCap,
+.spurLeft .spurCap {
+  top: 50%;
+  width: 8px;
+  height: 21px;
+  transform: translateY(-50%);
+  background-image: var(--pipe-h);
+}
+.spurRight .spurCap {
+  right: 0;
+}
+.spurLeft .spurCap {
+  left: 0;
+}
+
+/* ============================================================
    Instrument feed line.
 
    Sits beneath the dial cluster in the sidebar column and reaches

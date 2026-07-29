@@ -2,7 +2,9 @@
    lamp on its own plate, then the instruments on the bare ground. */
 .sidebar {
   grid-column: 1;
-  grid-row: 1 / 4;
+  /* spans every row of the shell grid: header | pipe | stats | pipe | features */
+  grid-row: 1 / 6;
+  align-self: stretch;
   min-height: 0;
   display: flex;
   flex-direction: column;

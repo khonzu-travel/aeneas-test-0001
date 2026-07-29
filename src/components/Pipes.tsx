@@ -22,6 +22,7 @@
 
 import clsx from 'clsx';
 import styles from './Pipes.module.css';
+import { ValveWheel } from './Instruments';
 
 /* ------------------------------------------------------------------
    Swept-bend shading.
@@ -298,20 +299,31 @@ export function PipeFrame() {
   return (
     <div className={styles.frame} aria-hidden>
       <span className={clsx(styles.run, styles.runTop)}>
-        <span className={styles.coupling} style={{ left: '42%' }} />
-        <span className={styles.coupling} style={{ left: '76%' }} />
+        <span className={styles.coupling} style={{ left: '20%' }} />
+        <PipeFlange axis="h" style={{ left: '42%' }} />
+        <span className={styles.coupling} style={{ left: '60%' }} />
+        <PipeSpur dir="down" style={{ left: '72%' }} />
+        <span className={styles.coupling} style={{ left: '88%' }} />
       </span>
       <span className={clsx(styles.run, styles.runBottom)}>
-        <span className={styles.coupling} style={{ left: '30%' }} />
+        <span className={styles.coupling} style={{ left: '16%' }} />
+        <PipeSpur dir="up" style={{ left: '30%' }} />
+        <PipeFlange axis="h" style={{ left: '50%' }} />
         <span className={styles.coupling} style={{ left: '66%' }} />
+        <span className={styles.coupling} style={{ left: '86%' }} />
       </span>
       <span className={clsx(styles.run, styles.runLeft)}>
-        <span className={styles.coupling} style={{ top: '26%' }} />
-        <span className={styles.coupling} style={{ top: '66%' }} />
+        <span className={styles.coupling} style={{ top: '13%' }} />
+        <PipeValve axis="v" style={{ top: '30%' }} />
+        <PipeFlange axis="v" style={{ top: '52%' }} />
+        <span className={styles.coupling} style={{ top: '78%' }} />
       </span>
       <span className={clsx(styles.run, styles.runRight)}>
-        <span className={styles.coupling} style={{ top: '36%' }} />
-        <span className={styles.coupling} style={{ top: '74%' }} />
+        <span className={styles.coupling} style={{ top: '15%' }} />
+        <PipeFlange axis="v" style={{ top: '36%' }} />
+        <span className={styles.coupling} style={{ top: '56%' }} />
+        <PipeSpur dir="left" style={{ top: '74%' }} />
+        <span className={styles.coupling} style={{ top: '88%' }} />
       </span>
 
       <Elbow corner="tl" className={clsx(styles.elbow, styles.elbowTL)} />
@@ -327,12 +339,91 @@ export function PipeColumn({ className }: { className?: string }) {
   return (
     <div className={clsx(styles.column, className)} aria-hidden>
       <span className={styles.columnPipe}>
-        <span className={styles.coupling} style={{ top: '30%' }} />
-        <span className={styles.coupling} style={{ top: '74%' }} />
+        <span className={styles.coupling} style={{ top: '18%' }} />
+        <PipeValve axis="v" style={{ top: '40%' }} />
+        <PipeFlange axis="v" style={{ top: '62%' }} />
+        <span className={styles.coupling} style={{ top: '84%' }} />
       </span>
       <Tee outlet="down" className={clsx(styles.tee, styles.teeTop)} />
       <Tee outlet="up" className={clsx(styles.tee, styles.teeBottom)} />
     </div>
+  );
+}
+
+/**
+ * Inline gate valve: a bulged body between flange rims, with a bonnet
+ * carrying a handwheel out to one side.
+ */
+export function PipeValve({
+  axis,
+  className,
+  style,
+}: {
+  axis: 'v' | 'h';
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <span
+      className={clsx(styles.valve, axis === 'v' ? styles.valveV : styles.valveH, className)}
+      style={style}
+      aria-hidden
+    >
+      <span className={styles.valveBody} />
+      <span className={clsx(styles.valveRim, styles.valveRimA)} />
+      <span className={clsx(styles.valveRim, styles.valveRimB)} />
+      {/* handwheel faces the viewer, so the valve stays inside the
+          narrow gutter the run occupies */}
+      <span className={styles.valveWheel}>
+        <ValveWheel size={26} />
+      </span>
+    </span>
+  );
+}
+
+/** Bolted flange joint — two faces drawn up against each other. */
+export function PipeFlange({
+  axis,
+  className,
+  style,
+}: {
+  axis: 'v' | 'h';
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <span
+      className={clsx(styles.flange, axis === 'v' ? styles.flangeV : styles.flangeH, className)}
+      style={style}
+      aria-hidden
+    >
+      <span className={styles.flangeFace} />
+      <span className={styles.flangeFace} />
+    </span>
+  );
+}
+
+/** Capped spur — a blanked-off port branching from a run. */
+export function PipeSpur({
+  dir,
+  className,
+  style,
+}: {
+  dir: 'down' | 'up' | 'right' | 'left';
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  const dirClass = {
+    down: styles.spurDown,
+    up: styles.spurUp,
+    right: styles.spurRight,
+    left: styles.spurLeft,
+  }[dir];
+  return (
+    <span className={clsx(styles.spur, dirClass, className)} style={style} aria-hidden>
+      <span className={styles.spurPipe} />
+      <span className={styles.spurCap} />
+    </span>
   );
 }
 

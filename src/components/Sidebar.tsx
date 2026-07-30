@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import type { JSX } from 'react';
+import { Fragment, type JSX } from 'react';
 import styles from './Sidebar.module.css';
-import { WheelEmblem, ClockFace, Gauge } from './Instruments';
+import { WheelEmblem, ClockFace, Cog, ScrollFlourish, Fleuron } from './Instruments';
 import { PipeStub, PipeFeed } from './Pipes';
 import { HomeIcon, InboxIcon, GridIcon, PersonIcon, ClipboardIcon } from './Icons';
 
@@ -32,23 +32,42 @@ export default function Sidebar({ open }: { open: boolean }) {
     <aside className={clsx(styles.sidebar, open && styles.open)}>
       <div className={clsx(styles.panel, 'brass-frame', 'rivets')}>
         <div className={clsx(styles.panelInner, 'parchment')}>
-          <div className={clsx(styles.banner, 'plaque')}>
-            <WheelEmblem size={42} />
-            <span className={clsx(styles.brand, 'gold-metal')}>AENEAS</span>
-            <span className={clsx(styles.brandSub, 'engrave-gold')}>Delivery Platform</span>
+          <div className={styles.bannerFrame}>
+            <div className={clsx(styles.banner, 'plaque')}>
+              {/* engraved keyline with mitred corner brackets */}
+              <span className={styles.bannerKeyline} aria-hidden />
+
+              {/* crest: the wheel breaks the top rail, scrollwork runs
+                  out to either side of it */}
+              <div className={styles.crest}>
+                <ScrollFlourish size={42} flip className={styles.crestScroll} />
+                <WheelEmblem size={42} />
+                <ScrollFlourish size={42} className={styles.crestScroll} />
+              </div>
+
+              <span className={clsx(styles.brand, 'gold-metal')}>AENEAS</span>
+              <span className={styles.brandRule} aria-hidden />
+              <span className={clsx(styles.brandSub, 'engrave-gold')}>Delivery Platform</span>
+              <Fleuron width={104} className={styles.bannerFleuron} />
+            </div>
           </div>
 
           <nav className={styles.nav}>
             {nav.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={clsx(styles.navItem, item.active && styles.navActive, 'engrave')}
-              >
-                <span className={styles.navIcon}>{item.icon}</span>
-                <span className={styles.navLabel}>{item.label}</span>
-                {item.badge !== undefined && <span className={styles.navBadge}>{item.badge}</span>}
-              </button>
+              <Fragment key={item.id}>
+                <button
+                  type="button"
+                  className={clsx(styles.navItem, item.active && styles.navActive, 'engrave')}
+                >
+                  <span className={styles.navIcon}>{item.icon}</span>
+                  <span className={styles.navLabel}>{item.label}</span>
+                  {item.badge !== undefined && (
+                    <span className={styles.navBadge}>{item.badge}</span>
+                  )}
+                </button>
+                {/* hairline rule closing every entry, as on the reference */}
+                <span className={styles.navRule} aria-hidden />
+              </Fragment>
             ))}
           </nav>
         </div>
@@ -61,16 +80,22 @@ export default function Sidebar({ open }: { open: boolean }) {
         </div>
       </div>
 
-      {/* instruments hang off a feed line tapped from the left-hand main */}
+      {/* instruments hang off a feed line tapped from the left-hand main:
+          wheel, movement and cog, stepped down the way the reference
+          stacks them */}
       <div className={styles.instruments}>
         <div className={styles.dials}>
+          <div className={styles.mount}>
+            <WheelEmblem size={58} />
+            <PipeStub length={30} />
+          </div>
           <div className={styles.mount}>
             <ClockFace size={104} />
             <PipeStub />
           </div>
           <div className={styles.mount}>
-            <Gauge size={66} value={0.72} label="PSI" />
-            <PipeStub />
+            <Cog size={62} />
+            <PipeStub length={14} />
           </div>
         </div>
         <PipeFeed />

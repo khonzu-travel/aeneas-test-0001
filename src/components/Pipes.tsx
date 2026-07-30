@@ -429,11 +429,17 @@ export function PipeSpur({
 
 /**
  * Drop stub with a union nut — hangs an instrument off the feed line
- * beneath it, the way a bottom-entry gauge is plumbed in.
+ * beneath it, the way a bottom-entry gauge is plumbed in. `length`
+ * sets how far the instrument stands off the feed, so a cluster can be
+ * stepped without moving the line.
  */
-export function PipeStub({ className }: { className?: string }) {
+export function PipeStub({ length, className }: { length?: number; className?: string }) {
   return (
-    <span className={clsx(styles.stub, className)} aria-hidden>
+    <span
+      className={clsx(styles.stub, className)}
+      style={length === undefined ? undefined : { height: length }}
+      aria-hidden
+    >
       <span className={styles.stubPipe} />
       <span className={styles.union} />
     </span>

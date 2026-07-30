@@ -1,5 +1,5 @@
-/* Brass instrument art: ship's-wheel emblem, valve wheel,
-   pocket-watch clock and pressure gauge. */
+/* Brass instrument art: ship's-wheel emblem, valve wheel, banner
+   scrollwork, pocket-watch clock, cog and pressure gauge. */
 
 export function WheelEmblem({ size = 44 }: { size?: number }) {
   const spokes = Array.from({ length: 8 }, (_, i) => (i * 360) / 8);
@@ -63,6 +63,152 @@ export function ValveWheel({ size = 40 }: { size?: number }) {
       ))}
       <circle cx="24" cy="24" r="6" fill="url(#vwHub)" stroke="#241804" strokeWidth="1" />
       <rect x="21.4" y="21.4" width="5.2" height="5.2" rx="1" fill="#4a340f" opacity="0.55" />
+    </svg>
+  );
+}
+
+/**
+ * Engraved scrollwork that runs out from the crest along the banner's
+ * top rail: a tapered bar ending in a volute, with a small acanthus
+ * leaf under it. Drawn pointing right; `flip` mirrors it for the
+ * left-hand side (the stroke is flat gold, so mirroring is safe).
+ */
+export function ScrollFlourish({
+  size = 54,
+  flip = false,
+  className,
+}: {
+  size?: number;
+  flip?: boolean;
+  className?: string;
+}) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={(size * 20) / 54}
+      viewBox="0 0 54 20"
+      fill="none"
+      aria-hidden
+      style={flip ? { transform: 'scaleX(-1)' } : undefined}
+    >
+      <g stroke="#c9a24f" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M53 10H30" />
+        {/* volute: the bar rolls up into a spiral */}
+        <path d="M30 10c-5.4 0-7.6-5.6-13.4-5.6-6 0-9.4 4-7 7.6 2 3 6.6 1.6 5.8-1.8" />
+        {/* acanthus leaf tucked beneath the roll */}
+        <path d="M30 10c-4.6 0-6.6 5.2-12 5.4" strokeWidth="1.1" opacity="0.75" />
+      </g>
+      <circle cx="31.5" cy="10" r="1.9" fill="#dcb763" />
+      <circle cx="9.6" cy="10.2" r="1.5" fill="#dcb763" />
+    </svg>
+  );
+}
+
+/**
+ * Symmetric fleuron closing the banner: a struck lozenge between two
+ * tapering rules, the same motif the section rules use.
+ */
+export function Fleuron({ width = 96, className }: { width?: number; className?: string }) {
+  return (
+    <svg
+      className={className}
+      width={width}
+      height={(width * 12) / 96}
+      viewBox="0 0 96 12"
+      fill="none"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="flRule" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#dcb763" stopOpacity="0" />
+          <stop offset="0.5" stopColor="#dcb763" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#dcb763" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <path d="M2 6h34M60 6h34" stroke="url(#flRule)" strokeWidth="1.2" />
+      <path d="M48 1l5.4 5-5.4 5-5.4-5z" fill="#dcb763" stroke="#3a2610" strokeWidth="0.5" />
+      <circle cx="39" cy="6" r="1.5" fill="#c9a24f" />
+      <circle cx="57" cy="6" r="1.5" fill="#c9a24f" />
+    </svg>
+  );
+}
+
+/**
+ * Cast cog: a toothed brass wheel with a bolted hub, four pierced
+ * lightening holes and a keyed bore.
+ */
+export function Cog({ size = 62, teeth = 14 }: { size?: number; teeth?: number }) {
+  const C = 50;
+  const angles = Array.from({ length: teeth }, (_, i) => (i * 360) / teeth);
+  const spokes = Array.from({ length: 4 }, (_, i) => 45 + (i * 360) / 4);
+
+  return (
+    <svg width={size} height={size} viewBox="0 0 100 100" aria-hidden>
+      <defs>
+        <linearGradient id="cgFace" x1="0" y1="0" x2="0.45" y2="1">
+          <stop offset="0" stopColor="#fbeec0" />
+          <stop offset="0.3" stopColor="#dcb45f" />
+          <stop offset="0.64" stopColor="#9d7727" />
+          <stop offset="1" stopColor="#3e2c0d" />
+        </linearGradient>
+        <radialGradient id="cgHub" cx="36%" cy="30%" r="72%">
+          <stop offset="0" stopColor="#fdf3c4" />
+          <stop offset="0.5" stopColor="#c39a3d" />
+          <stop offset="1" stopColor="#43300e" />
+        </radialGradient>
+      </defs>
+
+      {/* teeth */}
+      {angles.map((deg) => {
+        const [x, y] = dialPoint(C, C, 43, deg);
+        return (
+          <rect
+            key={deg}
+            x={x - 4.6}
+            y={y - 6}
+            width="9.2"
+            height="12"
+            rx="2"
+            fill="url(#cgFace)"
+            stroke="#1d1303"
+            strokeWidth="0.9"
+            transform={`rotate(${deg} ${x} ${y})`}
+          />
+        );
+      })}
+
+      {/* rim and web */}
+      <circle cx={C} cy={C} r="40" fill="url(#cgFace)" stroke="#1d1303" strokeWidth="1.2" />
+      <circle cx={C} cy={C} r="33" fill="none" stroke="#1d1303" strokeWidth="1" opacity="0.6" />
+      <circle cx={C} cy={C} r="35.5" fill="none" stroke="rgba(255,248,220,0.35)" strokeWidth="1" />
+
+      {/* lightening holes between the spokes */}
+      {spokes.map((deg) => {
+        const [x, y] = dialPoint(C, C, 22, deg);
+        return (
+          <circle
+            key={deg}
+            cx={x}
+            cy={y}
+            r="8.4"
+            fill="#1a1103"
+            opacity="0.62"
+            stroke="#0f0a01"
+            strokeWidth="0.8"
+          />
+        );
+      })}
+
+      {/* bolted hub with a keyed bore */}
+      <circle cx={C} cy={C} r="14" fill="url(#cgHub)" stroke="#1d1303" strokeWidth="1" />
+      {[0, 90, 180, 270].map((deg) => {
+        const [x, y] = dialPoint(C, C, 10.5, deg);
+        return <circle key={deg} cx={x} cy={y} r="1.8" fill="#f4dc9e" stroke="#1d1303" strokeWidth="0.5" />;
+      })}
+      <circle cx={C} cy={C} r="6" fill="#150d02" stroke="#1d1303" strokeWidth="0.8" />
+      <rect x={C - 1.9} y={C - 8.6} width="3.8" height="3.4" fill="#150d02" />
+      <circle cx={C - 3.4} cy={C - 3.6} r="1.3" fill="#fff6cc" opacity="0.5" />
     </svg>
   );
 }

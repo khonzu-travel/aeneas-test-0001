@@ -1,0 +1,108 @@
+/*
+ * The outer chassis reads as brass tubing rather than a flat bevel: the stacked
+ * inset shadows fake the rounded profile of a pipe running round the screen.
+ */
+.chassis {
+  composes: brassFrame from './styles/surfaces.module.css';
+  --frame-w: 14px;
+  min-height: 100vh;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow:
+    inset 0 0 0 1px var(--brass-shadow),
+    inset 0 4px 4px -2px rgba(255, 226, 168, 0.65),
+    inset 0 -4px 5px -2px rgba(0, 0, 0, 0.75),
+    inset 4px 0 5px -2px rgba(255, 220, 160, 0.3),
+    inset -4px 0 5px -2px rgba(0, 0, 0, 0.6);
+}
+
+.chassis::after {
+  inset: 11px;
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(24, 12, 2, 0.9),
+    0 0 0 2px rgba(240, 205, 132, 0.3),
+    0 0 10px 3px rgba(0, 0, 0, 0.55);
+}
+
+/*
+ * Macro layout: sidebar in the first column spanning both rows, header and
+ * main stacked in the second. Everything inside aligns to --gutter.
+ */
+.app {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) 1fr;
+  grid-template-rows: auto 1fr;
+  gap: var(--gutter);
+  min-height: calc(100vh - 28px);
+  padding: var(--gutter);
+  border-radius: 8px;
+  background-color: var(--bg-deep);
+  background-image:
+    var(--tex-grain),
+    radial-gradient(118% 82% at 50% -6%, var(--bg-panel) 0%, #2f1706 34%, var(--bg-panel-lo) 62%, var(--bg-deep) 84%, var(--bg-vignette) 100%);
+  background-blend-mode: soft-light, normal;
+  background-size: 180px 180px, auto;
+  box-shadow: inset 0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+.scrim {
+  display: none;
+}
+
+/* ---- Tablet: sidebar collapses to an icon rail ------------------------ */
+
+@media (max-width: 1100px) {
+  .chassis {
+    --frame-w: 10px;
+    padding: 10px;
+    border-radius: 14px;
+  }
+
+  .chassis::after {
+    inset: 8px;
+  }
+
+  .app {
+    grid-template-columns: 84px 1fr;
+    min-height: calc(100vh - 20px);
+  }
+}
+
+/* ---- Phone: sidebar becomes an overlay drawer ------------------------- */
+
+@media (max-width: 720px) {
+  .chassis {
+    --frame-w: 7px;
+    padding: 7px;
+    border-radius: 10px;
+  }
+
+  .chassis::after {
+    inset: 5px;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    min-height: calc(100vh - 14px);
+    overflow: hidden;
+  }
+
+  .scrim {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    background: rgba(10, 4, 0, 0.66);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 180ms ease, visibility 180ms ease;
+  }
+
+  .app[data-drawer='open'] .scrim {
+    opacity: 1;
+    visibility: visible;
+  }
+}

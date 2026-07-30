@@ -1,0 +1,49 @@
+.badge {
+  flex: none;
+  display: inline-block;
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: clamp(11px, 0.92vw, 13.5px);
+  line-height: 1.25;
+  white-space: nowrap;
+  color: var(--cream);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.85);
+  /* Enamel fill set per stage below; the brass surround is shared. */
+  background-image: radial-gradient(120% 140% at 34% 22%, var(--enamel-hi) 0%, var(--enamel-lo) 100%);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.16),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.45),
+    0 0 0 2px var(--brass-mid),
+    0 0 0 3px rgba(42, 24, 6, 0.55),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.badge[data-stage='intent'] {
+  --enamel-hi: var(--enamel-intent);
+  --enamel-lo: var(--enamel-intent-lo);
+}
+
+.badge[data-stage='analysis'] {
+  --enamel-hi: var(--enamel-analysis);
+  --enamel-lo: var(--enamel-analysis-lo);
+}
+
+.badge[data-stage='scheduling'] {
+  --enamel-hi: var(--enamel-scheduling);
+  --enamel-lo: var(--enamel-scheduling-lo);
+}
+
+.badge[data-stage='build'] {
+  --enamel-hi: var(--enamel-build);
+  --enamel-lo: var(--enamel-build-lo);
+  color: #eee7ad;
+}
+
+/* Release ships on a gilded plate rather than enamel. */
+.badge[data-stage='release'] {
+  --enamel-hi: var(--enamel-release);
+  --enamel-lo: var(--enamel-release-lo);
+  color: #ffe9b4;
+}

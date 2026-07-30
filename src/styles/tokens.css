@@ -1,0 +1,175 @@
+/*
+ * AENEAS Delivery Platform — design tokens.
+ *
+ * Values are sampled from the reference capture in /design. Everything the
+ * chrome is built from (brass, parchment, enamel, engraving) lives here so the
+ * components below only ever reference semantic names.
+ */
+
+:root {
+  /* ---- Backdrop ------------------------------------------------------- */
+  --bg-deep: #180701;
+  --bg-vignette: #090300;
+  --bg-panel: #3a1d07;
+  --bg-panel-lo: #240f03;
+
+  /* ---- Brass / copper ------------------------------------------------- */
+  --brass-hi: #f0cd84;
+  --brass-lit: #c8933d;
+  --brass: #a26c22;
+  --brass-mid: #82521a;
+  --brass-dim: #613b10;
+  --brass-dark: #3c2208;
+  --brass-shadow: #1d1103;
+
+  /* ---- Parchment ------------------------------------------------------ */
+  --parch-hi: #dfa860;
+  --parch: #cd924c;
+  --parch-warm: #c1863f;
+  --parch-dim: #b2783a;
+  --parch-edge: #8a5a28;
+
+  /* ---- Engraved metal plates (logo, status, nav-active) --------------- */
+  --plate: #341e0a;
+  --plate-lo: #1d1004;
+  --plate-hi: rgba(140, 90, 34, 0.4);
+
+  /* ---- Ink / type ----------------------------------------------------- */
+  --ink: #2b1608;
+  --ink-soft: #4a2c12;
+  --ink-faint: #6b4520;
+  --gold-type: #c69a4e;
+  --gold-type-hi: #f0d199;
+  --cream: #f3ddb0;
+
+  /* ---- Semantic status ------------------------------------------------ */
+  --st-green: #4a9a2c;
+  --st-green-dk: #1f4a0f;
+  --st-amber: #d98a10;
+  --st-amber-dk: #6d3f02;
+  --st-red: #b8331a;
+  --st-red-dk: #6a1405;
+  --st-idle: #966b3c;
+  --st-idle-dk: #5c3c1c;
+
+  --num-dark: #3a2109;
+  --num-red: #93230e;
+  --num-green: #2b5216;
+  --num-gold: #a5701c;
+
+  /* ---- Phase progress ------------------------------------------------- */
+  --phase-fill: #70456f;
+  --phase-fill-lo: #38173a;
+  --phase-empty: #a8783c;
+  --phase-empty-lo: #8a5f2c;
+
+  /* ---- Enamel badges (stage) ------------------------------------------ */
+  --enamel-intent: #4a2f4c;
+  --enamel-intent-lo: #22122a;
+  --enamel-analysis: #2c4a5e;
+  --enamel-analysis-lo: #14222e;
+  --enamel-scheduling: #2b4257;
+  --enamel-scheduling-lo: #101a2c;
+  --enamel-build: #35521c;
+  --enamel-build-lo: #16250b;
+  --enamel-release: #a06405;
+  --enamel-release-lo: #4c2400;
+
+  /* ---- Type ----------------------------------------------------------- */
+  --font-display: 'Cinzel', 'Trajan Pro', 'Palatino Linotype', Georgia, serif;
+  --font-title: 'Playfair Display', 'Bookman Old Style', Georgia, serif;
+  --font-body: 'EB Garamond', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
+
+  /* ---- Spacing scale (shared by every grid in the app) ----------------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+
+  /* Gutter between top-level regions; shrinks with the viewport. */
+  --gutter: var(--sp-5);
+
+  /* ---- Frames --------------------------------------------------------- */
+  --frame-w: 7px;
+  --frame-w-thin: 5px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 5px;
+
+  /* ---- Procedural textures -------------------------------------------- */
+
+  /* Fine paper tooth. */
+  --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  /* Broad staining blotches across parchment. */
+  --tex-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23m)'/%3E%3C/svg%3E");
+
+  /* Anisotropic streaks for brushed/cast brass. */
+  --tex-metal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23b)'/%3E%3C/svg%3E");
+
+  /* ---- Reusable gradients --------------------------------------------- */
+  --grad-brass: linear-gradient(
+    148deg,
+    var(--brass-hi) 0%,
+    var(--brass) 11%,
+    var(--brass-dim) 27%,
+    var(--brass-lit) 46%,
+    var(--brass-mid) 63%,
+    var(--brass-dark) 81%,
+    var(--brass) 100%
+  );
+
+  --grad-brass-pipe: linear-gradient(
+    to bottom,
+    var(--brass-dark) 0%,
+    var(--brass-mid) 16%,
+    var(--brass-hi) 38%,
+    var(--brass-lit) 52%,
+    var(--brass-dim) 74%,
+    var(--brass-shadow) 100%
+  );
+
+  --grad-parchment: linear-gradient(150deg, var(--parch-hi) 0%, var(--parch) 45%, var(--parch-dim) 100%);
+
+  /* The large sheets — sidebar and header — are a shade older and deeper than
+     the card stock, as in the reference. */
+  --grad-parchment-deep: linear-gradient(150deg, #d09751 0%, var(--parch-warm) 45%, #9c6a2c 100%);
+
+  /* A single domed rivet, tiled into corners by the .rivets primitive. */
+  --rivet-dot: radial-gradient(
+    circle at 34% 28%,
+    #ffe7b4 0%,
+    var(--brass-lit) 26%,
+    var(--brass-mid) 58%,
+    var(--brass-shadow) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  --grad-plate: linear-gradient(160deg, #4a2b0f 0%, var(--plate) 40%, var(--plate-lo) 100%);
+
+  /* ---- Bevels --------------------------------------------------------- */
+  --bevel-out: inset 0 1px 0 rgba(255, 228, 168, 0.55), inset 0 -2px 3px rgba(0, 0, 0, 0.55),
+    inset 2px 0 3px rgba(0, 0, 0, 0.28), inset -2px 0 3px rgba(0, 0, 0, 0.28);
+  --bevel-in: inset 0 2px 5px rgba(0, 0, 0, 0.5), inset 0 -1px 0 rgba(255, 228, 168, 0.22);
+  --drop-frame: 0 6px 16px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 220, 160, 0.12);
+}
+
+/* Tighter rhythm as the viewport narrows. */
+@media (max-width: 1100px) {
+  :root {
+    --gutter: var(--sp-4);
+    --frame-w: 6px;
+  }
+}
+
+@media (max-width: 720px) {
+  :root {
+    --gutter: var(--sp-3);
+    --frame-w: 5px;
+    --frame-w-thin: 4px;
+  }
+}

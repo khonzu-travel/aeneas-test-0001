@@ -1,0 +1,250 @@
+.frame {
+  composes: brassFrameThin from '../../styles/surfaces.module.css';
+  display: flex;
+  min-width: 0;
+}
+
+/* A blocked feature reddens its frame and grows a red edge inside. */
+.frame[data-blocked='true'] {
+  background-image: var(--tex-metal),
+    linear-gradient(148deg, #e8b06a 0%, #a75a26 12%, #7a3a16 30%, #cf8b45 46%, #8d4a1c 63%, #4a1e08 81%, #b06a2c 100%);
+}
+
+.face {
+  composes: parchment from '../../styles/surfaces.module.css';
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--sp-5);
+  min-width: 0;
+  padding: 22px var(--sp-5) 18px;
+  border-radius: var(--radius-sm);
+}
+
+.blockedEdge {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: 5px;
+  border-radius: 3px 0 0 3px;
+  background-image: linear-gradient(180deg, #d4501f 0%, #93230e 42%, #5a1004 100%);
+  box-shadow: 0 0 7px rgba(190, 50, 20, 0.55), inset -1px 0 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ---- Header ----------------------------------------------------------- */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  min-width: 0;
+}
+
+.title {
+  composes: engraved from '../../styles/surfaces.module.css';
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(14px, 1.22vw, 18px);
+  line-height: 1.2;
+}
+
+/* ---- Phase summary ---------------------------------------------------- */
+
+.summary {
+  composes: engraved from '../../styles/surfaces.module.css';
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.04vw, 15px);
+  color: var(--ink-soft);
+}
+
+.dot {
+  margin: 0 0.15em;
+  opacity: 0.75;
+}
+
+/* ---- Story / Spec / Tasks -------------------------------------------- */
+
+.statusRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: var(--sp-3);
+  row-gap: 7px;
+  margin-top: var(--sp-1);
+}
+
+.statusItem,
+.taskCount {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  margin: 0;
+  min-width: 0;
+}
+
+.statusItem {
+  justify-items: start;
+}
+
+.taskCount {
+  justify-items: end;
+  text-align: right;
+}
+
+/* Enamelled status lamp. */
+.lamp {
+  align-self: center;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  box-shadow:
+    inset 0 -1px 2px rgba(0, 0, 0, 0.55),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    0 0 0 1px rgba(72, 40, 10, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.lamp[data-tone='green'] {
+  background-image: radial-gradient(circle at 34% 28%, #8de060 0%, var(--st-green) 42%, var(--st-green-dk) 100%);
+}
+
+.lamp[data-tone='amber'] {
+  background-image: radial-gradient(circle at 34% 28%, #ffc95e 0%, var(--st-amber) 42%, var(--st-amber-dk) 100%);
+}
+
+.lamp[data-tone='red'] {
+  background-image: radial-gradient(circle at 34% 28%, #e8623f 0%, var(--st-red) 42%, var(--st-red-dk) 100%);
+}
+
+.lamp[data-tone='idle'] {
+  background-image: radial-gradient(circle at 34% 28%, #c49a63 0%, var(--st-idle) 45%, var(--st-idle-dk) 100%);
+}
+
+.statusLabel {
+  composes: engraved from '../../styles/surfaces.module.css';
+  font-family: var(--font-body);
+  font-size: clamp(12px, 0.98vw, 14px);
+  color: var(--ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.taskValue {
+  composes: engraved from '../../styles/surfaces.module.css';
+  align-self: center;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(16px, 1.35vw, 20px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.taskValueEmpty {
+  composes: taskValue;
+  font-weight: 400;
+  color: var(--ink-faint);
+}
+
+.taskLabel {
+  composes: engraved from '../../styles/surfaces.module.css';
+  font-family: var(--font-body);
+  font-size: clamp(12px, 0.98vw, 14px);
+  color: var(--ink-soft);
+}
+
+.srOnly {
+  composes: srOnly from '../../styles/surfaces.module.css';
+}
+
+/* ---- Last event ------------------------------------------------------- */
+
+.lastEvent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  column-gap: var(--sp-2);
+  margin: 0;
+  padding-top: var(--sp-2);
+}
+
+.clock {
+  grid-row: 1 / 3;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  color: var(--ink);
+  filter: drop-shadow(0 1px 0 rgba(255, 236, 190, 0.55));
+}
+
+.ago {
+  composes: engraved from '../../styles/surfaces.module.css';
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.15;
+}
+
+.agoLabel {
+  composes: engraved from '../../styles/surfaces.module.css';
+  font-family: var(--font-body);
+  font-size: clamp(12px, 1vw, 14px);
+  color: var(--ink-soft);
+}
+
+/* ---- Blocked ribbon --------------------------------------------------- */
+
+.blockedBanner {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin: 0;
+  padding: 6px 8px;
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: clamp(10.5px, 0.83vw, 12.5px);
+  color: #f4d7ab;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+  background-image: linear-gradient(180deg, #8f2c0a 0%, #6f2404 46%, #4a1002 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 160, 110, 0.3),
+    0 0 0 1.5px var(--brass-mid),
+    0 2px 5px rgba(0, 0, 0, 0.55);
+}
+
+.blockedDot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-image: radial-gradient(circle at 34% 28%, #ffb27f 0%, #d4501f 50%, #7a1a04 100%);
+  box-shadow: 0 0 4px rgba(255, 130, 70, 0.6);
+}
+
+.blockedWord {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.92em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blockedReason {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .face {
+    padding: var(--sp-4) var(--sp-4) var(--sp-3);
+    gap: var(--sp-3);
+  }
+}

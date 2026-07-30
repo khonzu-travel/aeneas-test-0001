@@ -1,0 +1,70 @@
+.frame {
+  composes: brassFrameThin from '../../styles/surfaces.module.css';
+  min-width: 0;
+}
+
+.face {
+  composes: parchment from '../../styles/surfaces.module.css';
+  display: grid;
+  align-content: center;
+  gap: var(--sp-2);
+  min-width: 0;
+  padding: var(--sp-5) var(--sp-6) var(--sp-5);
+  border-radius: var(--radius-sm);
+}
+
+/* Engraved keyline inside the gussets. */
+.face::after {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border-radius: 3px;
+  border: 1px solid rgba(96, 56, 16, 0.28);
+  box-shadow: 0 1px 0 rgba(255, 236, 190, 0.3);
+  pointer-events: none;
+}
+
+.value {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: clamp(38px, 4.05vw, 58px);
+  line-height: 1;
+  color: var(--num-dark);
+  text-shadow: 0 2px 0 rgba(255, 236, 190, 0.45), 0 -1px 1px rgba(50, 24, 4, 0.4);
+}
+
+.label {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(14px, 1.15vw, 17px);
+  color: var(--ink);
+  text-shadow: 0 1px 0 rgba(255, 236, 190, 0.5);
+}
+
+/* Tones tint the numeral only — the label stays ink on every card. */
+.face[data-tone='danger'] .value {
+  color: var(--num-red);
+}
+
+.face[data-tone='success'] .value {
+  color: var(--num-green);
+}
+
+.face[data-tone='gold'] .value {
+  color: var(--num-gold);
+}
+
+@media (max-width: 720px) {
+  .face {
+    padding: var(--sp-3) var(--sp-4);
+    gap: var(--sp-1);
+  }
+
+  .face::after {
+    inset: 5px;
+  }
+}

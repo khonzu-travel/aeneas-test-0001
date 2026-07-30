@@ -1,0 +1,49 @@
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 7px;
+  min-width: 0;
+}
+
+.segment {
+  height: 11px;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 236, 190, 0.25),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 236, 190, 0.3);
+}
+
+/* Completed phase: solid violet enamel with a struck highlight. */
+.segment[data-state='filled'] {
+  background-image: linear-gradient(180deg, #916090 0%, var(--phase-fill) 42%, var(--phase-fill-lo) 100%);
+}
+
+/* In-flight phase: enamel fading out toward the untouched phases. */
+.segment[data-state='current'] {
+  background-image: linear-gradient(
+      180deg,
+      rgba(255, 236, 190, 0.28) 0%,
+      rgba(0, 0, 0, 0.25) 100%
+    ),
+    linear-gradient(90deg, var(--phase-fill) 0%, var(--phase-fill-lo) 62%, #4a2f24 100%);
+}
+
+/* Not yet reached: bare recessed channel. */
+.segment[data-state='empty'] {
+  background-image: linear-gradient(180deg, var(--phase-empty) 0%, var(--phase-empty-lo) 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(84, 46, 10, 0.55),
+    0 1px 0 rgba(255, 236, 190, 0.32);
+}
+
+@media (max-width: 720px) {
+  .track {
+    gap: 5px;
+  }
+
+  .segment {
+    height: 9px;
+  }
+}

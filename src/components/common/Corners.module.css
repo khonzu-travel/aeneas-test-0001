@@ -1,0 +1,121 @@
+.corners {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* One L-bracket: two brass arms plus a domed rivet at the elbow. */
+.tl,
+.tr,
+.bl,
+.br {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.tl::before,
+.tr::before,
+.bl::before,
+.br::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 0;
+  background: none;
+}
+
+/* Rivet head. */
+.tl::after,
+.tr::after,
+.bl::after,
+.br::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-image: var(--rivet-dot);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+.tl {
+  top: 0;
+  left: 0;
+}
+.tl::before {
+  border-top-width: 3px;
+  border-left-width: 3px;
+  border-top-color: var(--brass-lit);
+  border-left-color: var(--brass-lit);
+  border-top-left-radius: 6px;
+  filter: drop-shadow(1px 1px 0 rgba(60, 32, 6, 0.65));
+}
+.tl::after {
+  top: 6px;
+  left: 6px;
+}
+
+.tr {
+  top: 0;
+  right: 0;
+}
+.tr::before {
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-top-color: var(--brass-lit);
+  border-right-color: var(--brass);
+  border-top-right-radius: 6px;
+  filter: drop-shadow(-1px 1px 0 rgba(60, 32, 6, 0.65));
+}
+.tr::after {
+  top: 6px;
+  right: 6px;
+}
+
+.bl {
+  bottom: 0;
+  left: 0;
+}
+.bl::before {
+  border-bottom-width: 3px;
+  border-left-width: 3px;
+  border-bottom-color: var(--brass-dim);
+  border-left-color: var(--brass);
+  border-bottom-left-radius: 6px;
+  filter: drop-shadow(1px -1px 0 rgba(60, 32, 6, 0.5));
+}
+.bl::after {
+  bottom: 6px;
+  left: 6px;
+}
+
+.br {
+  bottom: 0;
+  right: 0;
+}
+.br::before {
+  border-bottom-width: 3px;
+  border-right-width: 3px;
+  border-bottom-color: var(--brass-dim);
+  border-right-color: var(--brass-dim);
+  border-bottom-right-radius: 6px;
+  filter: drop-shadow(-1px -1px 0 rgba(60, 32, 6, 0.5));
+}
+.br::after {
+  bottom: 6px;
+  right: 6px;
+}
+
+@media (max-width: 720px) {
+  .tl,
+  .tr,
+  .bl,
+  .br {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -1,0 +1,128 @@
+.mount {
+  position: relative;
+  padding-top: 14px;
+}
+
+/* Ship's wheel straddling the top edge of the plate. */
+.emblem {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  font-size: 30px;
+  color: var(--brass-lit);
+  filter: drop-shadow(0 1px 0 rgba(24, 12, 2, 0.9)) drop-shadow(0 -1px 0 rgba(255, 222, 160, 0.35));
+}
+
+.frame {
+  composes: brassFrameThin from '../../styles/surfaces.module.css';
+  --frame-w-thin: 6px;
+  position: relative;
+  border-radius: 10px;
+}
+
+.plate {
+  composes: darkPlate from '../../styles/surfaces.module.css';
+  padding: 20px var(--sp-3) 14px;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Inner engraved keyline, inset from the brass. */
+.plate::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border-radius: 4px;
+  border: 1px solid rgba(198, 154, 78, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+.wordmark {
+  composes: gilded from '../../styles/surfaces.module.css';
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 2.1vw, 34px);
+  letter-spacing: 0.11em;
+  text-indent: 0.11em;
+  line-height: 1.05;
+}
+
+.rule {
+  display: block;
+  height: 1px;
+  margin: 9px auto 7px;
+  width: 86%;
+  background: linear-gradient(90deg, transparent, rgba(198, 154, 78, 0.75) 22%, rgba(198, 154, 78, 0.75) 78%, transparent);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.tagline {
+  composes: gilded from '../../styles/surfaces.module.css';
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(9px, 0.78vw, 12px);
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  text-transform: uppercase;
+}
+
+/* Small brass drop ornament hanging off the bottom edge. */
+.finial {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  translate: -50% 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50% 50% 55% 55%;
+  background-image: var(--grad-brass);
+  box-shadow: inset 0 1px 0 rgba(255, 228, 168, 0.6), 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Rail mode: emblem only. */
+@media (max-width: 1100px) {
+  .mount {
+    padding-top: 0;
+  }
+
+  .emblem {
+    position: static;
+    translate: none;
+    width: 100%;
+    height: 44px;
+    font-size: 34px;
+  }
+
+  .frame {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .mount {
+    padding-top: 14px;
+  }
+
+  .emblem {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    translate: -50% 0;
+    width: 34px;
+    height: 34px;
+    font-size: 30px;
+  }
+
+  .frame {
+    display: block;
+  }
+}

@@ -1,0 +1,24 @@
+/*
+ * Rows take their natural height, and cards stretch to the tallest card in
+ * their own row — which is why the row holding the blocked card (with its
+ * extra ribbon) is deeper than the row above it, as in the reference.
+ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: var(--gutter);
+  min-height: 0;
+}
+
+@media (max-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

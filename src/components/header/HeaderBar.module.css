@@ -1,0 +1,123 @@
+.frame {
+  composes: brassFrame from '../../styles/surfaces.module.css';
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.bar {
+  composes: parchmentDeep from '../../styles/surfaces.module.css';
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-4);
+  min-width: 0;
+  min-height: 62px;
+  padding: 0 var(--sp-3) 0 var(--sp-6);
+  border-radius: var(--radius-md);
+}
+
+.title {
+  composes: engraved from '../../styles/surfaces.module.css';
+  margin: 0;
+  grid-column: 2;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
+.ornament {
+  grid-column: 3;
+  justify-self: start;
+  display: block;
+  width: 64px;
+  color: var(--ink-soft);
+  opacity: 0.85;
+  filter: drop-shadow(0 1px 0 rgba(255, 232, 184, 0.5));
+}
+
+.actions {
+  grid-column: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  /* Buttons overhang the parchment and sit on the brass, as in the reference. */
+  margin-right: calc(var(--frame-w) * -1 - 2px);
+}
+
+/* ---- Drawer toggle (phone only) --------------------------------------- */
+
+.drawerToggle {
+  display: none;
+  grid-column: 1;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 7px;
+  background-image: var(--grad-brass);
+  box-shadow: var(--bevel-out), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.drawerToggleBars,
+.drawerToggleBars::before,
+.drawerToggleBars::after {
+  display: block;
+  width: 19px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #2b1608;
+  box-shadow: 0 1px 0 rgba(255, 228, 168, 0.45);
+}
+
+.drawerToggleBars {
+  position: relative;
+}
+
+.drawerToggleBars::before,
+.drawerToggleBars::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.drawerToggleBars::before {
+  top: -6px;
+}
+
+.drawerToggleBars::after {
+  top: 6px;
+}
+
+@media (max-width: 1100px) {
+  .bar {
+    padding-left: var(--sp-4);
+    gap: var(--sp-3);
+  }
+
+  .ornament {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .frame {
+    grid-column: 1;
+  }
+
+  .bar {
+    min-height: 54px;
+    padding-left: var(--sp-2);
+    gap: var(--sp-2);
+  }
+
+  .drawerToggle {
+    display: grid;
+  }
+
+  .actions {
+    gap: 2px;
+  }
+}

@@ -1,0 +1,86 @@
+import type { Feature, NavEntry, Stat } from '../types';
+
+export const navEntries: NavEntry[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: 'home' },
+  { id: 'inbox', label: 'Inbox', icon: 'inbox', badge: 8 },
+  { id: 'features', label: 'Features', icon: 'grid' },
+  { id: 'agent-floor', label: 'Agent Floor', icon: 'agent' },
+  { id: 'petitions', label: 'Petitions', icon: 'petition' },
+];
+
+export const stats: Stat[] = [
+  { id: 'active', value: 6, label: 'Active Features', tone: 'default' },
+  { id: 'pending', value: 8, label: 'Pending Actions', tone: 'danger' },
+  { id: 'agents', value: 9, label: 'Agents Working', tone: 'success' },
+  { id: 'blocked', value: 1, label: 'Features Blocked', tone: 'gold' },
+];
+
+export const features: Feature[] = [
+  {
+    id: 'auth-sso',
+    title: 'User Authentication & SSO',
+    stage: 'build',
+    phase: { current: 4, total: 6 },
+    progress: { done: 12, total: 18 },
+    phaseNote: '12 of 18 tasks complete',
+    story: 'approved',
+    spec: 'in-build',
+    lastEventAgo: '4m ago',
+  },
+  {
+    id: 'payments',
+    title: 'Payment Processing',
+    stage: 'analysis',
+    phase: { current: 2, total: 6 },
+    progress: null,
+    phaseNote: 'Spec drafting in progress',
+    story: 'approved',
+    spec: 'drafting',
+    lastEventAgo: '1h ago',
+  },
+  {
+    id: 'reporting',
+    title: 'Reporting Dashboard',
+    stage: 'intent',
+    phase: { current: 1, total: 6 },
+    progress: null,
+    phaseNote: 'Story under review',
+    story: 'review',
+    spec: 'not-started',
+    lastEventAgo: '3h ago',
+  },
+  {
+    id: 'rate-limiting',
+    title: 'API Rate Limiting',
+    stage: 'scheduling',
+    phase: { current: 3, total: 6 },
+    progress: null,
+    phaseNote: 'Awaiting scheduling decision',
+    story: 'approved',
+    spec: 'approved',
+    lastEventAgo: '45m ago',
+  },
+  {
+    id: 'mobile-push',
+    title: 'Mobile Push Notifications',
+    stage: 'build',
+    phase: { current: 4, total: 6 },
+    progress: { done: 5, total: 14 },
+    phaseNote: '5 of 14 tasks complete',
+    story: 'approved',
+    spec: 'blocked',
+    lastEventAgo: '2d ago',
+    blocked: { reason: 'Awaiting third-party API credentials' },
+  },
+  {
+    id: 'data-export',
+    title: 'Data Export Module',
+    stage: 'release',
+    phase: { current: 5, total: 6 },
+    progress: { done: 22, total: 22 },
+    phaseNote: 'Deployment in progress',
+    story: 'approved',
+    spec: 'done',
+    lastEventAgo: '8m ago',
+  },
+];

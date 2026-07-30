@@ -1,0 +1,48 @@
+.row {
+  display: grid;
+  gap: var(--gap-md);
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+}
+
+.card {
+  padding: 6px;
+}
+.inner {
+  position: relative;
+  z-index: 1;
+  border-radius: calc(var(--radius-frame) - 5px);
+  /* clears the corner gussets on all four sides */
+  padding: clamp(18px, 1.8vw, 30px) clamp(20px, 1.9vw, 32px);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: var(--shadow-panel);
+}
+
+.value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-stat);
+  line-height: 1;
+}
+.label {
+  margin-top: clamp(6px, 0.6vw, 12px);
+  font-family: var(--font-heading);
+  font-size: var(--fs-body);
+  color: var(--ink-soft);
+}
+
+/* tone variants recolour the numeral only */
+.default {
+  color: var(--ink-strong);
+}
+.danger {
+  color: var(--tone-danger);
+}
+.success {
+  color: var(--tone-success);
+}
+.gold {
+  color: var(--tone-gold);
+}

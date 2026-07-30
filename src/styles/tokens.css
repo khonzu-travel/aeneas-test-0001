@@ -1,0 +1,171 @@
+/* ============================================================
+   AENEAS Delivery Platform — Design Tokens
+
+   Palette sampled from the reference: warm brass hardware and
+   aged parchment panels on a dark walnut ground.
+   Textures are procedural SVG feTurbulence tiles (no raster art).
+   ============================================================ */
+
+:root {
+  /* ---- Parchment (panel interiors: sidebar, header, cards) ---- */
+  --parchment: #d6bd8b;
+  --parchment-hi: #e6d4a8;
+  --parchment-lo: #b39a67;
+  --parchment-edge: #967c4c;
+
+  /* ---- Dark ground (page background, plaques) ---- */
+  --ground-0: #251808;
+  --ground-1: #150d04;
+  --ground-2: #0b0602;
+  --plaque: #1b1004;
+  --plaque-hi: #2c1c09;
+
+  /* ---- Brass hardware ---- */
+  --brass-hi: #f3da96;
+  --brass-lit: #d9b45c;
+  --brass: #a8832f;
+  --brass-mid: #77571f;
+  --brass-lo: #43300e;
+  --brass-shadow: #180f02;
+
+  /* ---- Gold (lettering on dark plaques) ---- */
+  --gold-hi: #f8e7ae;
+  --gold: #dcb763;
+  --gold-soft: #c39f52;
+
+  /* ---- Ink (text on parchment) ---- */
+  --ink: #3a2610;
+  --ink-strong: #2a1a08;
+  --ink-soft: #6b4f2c;
+  --ink-faint: #8a6c40;
+
+  /* ---- Engraving shadows ---- */
+  --engrave-light: rgba(255, 246, 216, 0.6);
+  --engrave-dark: rgba(58, 38, 16, 0.6);
+
+  /* ---- Semantic stat tones ---- */
+  --tone-danger: #93301d;
+  --tone-success: #2f6b2c;
+  --tone-gold: #a9791f;
+
+  /* ---- Status LEDs ---- */
+  --led-green: #6fce3a;
+  --led-green-glow: #9dff63;
+  --led-amber: #e0a029;
+  --led-amber-glow: #ffcf6a;
+  --led-red: #d33f2a;
+  --led-red-glow: #ff7057;
+
+  /* ---- Phase progress pills ---- */
+  --pill-hi: #6f5eb0;
+  --pill: #4b3d86;
+  --pill-lo: #2e2456;
+  --pill-empty: rgba(122, 98, 56, 0.55);
+
+  /* ---- Stage badges ---- */
+  --stage-build-bg: linear-gradient(#3f7038, #1f421c);
+  --stage-build-bd: #6ea862;
+  --stage-blue-bg: linear-gradient(#3f5a80, #223a58);
+  --stage-blue-bd: #6f90b8;
+  --stage-intent-bg: linear-gradient(#3a3570, #211c49);
+  --stage-intent-bd: #6b64a8;
+  --stage-release-bg: linear-gradient(#e0bd6c, #ab7f2c);
+  --stage-release-bd: #f6e0a2;
+
+  /* ---- Blocked ribbon ---- */
+  --blocked-bg: linear-gradient(#9a2c19, #6d1c0e);
+  --blocked-edge: #c9402b;
+
+  /* ============================================================
+     Procedural texture tiles — composited with background-blend-mode
+     to give metal and paper real material grain.
+     ============================================================ */
+
+  /* fine isotropic grain (soft-light on any surface) */
+  --tx-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.5'/%3E%3C/svg%3E");
+
+  /* anisotropic streaks — brushed metal (overlay on brass) */
+  --tx-streak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.006 0.2' numOctaves='4' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='0.45'/%3E%3C/svg%3E");
+
+  /* soft brown mottling with alpha — aged paper (multiply on parchment) */
+  --tx-stain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.026' numOctaves='4' seed='11' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.56 0 0 0 0 0.43 0 0 0 0 0.23 0.3 0.3 0.3 0 -0.36'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)'/%3E%3C/svg%3E");
+
+  /* dark mottle with alpha — walnut/iron ground */
+  --tx-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='d'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.013' numOctaves='4' seed='23' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.03 0 0 0 0 0.015 0 0 0 0 0 0.85 0.85 0.85 0 -0.6'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23d)'/%3E%3C/svg%3E");
+
+  /* ---- Corner gusset: a cast brass bracket bolted across each corner
+     of a panel. Its outer corner is radiused to follow the panel, the
+     legs run down both edges to chamfered tips, and the inner edge is
+     a concave sweep with an engraved groove — not a plain triangle.
+     The plate is drawn large enough that the domed rivet and its
+     countersunk socket clear the inner edge.
+
+     Four explicit orientations rather than one rotated asset: the
+     light is fixed at the top-left, so rotating would carry the
+     highlight round with the plate. ---- */
+  --gusset-tl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='p' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f9e6ae'/%3E%3Cstop offset='0.35' stop-color='%23c49a41'/%3E%3Cstop offset='0.72' stop-color='%237c5c1e'/%3E%3Cstop offset='1' stop-color='%2343300e'/%3E%3C/linearGradient%3E%3CradialGradient id='dm' cx='33%25' cy='27%25' r='74%25'%3E%3Cstop offset='0' stop-color='%23fffbe6'/%3E%3Cstop offset='0.18' stop-color='%23f4dc9e'/%3E%3Cstop offset='0.46' stop-color='%23c09a42'/%3E%3Cstop offset='0.74' stop-color='%237c5c1e'/%3E%3Cstop offset='0.93' stop-color='%233d2b09'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M2 9.5A7.5 7.5 0 0 1 9.5 2L29 2L34 7A62 62 0 0 0 7 34L2 29Z' fill='url(%23p)' stroke='%23170e02' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M31 7.6A58 58 0 0 0 7.6 31' fill='none' stroke='rgba(28,17,3,0.45)' stroke-width='1'/%3E%3Cpath d='M10 3.7L27.6 3.7M3.7 10L3.7 27.6' stroke='rgba(255,250,225,0.45)' stroke-width='1.1' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='12.9' r='6' fill='%23120b02' opacity='0.45'/%3E%3Ccircle cx='12' cy='12' r='5.2' fill='url(%23dm)' stroke='%23160d02' stroke-width='0.9'/%3E%3Cellipse cx='10.3' cy='10.2' rx='1.6' ry='1.15' fill='%23fffdf0' opacity='0.72' transform='rotate(-38 10.3 10.2)'/%3E%3C/svg%3E");
+  --gusset-tr: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='p' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f9e6ae'/%3E%3Cstop offset='0.35' stop-color='%23c49a41'/%3E%3Cstop offset='0.72' stop-color='%237c5c1e'/%3E%3Cstop offset='1' stop-color='%2343300e'/%3E%3C/linearGradient%3E%3CradialGradient id='dm' cx='33%25' cy='27%25' r='74%25'%3E%3Cstop offset='0' stop-color='%23fffbe6'/%3E%3Cstop offset='0.18' stop-color='%23f4dc9e'/%3E%3Cstop offset='0.46' stop-color='%23c09a42'/%3E%3Cstop offset='0.74' stop-color='%237c5c1e'/%3E%3Cstop offset='0.93' stop-color='%233d2b09'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M38 9.5A7.5 7.5 0 0 0 30.5 2L11 2L6 7A62 62 0 0 1 33 34L38 29Z' fill='url(%23p)' stroke='%23170e02' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M9 7.6A58 58 0 0 1 32.4 31' fill='none' stroke='rgba(28,17,3,0.45)' stroke-width='1'/%3E%3Cpath d='M12.4 3.7L30 3.7' stroke='rgba(255,250,225,0.45)' stroke-width='1.1' stroke-linecap='round'/%3E%3Ccircle cx='28' cy='12.9' r='6' fill='%23120b02' opacity='0.45'/%3E%3Ccircle cx='28' cy='12' r='5.2' fill='url(%23dm)' stroke='%23160d02' stroke-width='0.9'/%3E%3Cellipse cx='26.3' cy='10.2' rx='1.6' ry='1.15' fill='%23fffdf0' opacity='0.72' transform='rotate(-38 26.3 10.2)'/%3E%3C/svg%3E");
+  --gusset-bl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='p' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f9e6ae'/%3E%3Cstop offset='0.35' stop-color='%23c49a41'/%3E%3Cstop offset='0.72' stop-color='%237c5c1e'/%3E%3Cstop offset='1' stop-color='%2343300e'/%3E%3C/linearGradient%3E%3CradialGradient id='dm' cx='33%25' cy='27%25' r='74%25'%3E%3Cstop offset='0' stop-color='%23fffbe6'/%3E%3Cstop offset='0.18' stop-color='%23f4dc9e'/%3E%3Cstop offset='0.46' stop-color='%23c09a42'/%3E%3Cstop offset='0.74' stop-color='%237c5c1e'/%3E%3Cstop offset='0.93' stop-color='%233d2b09'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M2 30.5A7.5 7.5 0 0 0 9.5 38L29 38L34 33A62 62 0 0 1 7 6L2 11Z' fill='url(%23p)' stroke='%23170e02' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M31 32.4A58 58 0 0 1 7.6 9' fill='none' stroke='rgba(28,17,3,0.45)' stroke-width='1'/%3E%3Cpath d='M3.7 30L3.7 12.4' stroke='rgba(255,250,225,0.45)' stroke-width='1.1' stroke-linecap='round'/%3E%3Ccircle cx='12' cy='28.9' r='6' fill='%23120b02' opacity='0.45'/%3E%3Ccircle cx='12' cy='28' r='5.2' fill='url(%23dm)' stroke='%23160d02' stroke-width='0.9'/%3E%3Cellipse cx='10.3' cy='26.2' rx='1.6' ry='1.15' fill='%23fffdf0' opacity='0.72' transform='rotate(-38 10.3 26.2)'/%3E%3C/svg%3E");
+  --gusset-br: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='p' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f9e6ae'/%3E%3Cstop offset='0.35' stop-color='%23c49a41'/%3E%3Cstop offset='0.72' stop-color='%237c5c1e'/%3E%3Cstop offset='1' stop-color='%2343300e'/%3E%3C/linearGradient%3E%3CradialGradient id='dm' cx='33%25' cy='27%25' r='74%25'%3E%3Cstop offset='0' stop-color='%23fffbe6'/%3E%3Cstop offset='0.18' stop-color='%23f4dc9e'/%3E%3Cstop offset='0.46' stop-color='%23c09a42'/%3E%3Cstop offset='0.74' stop-color='%237c5c1e'/%3E%3Cstop offset='0.93' stop-color='%233d2b09'/%3E%3Cstop offset='1' stop-color='%23241804'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M38 30.5A7.5 7.5 0 0 1 30.5 38L11 38L6 33A62 62 0 0 0 33 6L38 11Z' fill='url(%23p)' stroke='%23170e02' stroke-width='1.3' stroke-linejoin='round'/%3E%3Cpath d='M9 32.4A58 58 0 0 0 32.4 9' fill='none' stroke='rgba(255,250,225,0.32)' stroke-width='1'/%3E%3Ccircle cx='28' cy='28.9' r='6' fill='%23120b02' opacity='0.45'/%3E%3Ccircle cx='28' cy='28' r='5.2' fill='url(%23dm)' stroke='%23160d02' stroke-width='0.9'/%3E%3Cellipse cx='26.3' cy='26.2' rx='1.6' ry='1.15' fill='%23fffdf0' opacity='0.72' transform='rotate(-38 26.3 26.2)'/%3E%3C/svg%3E");
+
+  /* ---- Pipe cylinder shading (shared by every tube in the system) ---- */
+  --pipe-h: linear-gradient(
+    180deg,
+    #150c02 0%,
+    #664a1a 14%,
+    #e9d091 33%,
+    #a98430 52%,
+    #5a4116 78%,
+    #130b02 100%
+  );
+  --pipe-v: linear-gradient(
+    90deg,
+    #150c02 0%,
+    #664a1a 14%,
+    #e9d091 33%,
+    #a98430 52%,
+    #5a4116 78%,
+    #130b02 100%
+  );
+
+  /* ---- Radii ---- */
+  --radius-frame: 13px;
+  --radius-pill: 999px;
+
+  /* ---- Fluid spacing ---- */
+  --gap-sm: clamp(6px, 0.6vw, 10px);
+  --gap-md: clamp(12px, 1vw, 20px);
+  --gap-lg: clamp(16px, 1.4vw, 26px);
+  /* Panel padding has to clear the 38px corner gussets, so content
+     starts inboard of the plates rather than butting against them. */
+  --card-pad: clamp(18px, 1.7vw, 28px);
+  --shell-pad: clamp(14px, 1.5vw, 26px);
+
+  /* ---- Fluid type scale ---- */
+  --fs-stat: clamp(2.2rem, 1.5rem + 2.4vw, 3.4rem);
+  --fs-h1: clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem);
+  --fs-card-title: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+  --fs-body: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem);
+  --fs-label: clamp(0.68rem, 0.64rem + 0.12vw, 0.78rem);
+
+  /* ---- Fonts ---- */
+  --font-display: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  --font-heading: 'Cinzel', Georgia, serif;
+  --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+  /* ---- Elevation ---- */
+  --shadow-frame: 0 16px 36px rgba(0, 0, 0, 0.72), 0 4px 10px rgba(0, 0, 0, 0.55);
+  /* Panel: a raised brass lip runs right around the tile, then a dark
+     valley, then the paper sunk inside it. */
+  --shadow-panel:
+    /* raised lip: catch-light on top, shade underneath */
+    0 -1px 0 0.5px rgba(255, 250, 225, 0.5),
+    0 1px 0 0.5px rgba(30, 18, 4, 0.75),
+    0 0 0 2px rgba(196, 156, 66, 0.95),
+    0 0 0 3.5px rgba(44, 29, 8, 0.92),
+    0 2px 3px 3px rgba(0, 0, 0, 0.3),
+    /* paper sunk inside the lip */
+    inset 0 2px 4px rgba(255, 246, 216, 0.42),
+    inset 0 -3px 9px rgba(48, 30, 10, 0.5),
+    inset 0 0 26px rgba(60, 38, 12, 0.34);
+}

@@ -1,5 +1,10 @@
-/* Hand-authored inline SVG icon set. Stroked glyphs share a base
-   config; the gear is filled so it reads as a solid cog. */
+/* Hand-authored inline SVG icon set.
+
+   Two families, matching the reference: the header controls are stroked
+   line glyphs, while the sidebar's navigation marks are solid — cut
+   silhouettes with their internal detail knocked out as a light score,
+   so the same glyph reads on aged paper and on a dark bronze plaque
+   alike. The gear is filled so it reads as a solid cog. */
 
 interface IconProps {
   size?: number;
@@ -17,50 +22,104 @@ const stroked = (size: number) => ({
   strokeLinejoin: 'round' as const,
 });
 
-export function HomeIcon({ size = 22, className }: IconProps) {
+const solid = (size: number) => ({
+  width: size,
+  height: size,
+  viewBox: '0 0 24 24',
+  fill: 'currentColor',
+});
+
+/** The score cut through a solid glyph, lit from above. */
+const SCORE = 'rgba(255, 248, 222, 0.5)';
+/** …and the same cut where the glyph itself is the light element. */
+const SCORE_DARK = 'rgba(26, 15, 3, 0.55)';
+
+/** Sits on the active plaque, so its detail is cut dark into the gold. */
+export function HomeIcon({ size = 24, className }: IconProps) {
   return (
-    <svg {...stroked(size)} className={className} aria-hidden>
-      <path d="M3 11.5 12 4l9 7.5" />
-      <path d="M5 10v9h5v-5h4v5h5v-9" />
+    <svg {...solid(size)} className={className} aria-hidden>
+      <path d="M12 2.4 1.2 12.1a.9.9 0 0 0 .6 1.6h2.1V21a.9.9 0 0 0 .9.9h4.6v-5.4h5.2v5.4h4.6a.9.9 0 0 0 .9-.9v-7.3h2.1a.9.9 0 0 0 .6-1.6Z" />
+      <path
+        d="M4.6 13.1 12 6.5l7.4 6.6"
+        fill="none"
+        stroke={SCORE_DARK}
+        strokeWidth="1.1"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-export function InboxIcon({ size = 22, className }: IconProps) {
+export function InboxIcon({ size = 24, className }: IconProps) {
   return (
-    <svg {...stroked(size)} className={className} aria-hidden>
-      <rect x="3" y="5" width="18" height="14" rx="1.5" />
-      <path d="M3 6l9 7 9-7" />
+    <svg {...solid(size)} className={className} aria-hidden>
+      <rect x="2" y="4.6" width="20" height="14.8" rx="2" />
+      <path
+        d="M3.4 6.2 12 13l8.6-6.8M3.4 17.8 9.6 12M20.6 17.8 14.4 12"
+        fill="none"
+        stroke={SCORE}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-export function GridIcon({ size = 22, className }: IconProps) {
+/** Nine cells — the reference's grid is 3 × 3, not 2 × 2. */
+export function GridIcon({ size = 24, className }: IconProps) {
+  const track = [2.6, 9.4, 16.2];
   return (
-    <svg {...stroked(size)} className={className} aria-hidden>
-      <rect x="3.5" y="3.5" width="7" height="7" rx="1" />
-      <rect x="13.5" y="3.5" width="7" height="7" rx="1" />
-      <rect x="3.5" y="13.5" width="7" height="7" rx="1" />
-      <rect x="13.5" y="13.5" width="7" height="7" rx="1" />
+    <svg {...solid(size)} className={className} aria-hidden>
+      {track.map((y) =>
+        track.map((x) => <rect key={`${x}-${y}`} x={x} y={y} width="5.2" height="5.2" rx="0.7" />),
+      )}
     </svg>
   );
 }
 
-export function PersonIcon({ size = 22, className }: IconProps) {
+export function PersonIcon({ size = 24, className }: IconProps) {
   return (
-    <svg {...stroked(size)} className={className} aria-hidden>
-      <circle cx="12" cy="8" r="3.6" />
-      <path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6" />
+    <svg {...solid(size)} className={className} aria-hidden>
+      <circle cx="12" cy="6.9" r="4.2" />
+      <path d="M12 12.4c-4.3 0-7.7 3.3-7.7 7.4a1.1 1.1 0 0 0 1.1 1.1h13.2a1.1 1.1 0 0 0 1.1-1.1c0-4.1-3.4-7.4-7.7-7.4Z" />
+      {/* collar: the lapel score that opens the shoulders */}
+      <path
+        d="M9.8 13.1 12 16.2l2.2-3.1"
+        fill="none"
+        stroke={SCORE}
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-export function ClipboardIcon({ size = 22, className }: IconProps) {
+/**
+ * The one navigation mark the reference draws as an outline rather than
+ * a silhouette: a board with a dog-eared corner, ruled lines and a wax
+ * seal struck at its foot.
+ */
+export function ClipboardIcon({ size = 24, className }: IconProps) {
   return (
-    <svg {...stroked(size)} className={className} aria-hidden>
-      <rect x="5" y="4" width="14" height="17" rx="1.6" />
-      <path d="M9 4.5V3.5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" />
-      <path d="M8.5 9.5h7M8.5 13h7M8.5 16.5h4" />
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      className={className}
+      aria-hidden
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.9"
+      strokeLinejoin="round"
+    >
+      <path d="M6 2.4h8.6l4.6 4.6v14.6a1.6 1.6 0 0 1-1.6 1.6H6a1.6 1.6 0 0 1-1.6-1.6V4a1.6 1.6 0 0 1 1.6-1.6Z" />
+      <path d="M14.4 2.6V7h4.6" />
+      <g strokeWidth="1.5" strokeLinecap="round">
+        <path d="M7.6 10.6h6.6M7.6 13.6h8.6M12.4 16.6h4.2" />
+      </g>
+      <rect x="7.2" y="15.4" width="3.4" height="3.4" rx="0.6" fill="currentColor" strokeWidth="1" />
     </svg>
   );
 }

@@ -1,5 +1,16 @@
-/* The sidebar column: framed parchment panel on top, then the status
-   lamp on its own plate, then the instruments on the bare ground. */
+/* The sidebar column: framed panel on top (bronze banner over the
+   paper navigation), then the status plate, then the instruments on
+   the bare ground.
+
+   Two cartouches here — the active navigation plaque and the status
+   plate — are built the same way: cast end caps from Ornaments.tsx at a
+   fixed height, with a plain brass bar spanning between them. All the
+   magic numbers below are the seams where that bar meets the caps, so
+   they track the stroke geometry in Ornaments.tsx:
+
+     nav plaque  · 54px tall · rail centreline 2.2px · inner line 7.4px
+     status plate· 42px tall · rail centreline 2.6px · inner line 7.4px */
+
 .sidebar {
   grid-column: 1;
   /* spans every row of the shell grid: header | pipe | stats | pipe | features */
@@ -11,7 +22,7 @@
   gap: clamp(12px, 1.1vw, 18px);
 }
 
-/* ---- framed parchment panel: banner + nav ---- */
+/* ---- framed panel: bronze banner + paper navigation ---- */
 .panel {
   flex: 1;
   min-height: 0;
@@ -21,43 +32,169 @@
   z-index: 1;
   height: 100%;
   border-radius: calc(var(--radius-frame) - 5px);
-  /* clears the corner gussets top and bottom */
-  padding: clamp(18px, 1.6vw, 26px) clamp(16px, 1.4vw, 22px);
   display: flex;
   flex-direction: column;
   box-shadow: var(--shadow-panel);
 }
 
-/* ---- engraved banner ---- */
+/* ============================================================
+   Banner — a bronze plaque filling the head of the panel. The
+   brass bar runs 8px inboard of its edges: cast corners at each
+   turn, plain rail between them.
+   ============================================================ */
 .banner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 14px 12px 13px;
+  position: relative;
+  flex: none;
+  padding: 52px 16px 38px;
+  text-align: center;
+  border-radius: calc(var(--radius-frame) - 5px) calc(var(--radius-frame) - 5px) 0 0;
+  background-color: #241705;
+  background-image:
+    /* rails: top, bottom, left, right — inset past the cast corners */
+    var(--rail-h),
+    var(--rail-h),
+    var(--rail-v),
+    var(--rail-v),
+    var(--tx-filigree),
+    var(--bronze-field);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+  background-size:
+    calc(100% - 72px) 4.4px,
+    calc(100% - 72px) 4.4px,
+    4.4px calc(100% - 72px),
+    4.4px calc(100% - 72px),
+    56px 56px,
+    auto;
+  background-position:
+    36px 9.8px,
+    36px calc(100% - 9.8px),
+    9.8px 36px,
+    calc(100% - 9.8px) 36px,
+    center,
+    center;
+  box-shadow:
+    inset 0 -3px 8px rgba(0, 0, 0, 0.6),
+    inset 0 2px 3px rgba(255, 246, 216, 0.12),
+    0 3px 6px rgba(0, 0, 0, 0.5);
 }
-.banner svg {
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.7));
+/* the engraved line doubling the bar, carried between the cast corners:
+   they draw the same line at a 10.5px radius, 18.5px in from the plaque */
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 18.5px;
+  border-radius: 10.5px;
+  box-shadow: inset 0 0 0 1.1px rgba(246, 224, 162, 0.34);
+  pointer-events: none;
 }
+.bannerCorner {
+  position: absolute;
+  z-index: 2;
+}
+.cornerTL {
+  top: 8px;
+  left: 8px;
+}
+.cornerTR {
+  top: 8px;
+  right: 8px;
+}
+.cornerBL {
+  bottom: 8px;
+  left: 8px;
+}
+.cornerBR {
+  bottom: 8px;
+  right: 8px;
+}
+
+/* crest: the wheel's centre lands on the top rail's centreline (12px
+   down from the plaque edge), so half of it stands proud of the bar */
+.bannerCrest {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.75));
+}
+/* pendant: hung from the bottom rail, overhanging onto the paper */
+.bannerPendant {
+  position: absolute;
+  bottom: -21px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.75));
+}
+
 .brand {
-  margin-top: 5px;
+  display: block;
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(1.45rem, 1.15rem + 1vw, 1.95rem);
-  letter-spacing: 0.1em;
+  font-size: clamp(1.85rem, 1.2rem + 2vw, 2.5rem);
+  letter-spacing: 0.06em;
   line-height: 1;
 }
 .brandSub {
+  display: block;
   font-family: var(--font-heading);
-  font-size: 0.58rem;
-  letter-spacing: 0.32em;
+  font-weight: 500;
+  font-size: clamp(0.74rem, 0.55rem + 0.7vw, 0.95rem);
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--gold-soft);
+  color: var(--gold-hi);
+  white-space: nowrap;
 }
 
-/* ---- navigation ---- */
+/* engraved rule between the wordmark and the strapline: a hairline
+   with a lozenge on the centreline and a diamond at each stop */
+.brandRule {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 84%;
+  margin: 13px auto 11px;
+}
+.brandRule::before,
+.brandRule::after {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.7);
+}
+.ruleArm {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(220, 183, 99, 0.25) 0%,
+    rgba(236, 201, 120, 0.9) 22%,
+    rgba(236, 201, 120, 0.9) 78%,
+    rgba(220, 183, 99, 0.25) 100%
+  );
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.75);
+}
+.ruleGem {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  background: linear-gradient(135deg, var(--gold-hi), var(--brass-mid));
+  transform: rotate(45deg);
+  box-shadow:
+    inset 0 0 0 1px rgba(36, 23, 5, 0.55),
+    0 1px 1px rgba(0, 0, 0, 0.75);
+}
+
+/* ============================================================
+   Navigation — struck into the paper below the banner.
+   ============================================================ */
 .nav {
-  margin-top: clamp(14px, 1.8vw, 26px);
+  margin-top: clamp(16px, 1.6vw, 24px);
+  padding: 0 14px;
   display: flex;
   flex-direction: column;
 }
@@ -65,26 +202,27 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
-  padding: 13px 12px;
-  border: 1px solid transparent;
+  height: 54px;
+  flex: none;
+  margin-bottom: 12px;
+  padding: 0 13px;
+  border: 0;
   background: transparent;
-  border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-heading);
   font-size: clamp(0.95rem, 0.9rem + 0.4vw, 1.12rem);
   color: var(--ink);
   text-align: left;
-  transition: background 0.15s ease;
 }
-/* hairline rules between entries, as on the reference */
-.navItem:not(:last-child)::after {
+/* hairline rules, one under every entry, sitting midway in the gap */
+.navItem::after {
   content: '';
   position: absolute;
   left: 10px;
   right: 10px;
-  bottom: 0;
+  bottom: -6px;
   height: 1px;
   background: linear-gradient(
     90deg,
@@ -95,73 +233,210 @@
   );
   box-shadow: 0 1px 0 rgba(255, 246, 216, 0.4);
 }
-.navItem:hover {
+.navItem:hover:not(.navActive) {
   background: rgba(122, 92, 44, 0.12);
+  border-radius: 8px;
 }
+
+/* ---- active entry: a bronze cartouche laid over the paper ---- */
 .navActive {
-  background-image: linear-gradient(180deg, rgba(150, 112, 48, 0.34), rgba(112, 82, 34, 0.26));
-  border-color: rgba(90, 64, 24, 0.5);
-  box-shadow: inset 0 0 0 1.5px rgba(246, 224, 162, 0.35),
-    inset 0 2px 4px rgba(58, 38, 16, 0.3), 0 1px 0 rgba(255, 246, 216, 0.45);
-  color: var(--ink-strong);
+  color: var(--gold-hi);
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.55));
 }
+/* the active plaque carries its own bottom edge, so it needs no rule */
+.navActive::after {
+  content: none;
+}
+.plaqueCap {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+.plaqueCapL {
+  left: 0;
+}
+.plaqueCapR {
+  right: 0;
+}
+/* plain bar spanning between the two cast ends */
+.plaqueBar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 28px;
+  right: 36px;
+  pointer-events: none;
+  background-image:
+    var(--rail-h),
+    var(--rail-h),
+    linear-gradient(rgba(246, 224, 162, 0.4), rgba(246, 224, 162, 0.4)),
+    linear-gradient(rgba(246, 224, 162, 0.4), rgba(246, 224, 162, 0.4)),
+    var(--tx-filigree),
+    var(--bronze-field);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+  background-size:
+    100% 3.6px,
+    100% 3.6px,
+    100% 1px,
+    100% 1px,
+    56px 56px,
+    auto;
+  background-position:
+    0 0.4px,
+    0 calc(100% - 0.4px),
+    0 6.9px,
+    0 calc(100% - 6.9px),
+    center,
+    center;
+}
+
 .navIcon {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
+  flex: none;
   color: var(--ink-strong);
   filter: drop-shadow(0 1px 0 rgba(255, 246, 216, 0.45));
 }
+.navActive .navIcon {
+  color: var(--gold-hi);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.85));
+}
 .navLabel {
-  flex: 1;
-}
-.navBadge {
-  flex: none;
-  min-width: 22px;
-  height: 22px;
-  padding: 0 6px;
-  border-radius: 999px;
-  background: radial-gradient(circle at 35% 30%, #e0604a, #8f2216 72%);
-  border: 1px solid rgba(255, 200, 170, 0.35);
-  color: #ffe9df;
-  font-family: var(--font-heading);
-  font-size: 0.76rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: inset 0 1px 1px rgba(255, 220, 200, 0.5), 0 2px 4px rgba(58, 38, 16, 0.5);
-  text-shadow: none;
-}
-
-/* ---- status lamp: its own plate below the panel ---- */
-.lampFrame {
-  flex: none;
-  padding: 5px;
-}
-.lampInner {
   position: relative;
   z-index: 1;
+  flex: 1;
+}
+.navActive .navLabel {
+  text-shadow:
+    0 -1px 0 rgba(0, 0, 0, 0.85),
+    0 1px 1px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(220, 183, 99, 0.25);
+}
+
+/* ---- badge: a red glass boss in a brass bezel ---- */
+.navBadge {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  padding: 2.6px;
+  border-radius: 50%;
+  background-image: linear-gradient(150deg, #fbeec0 0%, #c39a3d 38%, #7c5c1e 66%, #3a2909 100%);
+  box-shadow:
+    0 0 0 1px rgba(28, 17, 3, 0.9),
+    inset 0 1px 1px rgba(255, 250, 225, 0.7),
+    0 2px 4px rgba(28, 18, 4, 0.65);
+}
+.navBadgeFace {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-image: radial-gradient(circle at 36% 28%, #c05334 0%, #86220f 52%, #480d05 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(0, 0, 0, 0.6),
+    inset 0 -1px 2px rgba(255, 170, 130, 0.3);
+  color: #f7e3c2;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
 }
+
+/* ============================================================
+   Status plate — its own cartouche below the panel.
+   ============================================================ */
+.statusPlate {
+  position: relative;
+  flex: none;
+  height: 42px;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+.plateCap {
+  position: absolute;
+  top: 0;
+}
+.plateCapL {
+  left: 0;
+}
+.plateCapR {
+  right: 0;
+}
+.plateBar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  background-image:
+    var(--rail-h),
+    var(--rail-h),
+    linear-gradient(rgba(246, 224, 162, 0.36), rgba(246, 224, 162, 0.36)),
+    linear-gradient(rgba(246, 224, 162, 0.36), rgba(246, 224, 162, 0.36)),
+    var(--tx-filigree),
+    linear-gradient(180deg, #40300f 0%, #271a07 45%, #171003 100%);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+  background-size:
+    100% 3px,
+    100% 3px,
+    100% 0.9px,
+    100% 0.9px,
+    56px 56px,
+    auto;
+  background-position:
+    0 1.1px,
+    0 calc(100% - 1.1px),
+    0 6.95px,
+    0 calc(100% - 6.95px),
+    center,
+    center;
+}
+.statusInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 26px;
+}
+/* domed green glass in a brass rim */
 .lamp {
   flex: none;
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, var(--led-green-glow), var(--led-green) 55%, #2b5f16);
-  box-shadow: 0 0 10px 3px rgba(120, 230, 70, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.65),
-    0 0 0 3px rgba(20, 12, 4, 0.85);
+  background-image: radial-gradient(
+    circle at 33% 27%,
+    #d5ff9f 0%,
+    #7ada34 26%,
+    #3f9a17 62%,
+    #1c5c09 100%
+  );
+  box-shadow:
+    0 0 0 2px #8a6626,
+    0 0 0 3px #1d1204,
+    inset 0 1.5px 2px rgba(255, 255, 255, 0.75),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.45),
+    0 0 12px 3px rgba(120, 230, 70, 0.42);
 }
 .lampText {
   font-family: var(--font-heading);
-  font-size: 0.94rem;
+  font-size: 0.96rem;
+  color: #f3dfb2;
+  text-shadow:
+    0 -1px 0 rgba(0, 0, 0, 0.85),
+    0 1px 1px rgba(0, 0, 0, 0.6),
+    0 0 10px rgba(220, 183, 99, 0.2);
 }
 
-/* ---- instruments: sit on the bare ground, plumbed into a feed line
-   that taps off the left-hand main run ---- */
+/* ============================================================
+   Instruments — on the bare ground, plumbed into a feed line
+   tapped off the left-hand main run. Small dial outboard, the
+   watch movement inboard, as in the reference.
+   ============================================================ */
 .instruments {
   position: relative;
   flex: none;
@@ -196,7 +471,9 @@
     border-radius: 14px;
     background-color: var(--ground-1);
     background-image: var(--tx-dark);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.75), inset 0 0 0 1px rgba(246, 224, 162, 0.15);
+    box-shadow:
+      0 18px 46px rgba(0, 0, 0, 0.75),
+      inset 0 0 0 1px rgba(246, 224, 162, 0.15);
     overflow-y: auto;
     transform: translateX(-130%);
     transition: transform 0.28s ease;

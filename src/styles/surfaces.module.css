@@ -47,11 +47,13 @@
   position: relative;
   border-radius: var(--radius-md);
   background-color: var(--parch);
-  /* Both textures blend soft-light: `overlay` against grey noise desaturates
-     the parchment toward beige, which the reference never does. */
-  background-image: var(--tex-grain), var(--tex-mottle), var(--grad-parchment);
-  background-blend-mode: soft-light, soft-light, normal;
+  /* Damask watermark over paper tooth and staining. Both noise layers blend
+     soft-light: `overlay` against grey noise desaturates the parchment toward
+     beige, which the reference never does. */
+  background-image: var(--tex-damask), var(--tex-grain), var(--tex-mottle), var(--grad-parchment);
+  background-blend-mode: soft-light, soft-light, soft-light, normal;
   background-size:
+    190px 190px,
     180px 180px,
     420px 420px,
     auto;
@@ -78,18 +80,19 @@
 /* Deeper-toned stock for the two full-height sheets. */
 .parchmentDeep {
   composes: parchment;
-  background-image: var(--tex-grain), var(--tex-mottle), var(--grad-parchment-deep);
+  background-image: var(--tex-damask), var(--tex-grain), var(--tex-mottle), var(--grad-parchment-deep);
 }
 
 /* ---- Engraved dark plate ---------------------------------------------- */
 
+/* Rough sand-cast metal: pitting over damask over the base gradient. */
 .darkPlate {
   position: relative;
   border-radius: var(--radius-md);
   background-color: var(--plate);
-  background-image: var(--tex-grain), var(--grad-plate);
-  background-blend-mode: soft-light, normal;
-  background-size: 180px 180px, auto;
+  background-image: var(--tex-pit), var(--tex-damask), var(--tex-grain), var(--grad-plate);
+  background-blend-mode: overlay, soft-light, soft-light, normal;
+  background-size: 220px 220px, 190px 190px, 180px 180px, auto;
   box-shadow:
     inset 0 2px 6px rgba(0, 0, 0, 0.75),
     inset 0 -1px 0 var(--plate-hi);

@@ -17,7 +17,7 @@
   flex-direction: column;
   gap: var(--sp-5);
   min-width: 0;
-  padding: 22px var(--sp-5) 18px;
+  padding: 20px 18px 16px;
   border-radius: var(--radius-sm);
 }
 
@@ -48,7 +48,7 @@
   min-width: 0;
   font-family: var(--font-title);
   font-weight: 500;
-  font-size: clamp(14px, 1.22vw, 18px);
+  font-size: clamp(14px, 1.16vw, 17px);
   line-height: 1.2;
 }
 
@@ -128,7 +128,7 @@
 .statusLabel {
   composes: engraved from '../../styles/surfaces.module.css';
   font-family: var(--font-body);
-  font-size: clamp(12px, 0.98vw, 14px);
+  font-size: clamp(11.5px, 0.94vw, 13.5px);
   color: var(--ink-soft);
   white-space: nowrap;
   overflow: hidden;
@@ -155,7 +155,7 @@
 .taskLabel {
   composes: engraved from '../../styles/surfaces.module.css';
   font-family: var(--font-body);
-  font-size: clamp(12px, 0.98vw, 14px);
+  font-size: clamp(11.5px, 0.94vw, 13.5px);
   color: var(--ink-soft);
 }
 

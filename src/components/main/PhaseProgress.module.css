@@ -7,12 +7,29 @@
 }
 
 .segment {
+  position: relative;
   height: 11px;
   border-radius: 6px;
   box-shadow:
     inset 0 1px 1px rgba(255, 236, 190, 0.25),
     inset 0 -1px 2px rgba(0, 0, 0, 0.4),
     0 1px 0 rgba(255, 236, 190, 0.3);
+}
+
+/* Specular strip along the top of each pill, as on a glazed enamel bar. */
+.segment::after {
+  content: '';
+  position: absolute;
+  top: 1.5px;
+  left: 4px;
+  right: 4px;
+  height: 2.5px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5) 22%, rgba(255, 255, 255, 0.5) 78%, transparent);
+}
+
+.segment[data-state='empty']::after {
+  background: linear-gradient(90deg, transparent, rgba(255, 240, 200, 0.28) 22%, rgba(255, 240, 200, 0.28) 78%, transparent);
 }
 
 /* Completed phase: solid violet enamel with a struck highlight. */

@@ -108,6 +108,16 @@
   /* Broad staining blotches across parchment. */
   --tex-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23m)'/%3E%3C/svg%3E");
 
+  /*
+   * Damask watermark pressed into the parchment. Kept near-threshold: the
+   * reference reads it as a faint tonal shift, so the strokes carry a low
+   * stroke-opacity rather than being knocked back by a blend mode.
+   */
+  --tex-damask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='190' height='190'%3E%3Cg fill='none' stroke='%23000' stroke-opacity='0.17' stroke-width='1.6'%3E%3Cpath d='M95 26c18 16 18 38 0 54-18-16-18-38 0-54Z'/%3E%3Cpath d='M95 164c18-16 18-38 0-54-18 16-18 38 0 54Z'/%3E%3Cpath d='M26 95c16 18 38 18 54 0-16-18-38-18-54 0Z'/%3E%3Cpath d='M164 95c-16 18-38 18-54 0 16-18 38-18 54 0Z'/%3E%3Ccircle cx='95' cy='95' r='9'/%3E%3Cpath d='M0 0c24 8 35 24 32 46M190 0c-24 8-35 24-32 46M0 190c24-8 35-24 32-46M190 190c-24-8-35-24-32-46'/%3E%3Cpath d='M49 49c11 5 16 14 15 24M141 49c-11 5-16 14-15 24M49 141c11-5 16-14 15-24M141 141c-11-5-16-14-15-24'/%3E%3C/g%3E%3C/svg%3E");
+
+  /* Pitted, cast surface for the dark engraved plates. */
+  --tex-pit: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.35' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='1.6' intercept='-0.3'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23p)'/%3E%3C/svg%3E");
+
   /* Anisotropic streaks for brushed/cast brass. */
   --tex-metal: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02 0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23b)'/%3E%3C/svg%3E");
 
@@ -138,6 +148,61 @@
   /* The large sheets — sidebar and header — are a shade older and deeper than
      the card stock, as in the reference. */
   --grad-parchment-deep: linear-gradient(150deg, #d09751 0%, var(--parch-warm) 45%, #9c6a2c 100%);
+
+  /*
+   * Cylindrical shading for pipe runs: dark at both edges, specular core
+   * biased toward the light. Elbows use the stacked-arc equivalent in SVG.
+   */
+  --pipe-h: linear-gradient(
+    180deg,
+    #080300 0%,
+    #241403 6%,
+    #543310 16%,
+    #7d5019 27%,
+    #c08c34 37%,
+    #f2d795 43%,
+    #c8933d 50%,
+    #8a5a1e 61%,
+    #56340f 74%,
+    #2a1705 88%,
+    #060200 100%
+  );
+  --pipe-v: linear-gradient(
+    90deg,
+    #080300 0%,
+    #241403 6%,
+    #543310 16%,
+    #7d5019 27%,
+    #c08c34 37%,
+    #f2d795 43%,
+    #c8933d 50%,
+    #8a5a1e 61%,
+    #56340f 74%,
+    #2a1705 88%,
+    #060200 100%
+  );
+
+  /* Pipe width and the rivet pitch along a run. */
+  --pipe-w: 15px;
+  --rivet-pitch: 46px;
+
+  /* One rivet per tile, repeated along a pipe run. */
+  --rivet-strip-h: radial-gradient(
+    circle 3.4px at 50% 42%,
+    #ffeec4 0%,
+    #d9a94f 34%,
+    #6b3f11 72%,
+    rgba(0, 0, 0, 0.55) 100%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  --rivet-strip-v: radial-gradient(
+    circle 3.4px at 42% 50%,
+    #ffeec4 0%,
+    #d9a94f 34%,
+    #6b3f11 72%,
+    rgba(0, 0, 0, 0.55) 100%,
+    rgba(0, 0, 0, 0) 100%
+  );
 
   /* A single domed rivet, tiled into corners by the .rivets primitive. */
   --rivet-dot: radial-gradient(

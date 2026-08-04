@@ -1,4 +1,4 @@
-import { WheelIcon } from '../../icons';
+import { FiligreeIcon, WheelIcon } from '../../icons';
 import styles from './LogoPlate.module.css';
 
 /** Engraved brass nameplate: wheel emblem, AENEAS, and the sub-banner. */
@@ -14,6 +14,12 @@ export function LogoPlate() {
           <span className={styles.rule} aria-hidden />
           <p className={styles.tagline}>Delivery Platform</p>
         </div>
+        <span className={styles.scrolls} aria-hidden>
+          <FiligreeIcon className={styles.scrollTl} />
+          <FiligreeIcon className={styles.scrollTr} />
+          <FiligreeIcon className={styles.scrollBl} />
+          <FiligreeIcon className={styles.scrollBr} />
+        </span>
         <span className={styles.finial} aria-hidden />
       </div>
     </div>

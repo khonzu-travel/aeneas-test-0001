@@ -1,9 +1,10 @@
 .mount {
   position: relative;
-  padding-top: 14px;
+  padding-top: 22px;
 }
 
 /* Ship's wheel straddling the top edge of the plate. */
+/* Wheel struck onto a raised brass boss straddling the top of the plate. */
 .emblem {
   position: absolute;
   top: 0;
@@ -12,40 +13,74 @@
   translate: -50% 0;
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  font-size: 30px;
-  color: var(--brass-lit);
-  filter: drop-shadow(0 1px 0 rgba(24, 12, 2, 0.9)) drop-shadow(0 -1px 0 rgba(255, 222, 160, 0.35));
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 38px;
+  color: #f2d795;
+  background-image: radial-gradient(circle at 34% 26%, #f6dc9f 0%, #c8933d 38%, #7d5019 68%, #241403 100%);
+  box-shadow:
+    inset 0 -2px 4px rgba(0, 0, 0, 0.6),
+    inset 0 2px 2px rgba(255, 240, 200, 0.45),
+    0 0 0 1.5px rgba(20, 10, 1, 0.8),
+    0 3px 7px rgba(0, 0, 0, 0.75);
+  filter: drop-shadow(0 1px 0 rgba(24, 12, 2, 0.9));
 }
 
+.emblem svg {
+  filter: drop-shadow(0 1px 0 rgba(20, 10, 1, 0.85)) drop-shadow(0 -0.5px 0 rgba(255, 240, 200, 0.5));
+}
+
+/*
+ * A cast molding rather than a hairline border: the stacked box-shadows step
+ * the metal down in three planes (lit top face, dark reveal, inner fillet)
+ * so the frame has visible thickness at the corners.
+ */
 .frame {
   composes: brassFrameThin from '../../styles/surfaces.module.css';
-  --frame-w-thin: 6px;
+  --frame-w-thin: 10px;
   position: relative;
-  border-radius: 10px;
+  border-radius: 8px;
+  background-image: var(--rivet-strip-h), var(--tex-metal), var(--grad-brass);
+  background-repeat: repeat-x, repeat, no-repeat;
+  background-size: 34px 100%, 260px 260px, auto;
+  background-blend-mode: normal, soft-light, normal;
+  box-shadow:
+    inset 0 0 0 1px rgba(20, 10, 1, 0.85),
+    inset 0 2px 0 rgba(255, 236, 190, 0.6),
+    inset 0 -2px 2px rgba(0, 0, 0, 0.5),
+    0 4px 10px rgba(0, 0, 0, 0.7);
+}
+
+.frame::after {
+  inset: 7px;
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(12, 6, 0, 0.95),
+    0 0 0 2px rgba(200, 147, 61, 0.55),
+    0 0 0 3px rgba(20, 10, 1, 0.7),
+    0 2px 5px 2px rgba(0, 0, 0, 0.5);
 }
 
 .plate {
   composes: darkPlate from '../../styles/surfaces.module.css';
-  padding: 20px var(--sp-3) 14px;
-  border-radius: 6px;
+  padding: 22px var(--sp-3) 16px;
+  border-radius: 3px;
   text-align: center;
+  /* Deeper and rougher than the default plate — this one is the focal casting. */
+  background-color: #1d1004;
+  box-shadow:
+    inset 0 3px 9px rgba(0, 0, 0, 0.9),
+    inset 0 -2px 6px rgba(0, 0, 0, 0.7);
 }
 
-/* Inner engraved keyline, inset from the brass. */
-.plate::after {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border-radius: 4px;
-  border: 1px solid rgba(198, 154, 78, 0.42);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.45);
-  pointer-events: none;
-}
-
+/*
+ * Chiselled rather than gilded: the letterform is cut into the plate, so it
+ * gets a lit top edge, a hard dark bottom edge and a cast shadow beneath.
+ * A background-clip gradient cannot do this — the fill has to stay opaque for
+ * the bevel shadows to read.
+ */
 .wordmark {
-  composes: gilded from '../../styles/surfaces.module.css';
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
@@ -53,6 +88,14 @@
   letter-spacing: 0.11em;
   text-indent: 0.11em;
   line-height: 1.05;
+  color: #d8ab5c;
+  text-shadow:
+    0 -1px 0 #fbeec2,
+    0 1px 0 #6b4315,
+    0 2px 0 #3c2208,
+    0 3px 1px #1d1103,
+    0 4px 4px rgba(0, 0, 0, 0.7),
+    0 0 14px rgba(240, 205, 132, 0.18);
 }
 
 .rule {
@@ -65,14 +108,57 @@
 }
 
 .tagline {
-  composes: gilded from '../../styles/surfaces.module.css';
   margin: 0;
+  color: #cda054;
+  text-shadow: 0 -1px 0 rgba(251, 238, 194, 0.5), 0 1px 0 #2a1806, 0 2px 3px rgba(0, 0, 0, 0.75);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(9px, 0.78vw, 12px);
   letter-spacing: 0.24em;
   text-indent: 0.24em;
   text-transform: uppercase;
+}
+
+/* ---- Corner scrollwork ------------------------------------------------- */
+
+.scrolls {
+  position: absolute;
+  inset: 4px;
+  color: #d9a94f;
+  pointer-events: none;
+}
+
+.scrollTl,
+.scrollTr,
+.scrollBl,
+.scrollBr {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.9)) drop-shadow(0 -1px 0 rgba(255, 226, 168, 0.25));
+}
+
+.scrollTl {
+  top: 0;
+  left: 0;
+}
+
+.scrollTr {
+  top: 0;
+  right: 0;
+  scale: -1 1;
+}
+
+.scrollBl {
+  bottom: 0;
+  left: 0;
+  scale: 1 -1;
+}
+
+.scrollBr {
+  bottom: 0;
+  right: 0;
+  scale: -1 -1;
 }
 
 /* Small brass drop ornament hanging off the bottom edge. */
@@ -109,7 +195,7 @@
 
 @media (max-width: 720px) {
   .mount {
-    padding-top: 14px;
+    padding-top: 22px;
   }
 
   .emblem {

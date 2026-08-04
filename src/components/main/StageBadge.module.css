@@ -1,4 +1,5 @@
 .badge {
+  position: relative;
   flex: none;
   display: inline-block;
   padding: 4px 9px;
@@ -18,6 +19,19 @@
     0 0 0 2px var(--brass-mid),
     0 0 0 3px rgba(42, 24, 6, 0.55),
     0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Four bezel rivets pinning the enamel to its brass surround. */
+.badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: var(--rivet-dot), var(--rivet-dot), var(--rivet-dot), var(--rivet-dot);
+  background-repeat: no-repeat;
+  background-size: 4px 4px;
+  background-position: 3px 3px, calc(100% - 3px) 3px, 3px calc(100% - 3px), calc(100% - 3px) calc(100% - 3px);
+  pointer-events: none;
 }
 
 .badge[data-stage='intent'] {

@@ -150,6 +150,33 @@ export function FleuronIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/**
+ * Cast scrollwork that sits over a plate corner. Authored for the top-left;
+ * the other three are mirrored in CSS.
+ */
+export function FiligreeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 48 48" width="48" height="48" focusable="false" aria-hidden {...props}>
+      <g fill="none" stroke="currentColor" strokeLinecap="round">
+        {/* Outer curl sweeping away from the corner. */}
+        <path
+          d="M4 30c0-14 10-24 24-24 8 0 13 4 13 9 0 4-3 7-7 7-3 0-5-2-5-5"
+          strokeWidth="4.6"
+          stroke="#1d1103"
+          opacity="0.85"
+        />
+        <path d="M4 30c0-14 10-24 24-24 8 0 13 4 13 9 0 4-3 7-7 7-3 0-5-2-5-5" strokeWidth="2.6" />
+        {/* Inner volute. */}
+        <path d="M14 34c-1-9 5-16 14-16 4 0 6 2 6 5" strokeWidth="3.2" stroke="#1d1103" opacity="0.8" />
+        <path d="M14 34c-1-9 5-16 14-16 4 0 6 2 6 5" strokeWidth="1.7" />
+        {/* Leaf tips. */}
+        <path d="M9 40c4-2 6-5 6-9M40 11c-2 4-5 6-9 6" strokeWidth="2.2" />
+      </g>
+      <circle cx="34" cy="14" r="2.6" fill="currentColor" stroke="#1d1103" strokeWidth="1" />
+    </svg>
+  );
+}
+
 /** Cast trefoil terminal that caps the right end of a section rule. */
 export function RuleFinialIcon(props: SVGProps<SVGSVGElement>) {
   return (

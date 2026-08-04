@@ -5,14 +5,19 @@
   pointer-events: none;
 }
 
-/* One L-bracket: two brass arms plus a domed rivet at the elbow. */
+/*
+ * A cast gusset: a chunky brass plate with a chamfered inner edge and a domed
+ * rivet, not a hairline bracket. The chamfer comes from clip-path, the metal
+ * from a directional gradient, and the depth from a dark keyline plus a
+ * highlight along the lit edges.
+ */
 .tl,
 .tr,
 .bl,
 .br {
   position: absolute;
-  width: 26px;
-  height: 26px;
+  width: 30px;
+  height: 30px;
 }
 
 .tl::before,
@@ -22,92 +27,53 @@
   content: '';
   position: absolute;
   inset: 0;
-  border-style: solid;
-  border-color: transparent;
-  border-width: 0;
-  background: none;
+  background-image: var(--tex-metal), var(--grad-brass);
+  background-blend-mode: soft-light, normal;
+  background-size: 260px 260px, auto;
+  /* Square outer corner, chamfered inner corner, tapering arms. */
+  clip-path: polygon(0 0, 100% 0, 100% 34%, 34% 34%, 34% 100%, 0 100%);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
 }
 
-/* Rivet head. */
+/* Dark keyline tracing the gusset so it reads as a separate casting. */
 .tl::after,
 .tr::after,
 .bl::after,
 .br::after {
   content: '';
   position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  inset: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 34%, 34% 34%, 34% 100%, 0 100%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 232, 176, 0.55),
+    inset -1px -1px 0 rgba(30, 16, 3, 0.7);
   background-image: var(--rivet-dot);
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
+  background-repeat: no-repeat;
+  background-size: 9px 9px;
+  background-position: 6px 6px;
 }
 
 .tl {
   top: 0;
   left: 0;
 }
-.tl::before {
-  border-top-width: 3px;
-  border-left-width: 3px;
-  border-top-color: var(--brass-lit);
-  border-left-color: var(--brass-lit);
-  border-top-left-radius: 6px;
-  filter: drop-shadow(1px 1px 0 rgba(60, 32, 6, 0.65));
-}
-.tl::after {
-  top: 6px;
-  left: 6px;
-}
 
 .tr {
   top: 0;
   right: 0;
-}
-.tr::before {
-  border-top-width: 3px;
-  border-right-width: 3px;
-  border-top-color: var(--brass-lit);
-  border-right-color: var(--brass);
-  border-top-right-radius: 6px;
-  filter: drop-shadow(-1px 1px 0 rgba(60, 32, 6, 0.65));
-}
-.tr::after {
-  top: 6px;
-  right: 6px;
+  scale: -1 1;
 }
 
 .bl {
   bottom: 0;
   left: 0;
-}
-.bl::before {
-  border-bottom-width: 3px;
-  border-left-width: 3px;
-  border-bottom-color: var(--brass-dim);
-  border-left-color: var(--brass);
-  border-bottom-left-radius: 6px;
-  filter: drop-shadow(1px -1px 0 rgba(60, 32, 6, 0.5));
-}
-.bl::after {
-  bottom: 6px;
-  left: 6px;
+  scale: 1 -1;
 }
 
 .br {
   bottom: 0;
   right: 0;
-}
-.br::before {
-  border-bottom-width: 3px;
-  border-right-width: 3px;
-  border-bottom-color: var(--brass-dim);
-  border-right-color: var(--brass-dim);
-  border-bottom-right-radius: 6px;
-  filter: drop-shadow(-1px -1px 0 rgba(60, 32, 6, 0.5));
-}
-.br::after {
-  bottom: 6px;
-  right: 6px;
+  scale: -1 -1;
 }
 
 @media (max-width: 720px) {
@@ -115,7 +81,15 @@
   .tr,
   .bl,
   .br {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
+  }
+
+  .tl::after,
+  .tr::after,
+  .bl::after,
+  .br::after {
+    background-size: 7px 7px;
+    background-position: 4px 4px;
   }
 }

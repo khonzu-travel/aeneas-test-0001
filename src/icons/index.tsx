@@ -74,30 +74,7 @@ export function PetitionIcon(props: IconProps) {
   );
 }
 
-export function GearIcon(props: IconProps) {
-  const teeth = Array.from({ length: 8 }, (_, i) => i * 45);
-  return (
-    <svg {...base(props)}>
-      <g fill="currentColor">
-        {teeth.map((deg) => (
-          <rect key={deg} x="10.4" y="0.9" width="3.2" height="5.2" rx="0.7" transform={`rotate(${deg} 12 12)`} />
-        ))}
-        <path d="M12 3.9a8.1 8.1 0 1 1 0 16.2 8.1 8.1 0 0 1 0-16.2Zm0 4.6a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" />
-      </g>
-    </svg>
-  );
-}
 
-export function BellIcon(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <path
-        fill="currentColor"
-        d="M12 1.9c.83 0 1.5.67 1.5 1.5v.72a6.6 6.6 0 0 1 5.1 6.43v3.4l1.72 2.6a.85.85 0 0 1-.71 1.32H4.39a.85.85 0 0 1-.71-1.32l1.72-2.6v-3.4a6.6 6.6 0 0 1 5.1-6.43V3.4c0-.83.67-1.5 1.5-1.5Zm-2.5 17.1h5a2.5 2.5 0 0 1-5 0Z"
-      />
-    </svg>
-  );
-}
 
 export function ClockIcon(props: IconProps) {
   return (
@@ -110,27 +87,8 @@ export function ClockIcon(props: IconProps) {
   );
 }
 
-/** Ship's wheel emblem crowning the sidebar logo plate. */
-export function WheelIcon(props: IconProps) {
-  const spokes = Array.from({ length: 8 }, (_, i) => i * 45);
-  return (
-    <svg {...base(props)}>
-      <g stroke="currentColor" fill="none" strokeWidth="1.4">
-        <circle cx="12" cy="12" r="7.4" />
-        <circle cx="12" cy="12" r="4.2" />
-      </g>
-      <g fill="currentColor">
-        <circle cx="12" cy="12" r="1.9" />
-        {spokes.map((deg) => (
-          <g key={deg} transform={`rotate(${deg} 12 12)`}>
-            <rect x="11.35" y="4.2" width="1.3" height="7.8" rx="0.5" />
-            <path d="M12 1.1 13.5 4.1h-3Z" />
-          </g>
-        ))}
-      </g>
-    </svg>
-  );
-}
+
+
 
 /** Fleuron separating the page title from the empty header field. */
 export function FleuronIcon(props: SVGProps<SVGSVGElement>) {
@@ -145,57 +103,6 @@ export function FleuronIcon(props: SVGProps<SVGSVGElement>) {
         {/* Curled tips echoing the brasswork on the frames. */}
         <path d="M23.4 4.5c2 1 3 2.2 3 3.5s-1 2.5-3 3.5c1.2-1.2 1.8-2.4 1.8-3.5s-.6-2.3-1.8-3.5Z" />
         <path d="M40.6 4.5c-2 1-3 2.2-3 3.5s1 2.5 3 3.5c-1.2-1.2-1.8-2.4-1.8-3.5s.6-2.3 1.8-3.5Z" />
-      </g>
-    </svg>
-  );
-}
-
-/**
- * Cast scrollwork that sits over a plate corner. Authored for the top-left;
- * the other three are mirrored in CSS.
- */
-export function FiligreeIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 48 48" width="48" height="48" focusable="false" aria-hidden {...props}>
-      <g fill="none" stroke="currentColor" strokeLinecap="round">
-        {/* Outer curl sweeping away from the corner. */}
-        <path
-          d="M4 30c0-14 10-24 24-24 8 0 13 4 13 9 0 4-3 7-7 7-3 0-5-2-5-5"
-          strokeWidth="4.6"
-          stroke="#1d1103"
-          opacity="0.85"
-        />
-        <path d="M4 30c0-14 10-24 24-24 8 0 13 4 13 9 0 4-3 7-7 7-3 0-5-2-5-5" strokeWidth="2.6" />
-        {/* Inner volute. */}
-        <path d="M14 34c-1-9 5-16 14-16 4 0 6 2 6 5" strokeWidth="3.2" stroke="#1d1103" opacity="0.8" />
-        <path d="M14 34c-1-9 5-16 14-16 4 0 6 2 6 5" strokeWidth="1.7" />
-        {/* Leaf tips. */}
-        <path d="M9 40c4-2 6-5 6-9M40 11c-2 4-5 6-9 6" strokeWidth="2.2" />
-      </g>
-      <circle cx="34" cy="14" r="2.6" fill="currentColor" stroke="#1d1103" strokeWidth="1" />
-    </svg>
-  );
-}
-
-/** Cast trefoil terminal that caps the right end of a section rule. */
-export function RuleFinialIcon(props: SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 34 30" width="34" height="30" focusable="false" aria-hidden {...props}>
-      <defs>
-        <linearGradient id="rf-brass" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#f0cd84" />
-          <stop offset="34%" stopColor="#c8933d" />
-          <stop offset="66%" stopColor="#82521a" />
-          <stop offset="100%" stopColor="#3c2208" />
-        </linearGradient>
-      </defs>
-      <g fill="url(#rf-brass)" stroke="#1d1103" strokeWidth="0.7" strokeLinejoin="round">
-        {/* Socket the pipe seats into. */}
-        <path d="M0 11h9v8H0Z" />
-        {/* Crown: three lobes fanning out from the socket. */}
-        <path d="M8 8.5h6l4-5 2.5 5.5 5-2-2 5.5 6 2.5-6 2.5 2 5.5-5-2L18 26.5l-4-5H8Z" />
-        {/* Central boss. */}
-        <ellipse cx="16.5" cy="15" rx="2.6" ry="3.6" />
       </g>
     </svg>
   );

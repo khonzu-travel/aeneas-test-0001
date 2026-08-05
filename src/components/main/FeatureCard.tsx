@@ -1,6 +1,5 @@
 import type { Feature, ItemState } from '../../types';
 import { ClockIcon } from '../../icons';
-import { Corners } from '../common/Corners';
 import { StageBadge } from './StageBadge';
 import { PhaseProgress } from './PhaseProgress';
 import { itemStateLabels, itemStateTone } from './labels';
@@ -10,38 +9,33 @@ export function FeatureCard({ feature }: { feature: Feature }) {
   const { title, stage, phase, progress, phaseNote, story, spec, lastEventAgo, blocked } = feature;
 
   return (
-    <article className={styles.frame} data-blocked={blocked ? 'true' : undefined}>
-      <div className={styles.face}>
-        <Corners />
-        {blocked && <span className={styles.blockedEdge} aria-hidden />}
+    <article className={blocked ? styles.frameBlocked : styles.frame} data-blocked={blocked ? 'true' : undefined}>
+      <header className={styles.header}>
+        <h3 className={styles.title}>{title}</h3>
+        <StageBadge stage={stage} />
+      </header>
 
-        <header className={styles.header}>
-          <h3 className={styles.title}>{title}</h3>
-          <StageBadge stage={stage} />
-        </header>
+      <PhaseProgress current={phase.current} total={phase.total} />
 
-        <PhaseProgress current={phase.current} total={phase.total} />
+      <p className={styles.summary}>
+        Phase {phase.current} of {phase.total} <span className={styles.dot}>·</span> {phaseNote}
+      </p>
 
-        <p className={styles.summary}>
-          Phase {phase.current} of {phase.total} <span className={styles.dot}>·</span> {phaseNote}
-        </p>
-
-        <div className={styles.statusRow}>
-          <StatusItem kind="Story" state={story} />
-          <StatusItem kind="Spec" state={spec} />
-          <TaskCount progress={progress} />
-        </div>
-
-        <p className={styles.lastEvent}>
-          <span className={styles.clock} aria-hidden>
-            <ClockIcon />
-          </span>
-          <span className={styles.ago}>{lastEventAgo}</span>
-          <span className={styles.agoLabel}>Last event</span>
-        </p>
-
-        {blocked && <BlockedBanner reason={blocked.reason} />}
+      <div className={styles.statusRow}>
+        <StatusItem kind="Story" state={story} />
+        <StatusItem kind="Spec" state={spec} />
+        <TaskCount progress={progress} />
       </div>
+
+      <p className={styles.lastEvent}>
+        <span className={styles.clock} aria-hidden>
+          <ClockIcon />
+        </span>
+        <span className={styles.ago}>{lastEventAgo}</span>
+        <span className={styles.agoLabel}>Last event</span>
+      </p>
+
+      {blocked && <BlockedBanner reason={blocked.reason} />}
     </article>
   );
 }

@@ -1,49 +1,34 @@
 .frame {
-  composes: brassFrameThin from '../../styles/surfaces.module.css';
+  composes: frameCard from '../../styles/art.module.css';
+  composes: parchment from '../../styles/art.module.css';
   display: flex;
-  min-width: 0;
-}
-
-/* A blocked feature reddens its frame and grows a red edge inside. */
-.frame[data-blocked='true'] {
-  background-image: var(--tex-metal),
-    linear-gradient(148deg, #e8b06a 0%, #a75a26 12%, #7a3a16 30%, #cf8b45 46%, #8d4a1c 63%, #4a1e08 81%, #b06a2c 100%);
-}
-
-.face {
-  composes: parchment from '../../styles/surfaces.module.css';
-  display: flex;
-  flex: 1;
   flex-direction: column;
-  gap: var(--sp-5);
+  gap: var(--sp-4);
   min-width: 0;
-  padding: 20px 18px 16px;
-  border-radius: var(--radius-sm);
+  padding: 0 var(--sp-1);
+  background-clip: padding-box;
 }
 
-.blockedEdge {
-  position: absolute;
-  top: 3px;
-  bottom: 3px;
-  left: 0;
-  width: 5px;
-  border-radius: 3px 0 0 3px;
-  background-image: linear-gradient(180deg, #d4501f 0%, #93230e 42%, #5a1004 100%);
-  box-shadow: 0 0 7px rgba(190, 50, 20, 0.55), inset -1px 0 0 rgba(0, 0, 0, 0.4);
+/* A blocked feature is cast in reddened brass, so it gets its own frame art. */
+.frameBlocked {
+  composes: frame;
+  border-width: 30px;
+  border-image-source: url('/art/frame-card-blocked.png');
+  border-image-slice: 30;
 }
 
 /* ---- Header ----------------------------------------------------------- */
 
 .header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
   min-width: 0;
 }
 
 .title {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   margin: 0;
   min-width: 0;
   font-family: var(--font-title);
@@ -55,7 +40,7 @@
 /* ---- Phase summary ---------------------------------------------------- */
 
 .summary {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   margin: 0;
   font-family: var(--font-body);
   font-size: clamp(13px, 1.04vw, 15px);
@@ -96,37 +81,33 @@
   text-align: right;
 }
 
-/* Enamelled status lamp. */
+/* Enamelled status lamp, sampled from the reference art. */
 .lamp {
   align-self: center;
-  width: 11px;
-  height: 11px;
-  border-radius: 50%;
-  box-shadow:
-    inset 0 -1px 2px rgba(0, 0, 0, 0.55),
-    inset 0 1px 1px rgba(255, 255, 255, 0.35),
-    0 0 0 1px rgba(72, 40, 10, 0.55),
-    0 1px 2px rgba(0, 0, 0, 0.4);
+  width: 15px;
+  height: 15px;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .lamp[data-tone='green'] {
-  background-image: radial-gradient(circle at 34% 28%, #8de060 0%, var(--st-green) 42%, var(--st-green-dk) 100%);
+  background-image: url('/art/lamp-green.png');
 }
 
 .lamp[data-tone='amber'] {
-  background-image: radial-gradient(circle at 34% 28%, #ffc95e 0%, var(--st-amber) 42%, var(--st-amber-dk) 100%);
+  background-image: url('/art/lamp-amber.png');
 }
 
 .lamp[data-tone='red'] {
-  background-image: radial-gradient(circle at 34% 28%, #e8623f 0%, var(--st-red) 42%, var(--st-red-dk) 100%);
+  background-image: url('/art/lamp-red.png');
 }
 
 .lamp[data-tone='idle'] {
-  background-image: radial-gradient(circle at 34% 28%, #c49a63 0%, var(--st-idle) 45%, var(--st-idle-dk) 100%);
+  background-image: url('/art/lamp-idle.png');
 }
 
 .statusLabel {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   font-family: var(--font-body);
   font-size: clamp(11.5px, 0.94vw, 13.5px);
   color: var(--ink-soft);
@@ -137,7 +118,7 @@
 }
 
 .taskValue {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   align-self: center;
   font-family: var(--font-title);
   font-weight: 700;
@@ -153,14 +134,14 @@
 }
 
 .taskLabel {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   font-family: var(--font-body);
   font-size: clamp(11.5px, 0.94vw, 13.5px);
   color: var(--ink-soft);
 }
 
 .srOnly {
-  composes: srOnly from '../../styles/surfaces.module.css';
+  composes: srOnly from '../../styles/art.module.css';
 }
 
 /* ---- Last event ------------------------------------------------------- */
@@ -171,7 +152,7 @@
   align-items: center;
   column-gap: var(--sp-2);
   margin: 0;
-  padding-top: var(--sp-2);
+  padding-top: var(--sp-1);
 }
 
 .clock {
@@ -184,7 +165,7 @@
 }
 
 .ago {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   font-family: var(--font-title);
   font-weight: 500;
   font-size: clamp(16px, 1.3vw, 19px);
@@ -192,7 +173,7 @@
 }
 
 .agoLabel {
-  composes: engraved from '../../styles/surfaces.module.css';
+  composes: engraved from '../../styles/art.module.css';
   font-family: var(--font-body);
   font-size: clamp(12px, 1vw, 14px);
   color: var(--ink-soft);
@@ -201,21 +182,19 @@
 /* ---- Blocked ribbon --------------------------------------------------- */
 
 .blockedBanner {
+  composes: frameRibbon from '../../styles/art.module.css';
   display: flex;
   align-items: center;
   gap: 0.3em;
-  margin: 0;
-  padding: 6px 8px;
-  border-radius: 5px;
+  margin: auto 0 0;
+  padding: 0;
+  min-height: 33px;
   font-family: var(--font-body);
-  font-size: clamp(10.5px, 0.83vw, 12.5px);
+  font-size: clamp(10px, 0.79vw, 12px);
   color: #f4d7ab;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
-  background-image: linear-gradient(180deg, #8f2c0a 0%, #6f2404 46%, #4a1002 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 160, 110, 0.3),
-    0 0 0 1.5px var(--brass-mid),
-    0 2px 5px rgba(0, 0, 0, 0.55);
+  background-color: #6a1a04;
+  background-clip: padding-box;
 }
 
 .blockedDot {
@@ -242,9 +221,28 @@
   white-space: nowrap;
 }
 
+@media (max-width: 1100px) {
+  .frame {
+    border-width: 24px;
+  }
+
+  .frameBlocked {
+    border-width: 26px;
+  }
+}
+
 @media (max-width: 720px) {
-  .face {
-    padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  .frame {
+    border-width: 18px;
     gap: var(--sp-3);
+  }
+
+  .frameBlocked {
+    border-width: 19px;
+  }
+
+  .blockedBanner {
+    border-width: 11px;
+    min-height: 26px;
   }
 }

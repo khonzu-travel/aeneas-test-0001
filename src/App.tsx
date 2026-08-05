@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { Sidebar } from './components/sidebar/Sidebar';
 import { HeaderBar } from './components/header/HeaderBar';
 import { MainContent } from './components/main/MainContent';
-import { PipeFrame } from './components/common/PipeFrame';
 import { features, navEntries, stats } from './data/dashboard';
 import styles from './App.module.css';
 
@@ -12,7 +11,6 @@ export default function App() {
 
   return (
     <div className={styles.chassis}>
-      <PipeFrame withValve />
       <div className={styles.app} data-drawer={drawerOpen ? 'open' : 'closed'}>
         <Sidebar entries={navEntries} activeId="dashboard" onNavigate={closeDrawer} />
         <HeaderBar

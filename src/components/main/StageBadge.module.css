@@ -1,63 +1,56 @@
+/*
+ * The badge bezel is a 9-slice, so a stage label of any length keeps its cast
+ * brass surround. The enamel field comes from CSS rather than the slice `fill`
+ * — the source art has its lettering baked into the middle.
+ */
 .badge {
-  position: relative;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 10px;
+  border-image-slice: 10;
+  border-image-repeat: round;
   flex: none;
   display: inline-block;
-  padding: 4px 9px;
-  border-radius: 4px;
+  padding: 0 1px;
   font-family: var(--font-body);
   font-weight: 500;
   font-size: clamp(11px, 0.92vw, 13.5px);
-  line-height: 1.25;
+  line-height: 1.1;
   white-space: nowrap;
   color: var(--cream);
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.85);
-  /* Enamel fill set per stage below; the brass surround is shared. */
-  background-image: radial-gradient(120% 140% at 34% 22%, var(--enamel-hi) 0%, var(--enamel-lo) 100%);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.16),
-    inset 0 -2px 3px rgba(0, 0, 0, 0.45),
-    0 0 0 2px var(--brass-mid),
-    0 0 0 3px rgba(42, 24, 6, 0.55),
-    0 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-/* Four bezel rivets pinning the enamel to its brass surround. */
-.badge::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background-image: var(--rivet-dot), var(--rivet-dot), var(--rivet-dot), var(--rivet-dot);
-  background-repeat: no-repeat;
-  background-size: 4px 4px;
-  background-position: 3px 3px, calc(100% - 3px) 3px, 3px calc(100% - 3px), calc(100% - 3px) calc(100% - 3px);
-  pointer-events: none;
+  background-clip: padding-box;
 }
 
 .badge[data-stage='intent'] {
-  --enamel-hi: var(--enamel-intent);
-  --enamel-lo: var(--enamel-intent-lo);
+  border-image-source: url('/art/badge-intent.png');
+  background-color: #2c1c2e;
 }
 
 .badge[data-stage='analysis'] {
-  --enamel-hi: var(--enamel-analysis);
-  --enamel-lo: var(--enamel-analysis-lo);
+  border-image-source: url('/art/badge-analysis.png');
+  background-color: #1c2b38;
 }
 
 .badge[data-stage='scheduling'] {
-  --enamel-hi: var(--enamel-scheduling);
-  --enamel-lo: var(--enamel-scheduling-lo);
+  border-image-source: url('/art/badge-scheduling.png');
+  background-color: #1d2b38;
 }
 
 .badge[data-stage='build'] {
-  --enamel-hi: var(--enamel-build);
-  --enamel-lo: var(--enamel-build-lo);
+  border-image-source: url('/art/badge-build.png');
+  background-color: #1b2b0e;
   color: #eee7ad;
 }
 
-/* Release ships on a gilded plate rather than enamel. */
 .badge[data-stage='release'] {
-  --enamel-hi: var(--enamel-release);
-  --enamel-lo: var(--enamel-release-lo);
+  border-image-source: url('/art/badge-release.png');
+  background-color: #502700;
   color: #ffe9b4;
+}
+
+@media (max-width: 720px) {
+  .badge {
+    border-width: 8px;
+  }
 }

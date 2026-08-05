@@ -1,20 +1,9 @@
 .cluster {
-  min-width: 0;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-  filter: drop-shadow(0 3px 6px rgba(30, 14, 2, 0.5));
-}
-
-.svg {
   display: block;
   width: 100%;
+  max-width: 268px;
   height: auto;
-}
-
-.numeral {
-  font-family: var(--font-display);
-  font-size: 8px;
-  letter-spacing: 0.02em;
+  margin: 0 auto;
 }
 
 /* The cluster is pure ornament — the rail has no room for it. */
